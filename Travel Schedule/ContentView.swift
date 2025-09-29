@@ -2,7 +2,7 @@
 //  ContentView.swift
 //  Travel Schedule
 //
-//  Created by Ульта on 29.09.2025.
+//  Created by Ульта on 29.09.2025. //
 //
 
 import SwiftUI
