@@ -11,15 +11,78 @@ import OpenAPIURLSession
 struct ContentView: View {
     var body: some View {
         VStack {
-            Image(systemName: "globe") // Пример содержимого View
+            Image(systemName: "globe") 
                 .imageScale(.large)
                 .foregroundStyle(.tint)
             Text("Hello, world!")
         }
         .padding()
         .onAppear {
-            // Вызываем нашу тестовую функцию при появлении View
-          //  testFetchStations()
+           
+            Task {
+                do {
+                    let client = Client(
+                        serverURL: try Servers.Server1.url(),
+                        transport: URLSessionTransport()
+                    )
+                    let apikey = "50889f83-e54c-4e2e-b9b9-7d5fe468a025" 
+                    
+                    // 1. Copyright Service
+                    let copyrightService = CopyrightService(client: client)
+                    let copyright = try await copyrightService.get(apikey: apikey, format: nil)
+                    print("Copyright:", copyright)
+                    
+                    // 2. Nearest Stations Service
+                    let nearestStationsService = NearestStationsService(client: client, apikey: apikey)
+                    let stations = try await nearestStationsService.getNearestStations(
+                        lat: 59.864177, lng: 30.319163, distance: 50
+                    )
+                    print("Nearest stations:", stations)
+                    
+                    // 3. Search Service (расписание между станциями)
+                    let searchService = SearchService(client: client)
+                    let segments = try await searchService.getSegments(
+                        apikey: apikey, from: "s9600213", to: "s9600213"
+                    )
+                    print("Segments:", segments)
+                    
+                    // 4. Schedule Service (расписание по станции)
+                    let scheduleService = ScheduleService(client: client)
+                    let schedule = try await scheduleService.getStationSchedule(
+                        apikey: apikey, station: "s9600213"
+                    )
+                    print("Schedule:", schedule)
+                    
+                    // 5. Thread Service (станции следования)
+                    let threadService = ThreadService(client: client)
+                    let threadStations = try await threadService.getRouteStations(
+                        apikey: apikey, uid: "example_uid"
+                    )
+                    print("Thread stations:", threadStations)
+                    
+                    // 6. Nearest City Service
+                    let nearestCityService = NearestCityService(client: client)
+                    let nearestCity = try await nearestCityService.getNearestCity(
+                        apikey: apikey, lat: 59.864177, lng: 30.319163
+                    )
+                    print("Nearest city:", nearestCity)
+                    
+                    // 7. Carrier Service
+                    let carrierService = CarrierService(client: client)
+                    let carrier = try await carrierService.getCarrierInfo(
+                        apikey: apikey, code: "example_code"
+                    )
+                    print("Carrier:", carrier)
+                    
+                    // 8. All Stations Service
+                    let allStationsService = AllStationsService(client: client)
+                    let allStations = try await allStationsService.getAllStations(apikey: apikey)
+                    print("All stations:", allStations)
+                    
+                } catch {
+                    print("API Error:", error)
+                }
+            }
         }
     }
 }
@@ -27,41 +90,3 @@ struct ContentView: View {
 #Preview {
     ContentView()
 }
-
-// Функция для тестового вызова API
-//func testFetchStations() {
-//    // Создаём Task для выполнения асинхронного кода
-//    Task {
-//        do {
-//            // 1. Создаём экземпляр сгенерированного клиента
-//            let client = Client(
-//                // Используем URL сервера, также сгенерированный из openapi.yaml (если он там определён)
-//                serverURL: try Servers.Server1.url(),
-//                // Указываем, какой транспорт использовать для отправки запросов
-//                transport: URLSessionTransport()
-//            )
-//            
-//            // 2. Создаём экземпляр нашего сервиса, передавая ему клиент и API-ключ
-//            let service = NearestStationsService(
-//                client: client,
-//                apikey: "50889f83-e54c-4e2e-b9b9-7d5fe468a025" // !!! ЗАМЕНИТЕ НА СВОЙ РЕАЛЬНЫЙ КЛЮЧ !!!
-//            )
-//            
-//            // 3. Вызываем метод сервиса
-//            print("Fetching stations...")
-//            let stations = try await service.getNearestStations(
-//                lat: 59.864177, // Пример координат
-//                lng: 30.319163, // Пример координат
-//                distance: 50    // Пример дистанции
-//            )
-//            
-//            // 4. Если всё успешно, печатаем результат в консоль
-//            print("Successfully fetched stations: \(stations)")
-//        } catch {
-//            // 5. Если произошла ошибка на любом из этапов (создание клиента, вызов сервиса, обработка ответа),
-//            //    она будет поймана здесь, и мы выведем её в консоль
-//            print("Error fetching stations: \(error)")
-//            // В реальном приложении здесь должна быть логика обработки ошибок (показ алерта и т. д.)
-//        }
-//    }
-//}
