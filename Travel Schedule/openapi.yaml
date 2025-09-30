@@ -424,7 +424,7 @@ paths:
           content:
             text/html:
               schema:
-                $ref: '#/components/schemas/AllStationsResponse'
+                type: string
   /v3.0/copyright/:
     get:
       tags:

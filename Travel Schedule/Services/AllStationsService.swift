@@ -9,14 +9,12 @@ import Foundation
 import OpenAPIRuntime
 import OpenAPIURLSession
 
-typealias AllStationsResponse = Components.Schemas.AllStationsResponse
-
 protocol AllStationsServiceProtocol {
   func getAllStations(
     apikey: String,
     lang: String?,
     format: String?
-  ) async throws -> AllStationsResponse
+  ) async throws -> String
 }
 
 final class AllStationsService: AllStationsServiceProtocol {
@@ -30,12 +28,25 @@ final class AllStationsService: AllStationsServiceProtocol {
     apikey: String,
     lang: String? = nil,
     format: String? = nil
-  ) async throws -> AllStationsResponse {
-    let response = try await client.getAllStations(query: .init(
+  ) async throws -> String {
+    let output = try await client.getAllStations(query: .init(
       apikey: apikey,
       lang: lang,
       format: format
     ))
-    return try response.ok.body.json
+    switch output {
+    case .ok(let ok):
+      switch ok.body {
+      case .html(let body):
+        // Считываем поток тела вручную
+        var collected = Data()
+        for try await chunk in body {
+          collected.append(contentsOf: chunk)
+        }
+        return String(data: collected, encoding: .utf8) ?? ""
+      }
+    default:
+      throw NSError(domain: "AllStationsService", code: -1, userInfo: [NSLocalizedDescriptionKey: "Non-200 response"])
+    }
   }
 }
