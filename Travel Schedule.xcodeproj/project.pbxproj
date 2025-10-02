@@ -106,6 +106,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 33238CA62E8A7DC300002BCC /* Build configuration list for PBXNativeTarget "Travel Schedule" */;
 			buildPhases = (
+				338AC7492E8ED7210075B9A2 /* ShellScript */,
 				33238C7E2E8A7DC100002BCC /* Sources */,
 				33238C7F2E8A7DC100002BCC /* Frameworks */,
 				33238C802E8A7DC100002BCC /* Resources */,
@@ -245,6 +246,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		338AC7492E8ED7210075B9A2 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ ! -f \"${SRCROOT}/Generated/Client.swift\" ]; then\n    \"${BUILD_DIR%/Build/*}/Build/Products/Debug/swift-openapi-generator\" generate \\\n        --config \"${SRCROOT}/Travel Schedule/openapi-generator-config.yaml\" \\\n        --output-directory \"${SRCROOT}/Generated\" \\\n        \"${SRCROOT}/Travel Schedule/openapi.yaml\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		33238C7E2E8A7DC100002BCC /* Sources */ = {
