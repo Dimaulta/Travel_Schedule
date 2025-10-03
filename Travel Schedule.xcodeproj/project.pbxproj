@@ -139,7 +139,6 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				33238C842E8A7DC100002BCC /* Travel Schedule */,
 			);
 			name = "Travel Schedule";
 			packageProductDependencies = (
@@ -164,7 +163,6 @@
 				33238C942E8A7DC300002BCC /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				33238C952E8A7DC300002BCC /* Travel ScheduleTests */,
 			);
 			name = "Travel ScheduleTests";
 			packageProductDependencies = (
@@ -187,7 +185,6 @@
 				33238C9E2E8A7DC300002BCC /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				33238C9F2E8A7DC300002BCC /* Travel ScheduleUITests */,
 			);
 			name = "Travel ScheduleUITests";
 			packageProductDependencies = (
