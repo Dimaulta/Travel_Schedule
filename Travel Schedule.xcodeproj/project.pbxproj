@@ -6,6 +6,23 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		33C1161C2E8BD010009E2E98 /* OpenAPIRuntime in Frameworks */ = {isa = PBXBuildFile; productRef = 33C1161B2E8BD010009E2E98 /* OpenAPIRuntime */; };
+		33C1161F2E8BD028009E2E98 /* OpenAPIURLSession in Frameworks */ = {isa = PBXBuildFile; productRef = 33C1161E2E8BD028009E2E98 /* OpenAPIURLSession */; };
+		33D0B0012E8C000100000001 /* Travel Schedule/Travel_ScheduleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0012E8C000100000001 /* Travel Schedule/Travel_ScheduleApp.swift */; };
+		33D0B0022E8C000100000002 /* Travel Schedule/Views/ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0022E8C000100000002 /* Travel Schedule/Views/ContentView.swift */; };
+		33D0B0032E8C000100000003 /* Travel Schedule/Services/AllStationsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0032E8C000100000003 /* Travel Schedule/Services/AllStationsService.swift */; };
+		33D0B0042E8C000100000004 /* Travel Schedule/Services/CarrierService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0042E8C000100000004 /* Travel Schedule/Services/CarrierService.swift */; };
+		33D0B0052E8C000100000005 /* Travel Schedule/Services/CopyrightService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0052E8C000100000005 /* Travel Schedule/Services/CopyrightService.swift */; };
+		33D0B0062E8C000100000006 /* Travel Schedule/Services/NearestCityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0062E8C000100000006 /* Travel Schedule/Services/NearestCityService.swift */; };
+		33D0B0072E8C000100000007 /* Travel Schedule/Services/NearestStationsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0072E8C000100000007 /* Travel Schedule/Services/NearestStationsService.swift */; };
+		33D0B0082E8C000100000008 /* Travel Schedule/Services/ScheduleService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0082E8C000100000008 /* Travel Schedule/Services/ScheduleService.swift */; };
+		33D0B0092E8C000100000009 /* Travel Schedule/Services/SearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0092E8C000100000009 /* Travel Schedule/Services/SearchService.swift */; };
+		33D0B00A2E8C00010000000A /* Travel Schedule/Services/ThreadService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A00A2E8C00010000000A /* Travel Schedule/Services/ThreadService.swift */; };
+		33D0B00B2E8C00010000000B /* Travel Schedule/Generated/Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A00B2E8C00010000000B /* Travel Schedule/Generated/Client.swift */; };
+		33D0B00C2E8C00010000000C /* Travel Schedule/Generated/Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A00C2E8C00010000000C /* Travel Schedule/Generated/Types.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		33238C932E8A7DC300002BCC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,6 +44,18 @@
 		33238C822E8A7DC100002BCC /* Travel Schedule.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Travel Schedule.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		33238C922E8A7DC300002BCC /* Travel ScheduleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Travel ScheduleTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		33238C9C2E8A7DC300002BCC /* Travel ScheduleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Travel ScheduleUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		33D0A0012E8C000100000001 /* Travel Schedule/Travel_ScheduleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Travel_ScheduleApp.swift"; sourceTree = SOURCE_ROOT; };
+		33D0A0022E8C000100000002 /* Travel Schedule/Views/ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Views/ContentView.swift"; sourceTree = SOURCE_ROOT; };
+		33D0A0032E8C000100000003 /* Travel Schedule/Services/AllStationsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Services/AllStationsService.swift"; sourceTree = SOURCE_ROOT; };
+		33D0A0042E8C000100000004 /* Travel Schedule/Services/CarrierService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Services/CarrierService.swift"; sourceTree = SOURCE_ROOT; };
+		33D0A0052E8C000100000005 /* Travel Schedule/Services/CopyrightService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Services/CopyrightService.swift"; sourceTree = SOURCE_ROOT; };
+		33D0A0062E8C000100000006 /* Travel Schedule/Services/NearestCityService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Services/NearestCityService.swift"; sourceTree = SOURCE_ROOT; };
+		33D0A0072E8C000100000007 /* Travel Schedule/Services/NearestStationsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Services/NearestStationsService.swift"; sourceTree = SOURCE_ROOT; };
+		33D0A0082E8C000100000008 /* Travel Schedule/Services/ScheduleService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Services/ScheduleService.swift"; sourceTree = SOURCE_ROOT; };
+		33D0A0092E8C000100000009 /* Travel Schedule/Services/SearchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Services/SearchService.swift"; sourceTree = SOURCE_ROOT; };
+		33D0A00A2E8C00010000000A /* Travel Schedule/Services/ThreadService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Services/ThreadService.swift"; sourceTree = SOURCE_ROOT; };
+		33D0A00B2E8C00010000000B /* Travel Schedule/Generated/Client.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Generated/Client.swift"; sourceTree = SOURCE_ROOT; };
+		33D0A00C2E8C00010000000C /* Travel Schedule/Generated/Types.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Generated/Types.swift"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -52,6 +81,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				33C1161F2E8BD028009E2E98 /* OpenAPIURLSession in Frameworks */,
+				33C1161C2E8BD010009E2E98 /* OpenAPIRuntime in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,6 +110,7 @@
 				33238C952E8A7DC300002BCC /* Travel ScheduleTests */,
 				33238C9F2E8A7DC300002BCC /* Travel ScheduleUITests */,
 				33238C832E8A7DC100002BCC /* Products */,
+				3394D7442E903A610091FC7B /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -90,6 +122,25 @@
 				33238C9C2E8A7DC300002BCC /* Travel ScheduleUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		3394D7442E903A610091FC7B /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				33D0A0012E8C000100000001 /* Travel Schedule/Travel_ScheduleApp.swift */,
+				33D0A0022E8C000100000002 /* Travel Schedule/Views/ContentView.swift */,
+				33D0A0032E8C000100000003 /* Travel Schedule/Services/AllStationsService.swift */,
+				33D0A0042E8C000100000004 /* Travel Schedule/Services/CarrierService.swift */,
+				33D0A0052E8C000100000005 /* Travel Schedule/Services/CopyrightService.swift */,
+				33D0A0062E8C000100000006 /* Travel Schedule/Services/NearestCityService.swift */,
+				33D0A0072E8C000100000007 /* Travel Schedule/Services/NearestStationsService.swift */,
+				33D0A0082E8C000100000008 /* Travel Schedule/Services/ScheduleService.swift */,
+				33D0A0092E8C000100000009 /* Travel Schedule/Services/SearchService.swift */,
+				33D0A00A2E8C00010000000A /* Travel Schedule/Services/ThreadService.swift */,
+				33D0A00B2E8C00010000000B /* Travel Schedule/Generated/Client.swift */,
+				33D0A00C2E8C00010000000C /* Travel Schedule/Generated/Types.swift */,
+			);
+			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -107,11 +158,10 @@
 			);
 			dependencies = (
 			);
-			fileSystemSynchronizedGroups = (
-				33238C842E8A7DC100002BCC /* Travel Schedule */,
-			);
 			name = "Travel Schedule";
 			packageProductDependencies = (
+				33C1161B2E8BD010009E2E98 /* OpenAPIRuntime */,
+				33C1161E2E8BD028009E2E98 /* OpenAPIURLSession */,
 			);
 			productName = "Travel Schedule";
 			productReference = 33238C822E8A7DC100002BCC /* Travel Schedule.app */;
@@ -129,9 +179,6 @@
 			);
 			dependencies = (
 				33238C942E8A7DC300002BCC /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				33238C952E8A7DC300002BCC /* Travel ScheduleTests */,
 			);
 			name = "Travel ScheduleTests";
 			packageProductDependencies = (
@@ -152,9 +199,6 @@
 			);
 			dependencies = (
 				33238C9E2E8A7DC300002BCC /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				33238C9F2E8A7DC300002BCC /* Travel ScheduleUITests */,
 			);
 			name = "Travel ScheduleUITests";
 			packageProductDependencies = (
@@ -195,6 +239,11 @@
 			);
 			mainGroup = 33238C792E8A7DC100002BCC;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				33C1161A2E8BD010009E2E98 /* XCRemoteSwiftPackageReference "swift-openapi-runtime" */,
+				33C1161D2E8BD028009E2E98 /* XCRemoteSwiftPackageReference "swift-openapi-urlsession" */,
+				33C1162A2E8BD295009E2E98 /* XCRemoteSwiftPackageReference "swift-openapi-generator" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 33238C832E8A7DC100002BCC /* Products */;
 			projectDirPath = "";
@@ -236,6 +285,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				33D0B0012E8C000100000001 /* Travel Schedule/Travel_ScheduleApp.swift in Sources */,
+				33D0B0022E8C000100000002 /* Travel Schedule/Views/ContentView.swift in Sources */,
+				33D0B0032E8C000100000003 /* Travel Schedule/Services/AllStationsService.swift in Sources */,
+				33D0B0042E8C000100000004 /* Travel Schedule/Services/CarrierService.swift in Sources */,
+				33D0B0052E8C000100000005 /* Travel Schedule/Services/CopyrightService.swift in Sources */,
+				33D0B0062E8C000100000006 /* Travel Schedule/Services/NearestCityService.swift in Sources */,
+				33D0B0072E8C000100000007 /* Travel Schedule/Services/NearestStationsService.swift in Sources */,
+				33D0B0082E8C000100000008 /* Travel Schedule/Services/ScheduleService.swift in Sources */,
+				33D0B0092E8C000100000009 /* Travel Schedule/Services/SearchService.swift in Sources */,
+				33D0B00A2E8C00010000000A /* Travel Schedule/Services/ThreadService.swift in Sources */,
+				33D0B00B2E8C00010000000B /* Travel Schedule/Generated/Client.swift in Sources */,
+				33D0B00C2E8C00010000000C /* Travel Schedule/Generated/Types.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -395,7 +456,6 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Travel Schedule/Preview Content\"";
 				DEVELOPMENT_TEAM = TDZSZ2LF4X;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -404,6 +464,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -424,7 +485,6 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Travel Schedule/Preview Content\"";
 				DEVELOPMENT_TEAM = TDZSZ2LF4X;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -433,6 +493,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -558,6 +619,46 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		33C1161A2E8BD010009E2E98 /* XCRemoteSwiftPackageReference "swift-openapi-runtime" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-openapi-runtime";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.8.3;
+			};
+		};
+		33C1161D2E8BD028009E2E98 /* XCRemoteSwiftPackageReference "swift-openapi-urlsession" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-openapi-urlsession";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.0;
+			};
+		};
+		33C1162A2E8BD295009E2E98 /* XCRemoteSwiftPackageReference "swift-openapi-generator" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-openapi-generator";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.10.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		33C1161B2E8BD010009E2E98 /* OpenAPIRuntime */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 33C1161A2E8BD010009E2E98 /* XCRemoteSwiftPackageReference "swift-openapi-runtime" */;
+			productName = OpenAPIRuntime;
+		};
+		33C1161E2E8BD028009E2E98 /* OpenAPIURLSession */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 33C1161D2E8BD028009E2E98 /* XCRemoteSwiftPackageReference "swift-openapi-urlsession" */;
+			productName = OpenAPIURLSession;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 33238C7A2E8A7DC100002BCC /* Project object */;
 }
