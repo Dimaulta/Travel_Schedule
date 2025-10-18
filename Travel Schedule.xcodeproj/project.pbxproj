@@ -21,6 +21,10 @@
 		33D0B00A2E8C00010000000A /* Travel Schedule/Services/ThreadService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A00A2E8C00010000000A /* Travel Schedule/Services/ThreadService.swift */; };
 		33D0B00B2E8C00010000000B /* Travel Schedule/Generated/Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A00B2E8C00010000000B /* Travel Schedule/Generated/Client.swift */; };
 		33D0B00C2E8C00010000000C /* Travel Schedule/Generated/Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A00C2E8C00010000000C /* Travel Schedule/Generated/Types.swift */; };
+		33D0B00D2E8C00010000000D /* Travel Schedule/Views/SplashScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A00D2E8C00010000000D /* Travel Schedule/Views/SplashScreenView.swift */; };
+		33D0B00E2E8C00010000000E /* Travel Schedule/ViewModels/SplashScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A00E2E8C00010000000E /* Travel Schedule/ViewModels/SplashScreenViewModel.swift */; };
+		33D0B00F2E8C00010000000F /* Travel Schedule/Views/MainScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A00F2E8C00010000000F /* Travel Schedule/Views/MainScreenView.swift */; };
+		33D0B0102E8C000100000010 /* Travel Schedule/Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 33D0A0102E8C000100000010 /* Travel Schedule/Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +60,10 @@
 		33D0A00A2E8C00010000000A /* Travel Schedule/Services/ThreadService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Services/ThreadService.swift"; sourceTree = SOURCE_ROOT; };
 		33D0A00B2E8C00010000000B /* Travel Schedule/Generated/Client.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Generated/Client.swift"; sourceTree = SOURCE_ROOT; };
 		33D0A00C2E8C00010000000C /* Travel Schedule/Generated/Types.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Generated/Types.swift"; sourceTree = SOURCE_ROOT; };
+		33D0A00D2E8C00010000000D /* Travel Schedule/Views/SplashScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Views/SplashScreenView.swift"; sourceTree = SOURCE_ROOT; };
+		33D0A00E2E8C00010000000E /* Travel Schedule/ViewModels/SplashScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/ViewModels/SplashScreenViewModel.swift"; sourceTree = SOURCE_ROOT; };
+		33D0A00F2E8C00010000000F /* Travel Schedule/Views/MainScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Views/MainScreenView.swift"; sourceTree = SOURCE_ROOT; };
+		33D0A0102E8C000100000010 /* Travel Schedule/Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Travel Schedule/Assets.xcassets"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -139,6 +147,10 @@
 				33D0A00A2E8C00010000000A /* Travel Schedule/Services/ThreadService.swift */,
 				33D0A00B2E8C00010000000B /* Travel Schedule/Generated/Client.swift */,
 				33D0A00C2E8C00010000000C /* Travel Schedule/Generated/Types.swift */,
+				33D0A00D2E8C00010000000D /* Travel Schedule/Views/SplashScreenView.swift */,
+				33D0A00E2E8C00010000000E /* Travel Schedule/ViewModels/SplashScreenViewModel.swift */,
+				33D0A00F2E8C00010000000F /* Travel Schedule/Views/MainScreenView.swift */,
+				33D0A0102E8C000100000010 /* Travel Schedule/Assets.xcassets */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -261,6 +273,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				33D0B0102E8C000100000010 /* Travel Schedule/Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -297,6 +310,9 @@
 				33D0B00A2E8C00010000000A /* Travel Schedule/Services/ThreadService.swift in Sources */,
 				33D0B00B2E8C00010000000B /* Travel Schedule/Generated/Client.swift in Sources */,
 				33D0B00C2E8C00010000000C /* Travel Schedule/Generated/Types.swift in Sources */,
+				33D0B00D2E8C00010000000D /* Travel Schedule/Views/SplashScreenView.swift in Sources */,
+				33D0B00E2E8C00010000000E /* Travel Schedule/ViewModels/SplashScreenViewModel.swift in Sources */,
+				33D0B00F2E8C00010000000F /* Travel Schedule/Views/MainScreenView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
