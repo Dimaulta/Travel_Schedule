@@ -26,6 +26,7 @@
 		33D0B00F2E8C00010000000F /* Travel Schedule/Views/MainScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A00F2E8C00010000000F /* Travel Schedule/Views/MainScreenView.swift */; };
 		33D0B0102E8C000100000010 /* Travel Schedule/Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 33D0A0102E8C000100000010 /* Travel Schedule/Assets.xcassets */; };
 		33D0B0112E8C000100000011 /* Travel Schedule/Views/SettingsScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0112E8C000100000011 /* Travel Schedule/Views/SettingsScreenView.swift */; };
+		33D0B0122E8C000100000012 /* Travel Schedule/Services/DirectoryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0122E8C000100000012 /* Travel Schedule/Services/DirectoryService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +67,7 @@
 		33D0A00F2E8C00010000000F /* Travel Schedule/Views/MainScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Views/MainScreenView.swift"; sourceTree = SOURCE_ROOT; };
 		33D0A0102E8C000100000010 /* Travel Schedule/Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Travel Schedule/Assets.xcassets"; sourceTree = SOURCE_ROOT; };
 		33D0A0112E8C000100000011 /* Travel Schedule/Views/SettingsScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Views/SettingsScreenView.swift"; sourceTree = SOURCE_ROOT; };
+		33D0A0122E8C000100000012 /* Travel Schedule/Services/DirectoryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Services/DirectoryService.swift"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -154,6 +156,7 @@
 				33D0A00F2E8C00010000000F /* Travel Schedule/Views/MainScreenView.swift */,
 				33D0A0102E8C000100000010 /* Travel Schedule/Assets.xcassets */,
 				33D0A0112E8C000100000011 /* Travel Schedule/Views/SettingsScreenView.swift */,
+				33D0A0122E8C000100000012 /* Travel Schedule/Services/DirectoryService.swift */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -317,6 +320,7 @@
 				33D0B00E2E8C00010000000E /* Travel Schedule/ViewModels/SplashScreenViewModel.swift in Sources */,
 				33D0B00F2E8C00010000000F /* Travel Schedule/Views/MainScreenView.swift in Sources */,
 				33D0B0112E8C000100000011 /* Travel Schedule/Views/SettingsScreenView.swift in Sources */,
+				33D0B0122E8C000100000012 /* Travel Schedule/Services/DirectoryService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

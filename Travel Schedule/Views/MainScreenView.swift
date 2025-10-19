@@ -6,12 +6,15 @@
 //
 
 import SwiftUI
+import OpenAPIURLSession
 
 struct MainScreenView: View {
     @State private var selectedTab = 0
     @State private var showCityPicker = false
     @State private var fromCity: String? = nil
+    @State private var fromStation: String? = nil
     @State private var toCity: String? = nil
+    @State private var toStation: String? = nil
     @State private var pickerTarget: PickerTarget? = nil
     
     var body: some View {
@@ -45,9 +48,9 @@ struct MainScreenView: View {
                             // Белый блок тянется по ширине, оставляя место под кнопку справа
                             VStack(spacing: 32) {
                                 HStack {
-                                    Text(fromCity ?? "Откуда")
+                                    Text(displayText(city: fromCity, station: fromStation, placeholder: "Откуда"))
                                         .font(.system(size: 17))
-                                        .foregroundColor(fromCity == nil ? Color("GrayUniversal") : Color("Black"))
+                                        .foregroundColor(fromCity == nil ? Color("GrayUniversal") : Color("BlackUniversal"))
                                     Spacer()
                                 }
                                 .contentShape(Rectangle())
@@ -56,9 +59,9 @@ struct MainScreenView: View {
                                     showCityPicker = true
                                 }
                                 HStack {
-                                    Text(toCity ?? "Куда")
+                                    Text(displayText(city: toCity, station: toStation, placeholder: "Куда"))
                                         .font(.system(size: 17))
-                                        .foregroundColor(toCity == nil ? Color("GrayUniversal") : Color("Black"))
+                                        .foregroundColor(toCity == nil ? Color("GrayUniversal") : Color("BlackUniversal"))
                                     Spacer()
                                 }
                                 .contentShape(Rectangle())
@@ -83,6 +86,7 @@ struct MainScreenView: View {
                         // Кнопка переключения (картинка из ассетов)
                         Button(action: {
                             swap(&fromCity, &toCity)
+                            swap(&fromStation, &toStation)
                         }) {
                             ZStack {
                                 Circle()
@@ -99,17 +103,16 @@ struct MainScreenView: View {
                     }
                     .padding(.horizontal, 16)
                     .padding(.top, 48)
-                    .fullScreenCover(isPresented: $showCityPicker) {
-                        CityPickerView(
-                            viewModel: CityPickerViewModel(),
-                            onSelect: { city in
-                                if pickerTarget == .from { fromCity = city.name } else { toCity = city.name }
-                                showCityPicker = false
-                            },
-                            onCancel: {
-                                showCityPicker = false
-                            }
-                        )
+
+                    // Кнопка "Найти" (показывается, когда оба поля заполнены)
+                    if (fromCity?.isEmpty == false) && (toCity?.isEmpty == false) {
+                        SearchPrimaryButton(title: "Найти") {
+                            // Логику поиска добавим позже
+                        }
+                        .transition(.move(edge: .top).combined(with: .opacity))
+                        .animation(.easeOut(duration: 0.2), value: fromCity)
+                        .animation(.easeOut(duration: 0.2), value: toCity)
+                        .padding(.top, 12)
                     }
 
                     Spacer()
@@ -153,6 +156,24 @@ struct MainScreenView: View {
                     .background(Color("White"))
                 }
             }
+        }
+        .fullScreenCover(isPresented: $showCityPicker) {
+            CityPickerView(
+                viewModel: CityPickerViewModel(),
+                onSelect: { selection in
+                    if pickerTarget == .from {
+                        fromCity = selection.city
+                        fromStation = selection.station
+                    } else {
+                        toCity = selection.city
+                        toStation = selection.station
+                    }
+                    showCityPicker = false
+                },
+                onCancel: {
+                    showCityPicker = false
+                }
+            )
         }
     }
 }
@@ -229,7 +250,8 @@ struct City: Identifiable, Equatable {
 
 final class CityPickerViewModel: ObservableObject {
     @Published var query: String = ""
-    @Published private(set) var allCities: [City] = [
+    @Published private(set) var allCities: [City] = []
+    private let defaultCities: [City] = [
         City(name: "Москва"),
         City(name: "Санкт Петербург"),
         City(name: "Сочи"),
@@ -239,19 +261,43 @@ final class CityPickerViewModel: ObservableObject {
         City(name: "Омск")
     ]
 
+    func loadCities() async {
+        do {
+            let directory = DirectoryService(apikey: "50889f83-e54c-4e2e-b9b9-7d5fe468a025")
+            let cities = try await directory.fetchAllCities()
+            let mapped = cities.map { City(name: $0.title) }
+            await MainActor.run { self.allCities = mapped.isEmpty ? self.defaultCities : mapped }
+        } catch {
+            await MainActor.run { self.allCities = self.defaultCities }
+        }
+    }
+
     var filtered: [City] {
         let trimmed = query.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard trimmed.isEmpty == false else { return allCities }
-        return allCities.filter { $0.name.lowercased().contains(trimmed.lowercased()) }
+        // Пустой поиск: показываем только дефолтные города
+        guard trimmed.isEmpty == false else { return defaultCities }
+        // Поиск: по всем городам (реальные + дефолтные)
+        let allNames = (allCities + defaultCities).map { $0.name }
+        let uniqueSorted = Array(Set(allNames)).sorted()
+        return uniqueSorted
+            .filter { $0.lowercased().contains(trimmed.lowercased()) }
+            .map { City(name: $0) }
     }
+}
+
+struct CityStationSelection {
+    let city: String
+    let station: String?
 }
 
 struct CityPickerView: View {
     @ObservedObject var viewModel: CityPickerViewModel
-    let onSelect: (City) -> Void
+    let onSelect: (CityStationSelection) -> Void
     let onCancel: () -> Void
     @FocusState private var searchFocused: Bool
     @Environment(\.colorScheme) private var colorScheme
+    @State private var showStations = false
+    @State private var selectedCityTitle: String = ""
 
     var body: some View {
         VStack(spacing: 0) {
@@ -297,7 +343,7 @@ struct CityPickerView: View {
             }
             .padding(.vertical, 8)
             .padding(.horizontal, 12)
-            .background(colorScheme == .dark ? Color("GrayUniversal") : Color("LightGray"))
+            .background(Color("SearchCity"))
             .cornerRadius(10)
             .padding(.horizontal, 16)
             .padding(.bottom, 8)
@@ -314,28 +360,200 @@ struct CityPickerView: View {
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             } else {
-                List(viewModel.filtered) { city in
-                    Button(action: { onSelect(city) }) {
-                        HStack {
-                            Text(city.name)
-                                .foregroundColor(Color("Black"))
-                            Spacer()
-                            Image(systemName: "chevron.right")
-                                .font(.system(size: 20, weight: .semibold))
-                                .foregroundColor(Color("Black"))
+                ScrollView {
+                    LazyVStack(spacing: 0) {
+                        ForEach(viewModel.filtered) { city in
+                            Button(action: {
+                                selectedCityTitle = city.name
+                                showStations = true
+                            }) {
+                                HStack {
+                                    Text(city.name)
+                                        .foregroundColor(Color("Black"))
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
+                                        .font(.system(size: 20, weight: .semibold))
+                                        .foregroundColor(Color("Black"))
+                                }
+                                .padding(.horizontal, 16)
+                                .padding(.vertical, 16)
+                            }
+                            .background(Color("White"))
                         }
                     }
-                    .listRowSeparator(.hidden)
                 }
-                .listStyle(.plain)
+                .background(Color("White"))
             }
         }
         .background(Color("White"))
-        .onAppear { DispatchQueue.main.async { UIResponder.currentFirstResponderBecomesFirst(text: viewModel) } }
+        .onAppear {
+            DispatchQueue.main.async { UIResponder.currentFirstResponderBecomesFirst(text: viewModel) }
+            Task { await viewModel.loadCities() }
+        }
+        .fullScreenCover(isPresented: $showStations) {
+            StationsPickerView(
+                cityTitle: selectedCityTitle,
+                viewModel: StationsPickerViewModel(),
+                onSelect: { station in
+                    onSelect(CityStationSelection(city: selectedCityTitle, station: station.title))
+                },
+                onCancel: { showStations = false }
+            )
+        }
     }
 }
 
 // Helper to focus first responder on appear (lightweight placeholder)
 private extension UIResponder {
     static func currentFirstResponderBecomesFirst(text: CityPickerViewModel) { /* no-op; native focus оставим пользователю */ }
+}
+
+// MARK: - Primary Button used under the blue container
+struct SearchPrimaryButton: View {
+    let title: String
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            HStack(spacing: 10) {
+                Text(title)
+                    .font(.system(size: 17, weight: .bold))
+                    .foregroundColor(Color("WhiteUniversal"))
+            }
+            .padding(.vertical, 20)
+            .padding(.horizontal, 8)
+            .frame(width: 150)
+            .background(Color("BlueUniversal"))
+            .cornerRadius(16)
+        }
+    }
+}
+
+// MARK: - Stations Picker
+
+struct Station: Identifiable, Equatable {
+    let id = UUID()
+    let code: String?
+    let title: String
+}
+
+final class StationsPickerViewModel: ObservableObject {
+    @Published var query: String = ""
+    @Published private(set) var allStations: [Station] = []
+    @Published var isLoading: Bool = false
+
+    func load(forCityTitle cityTitle: String) async {
+        await MainActor.run { self.isLoading = true }
+        defer { Task { await MainActor.run { self.isLoading = false } } }
+        do {
+            let directory = DirectoryService(apikey: "50889f83-e54c-4e2e-b9b9-7d5fe468a025")
+            let stations = try await directory.fetchStations(inCityTitle: cityTitle)
+            let mapped = stations.map { Station(code: $0.yandexCode, title: $0.title) }
+            await MainActor.run { self.allStations = mapped }
+        } catch {
+            await MainActor.run { self.allStations = [] }
+        }
+    }
+
+    var filtered: [Station] {
+        let trimmed = query.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard trimmed.isEmpty == false else { return allStations }
+        return allStations.filter { $0.title.lowercased().contains(trimmed.lowercased()) }
+    }
+}
+
+struct StationsPickerView: View {
+    let cityTitle: String
+    @ObservedObject var viewModel: StationsPickerViewModel
+    let onSelect: (Station) -> Void
+    let onCancel: () -> Void
+    @FocusState private var searchFocused: Bool
+    @Environment(\.colorScheme) private var colorScheme
+
+    var body: some View {
+        VStack(spacing: 0) {
+            Color("White").frame(height: 12).ignoresSafeArea(edges: .top)
+            ZStack {
+                Text("Выбор станции")
+                    .font(.system(size: 17, weight: .bold))
+                    .foregroundColor(Color("Black"))
+                HStack {
+                    Button(action: { onCancel() }) {
+                        Image(systemName: "chevron.left")
+                            .font(.system(size: 20, weight: .semibold))
+                            .foregroundColor(Color("Black"))
+                    }
+                    .padding(.leading, 16)
+                    Spacer()
+                }
+            }
+            .padding(.vertical, 12)
+            .padding(.top, 8)
+
+            HStack(spacing: 8) {
+                Image(systemName: "magnifyingglass")
+                    .foregroundColor(Color("GrayUniversal"))
+                TextField("Введите запрос", text: $viewModel.query)
+                    .textInputAutocapitalization(.words)
+                    .disableAutocorrection(true)
+                    .foregroundColor(Color("Black"))
+                    .focused($searchFocused)
+                if searchFocused {
+                    Button(action: { viewModel.query = "" }) {
+                        Image(systemName: "xmark.circle.fill")
+                            .foregroundColor(Color("GrayUniversal"))
+                    }
+                }
+            }
+            .padding(.vertical, 8)
+            .padding(.horizontal, 12)
+            .background(Color("SearchCity"))
+            .cornerRadius(10)
+            .padding(.horizontal, 16)
+            .padding(.bottom, 8)
+
+            if viewModel.isLoading {
+                VStack {
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle(tint: Color("BlueUniversal")))
+                        .scaleEffect(1.4)
+                        .padding(.top, 120)
+                    Text("Загрузка станций...")
+                        .foregroundColor(Color("GrayUniversal"))
+                        .padding(.top, 8)
+                    Spacer()
+                }
+            } else {
+                ScrollView {
+                    LazyVStack(spacing: 0) {
+                        ForEach(viewModel.filtered) { station in
+                            Button(action: { onSelect(station) }) {
+                                HStack {
+                                    Text(station.title)
+                                        .foregroundColor(Color("Black"))
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
+                                        .font(.system(size: 20, weight: .semibold))
+                                        .foregroundColor(Color("Black"))
+                                }
+                                .padding(.horizontal, 16)
+                                .padding(.vertical, 16)
+                            }
+                            .background(Color("White"))
+                        }
+                    }
+                }
+                .background(Color("White"))
+            }
+        }
+        .background(Color("White"))
+        .task { await viewModel.load(forCityTitle: cityTitle) }
+    }
+}
+
+// MARK: - Helpers
+private func displayText(city: String?, station: String?, placeholder: String) -> String {
+    guard let city, !city.isEmpty else { return placeholder }
+    if let station, !station.isEmpty { return "\(city) (\(station))" }
+    return city
 }
