@@ -9,6 +9,10 @@ import SwiftUI
 
 struct MainScreenView: View {
     @State private var selectedTab = 0
+    @State private var showCityPicker = false
+    @State private var fromCity: String? = nil
+    @State private var toCity: String? = nil
+    @State private var pickerTarget: PickerTarget? = nil
     
     var body: some View {
         ZStack {
@@ -41,16 +45,26 @@ struct MainScreenView: View {
                             // Белый блок тянется по ширине, оставляя место под кнопку справа
                             VStack(spacing: 32) {
                                 HStack {
-                                    Text("Откуда")
+                                    Text(fromCity ?? "Откуда")
                                         .font(.system(size: 17))
-                                        .foregroundColor(Color("GrayUniversal"))
+                                        .foregroundColor(fromCity == nil ? Color("GrayUniversal") : Color("Black"))
                                     Spacer()
                                 }
+                                .contentShape(Rectangle())
+                                .onTapGesture {
+                                    pickerTarget = .from
+                                    showCityPicker = true
+                                }
                                 HStack {
-                                    Text("Куда")
+                                    Text(toCity ?? "Куда")
                                         .font(.system(size: 17))
-                                        .foregroundColor(Color("GrayUniversal"))
+                                        .foregroundColor(toCity == nil ? Color("GrayUniversal") : Color("Black"))
                                     Spacer()
+                                }
+                                .contentShape(Rectangle())
+                                .onTapGesture {
+                                    pickerTarget = .to
+                                    showCityPicker = true
                                 }
                             }
                             .padding(.leading, 16)
@@ -68,7 +82,7 @@ struct MainScreenView: View {
 
                         // Кнопка переключения (картинка из ассетов)
                         Button(action: {
-                            // Логика переключения будет позже
+                            swap(&fromCity, &toCity)
                         }) {
                             ZStack {
                                 Circle()
@@ -85,6 +99,18 @@ struct MainScreenView: View {
                     }
                     .padding(.horizontal, 16)
                     .padding(.top, 48)
+                    .fullScreenCover(isPresented: $showCityPicker) {
+                        CityPickerView(
+                            viewModel: CityPickerViewModel(),
+                            onSelect: { city in
+                                if pickerTarget == .from { fromCity = city.name } else { toCity = city.name }
+                                showCityPicker = false
+                            },
+                            onCancel: {
+                                showCityPicker = false
+                            }
+                        )
+                    }
 
                     Spacer()
                 } else {
@@ -185,8 +211,131 @@ struct RoundedCorner: Shape {
         return Path(path.cgPath)
     }
 }
+// Цель выбора города
+private enum PickerTarget { case from, to }
+
 
 #Preview {
     MainScreenView()
 }
 
+
+// MARK: - City Picker (MVVM, lightweight, no project file edits)
+
+struct City: Identifiable, Equatable {
+    let id = UUID()
+    let name: String
+}
+
+final class CityPickerViewModel: ObservableObject {
+    @Published var query: String = ""
+    @Published private(set) var allCities: [City] = [
+        City(name: "Москва"),
+        City(name: "Санкт Петербург"),
+        City(name: "Сочи"),
+        City(name: "Горный воздух"),
+        City(name: "Краснодар"),
+        City(name: "Казань"),
+        City(name: "Омск")
+    ]
+
+    var filtered: [City] {
+        let trimmed = query.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard trimmed.isEmpty == false else { return allCities }
+        return allCities.filter { $0.name.lowercased().contains(trimmed.lowercased()) }
+    }
+}
+
+struct CityPickerView: View {
+    @ObservedObject var viewModel: CityPickerViewModel
+    let onSelect: (City) -> Void
+    let onCancel: () -> Void
+    @FocusState private var searchFocused: Bool
+    @Environment(\.colorScheme) private var colorScheme
+
+    var body: some View {
+        VStack(spacing: 0) {
+            // Фон под вырез/статусбар
+            Color("White")
+                .frame(height: 12)
+                .ignoresSafeArea(edges: .top)
+
+            // Навбар
+            ZStack {
+                Text("Выбор города")
+                    .font(.system(size: 17, weight: .bold))
+                    .foregroundColor(Color("Black"))
+                    .multilineTextAlignment(.center)
+                HStack {
+                    Button(action: { onCancel() }) {
+                        Image(systemName: "chevron.left")
+                            .font(.system(size: 20, weight: .semibold))
+                            .foregroundColor(Color("Black"))
+                    }
+                    .padding(.leading, 16)
+                    Spacer()
+                }
+            }
+            .padding(.vertical, 12)
+            .padding(.top, 8)
+
+            // Поисковая строка
+            HStack(spacing: 8) {
+                Image(systemName: "magnifyingglass")
+                    .foregroundColor(Color("GrayUniversal"))
+                TextField("Введите запрос", text: $viewModel.query)
+                    .textInputAutocapitalization(.words)
+                    .disableAutocorrection(true)
+                    .foregroundColor(Color("Black"))
+                    .focused($searchFocused)
+                if searchFocused {
+                    Button(action: { viewModel.query = "" }) {
+                        Image(systemName: "xmark.circle.fill")
+                            .foregroundColor(Color("GrayUniversal"))
+                    }
+                }
+            }
+            .padding(.vertical, 8)
+            .padding(.horizontal, 12)
+            .background(colorScheme == .dark ? Color("GrayUniversal") : Color("LightGray"))
+            .cornerRadius(10)
+            .padding(.horizontal, 16)
+            .padding(.bottom, 8)
+
+            // Список / заглушка
+            if viewModel.filtered.isEmpty && viewModel.query.isEmpty == false {
+                VStack { // центрируем фразу и отступаем от серчбара
+                    Text("Город не найден")
+                        .font(.system(size: 24, weight: .bold))
+                        .foregroundColor(Color("Black"))
+                        .multilineTextAlignment(.center)
+                        .padding(.top, 180)
+                    Spacer()
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+            } else {
+                List(viewModel.filtered) { city in
+                    Button(action: { onSelect(city) }) {
+                        HStack {
+                            Text(city.name)
+                                .foregroundColor(Color("Black"))
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .font(.system(size: 20, weight: .semibold))
+                                .foregroundColor(Color("Black"))
+                        }
+                    }
+                    .listRowSeparator(.hidden)
+                }
+                .listStyle(.plain)
+            }
+        }
+        .background(Color("White"))
+        .onAppear { DispatchQueue.main.async { UIResponder.currentFirstResponderBecomesFirst(text: viewModel) } }
+    }
+}
+
+// Helper to focus first responder on appear (lightweight placeholder)
+private extension UIResponder {
+    static func currentFirstResponderBecomesFirst(text: CityPickerViewModel) { /* no-op; native focus оставим пользователю */ }
+}
