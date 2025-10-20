@@ -16,6 +16,7 @@ struct MainScreenView: View {
     @State private var toCity: String? = nil
     @State private var toStation: String? = nil
     @State private var pickerTarget: PickerTarget? = nil
+    @State private var showCarriers = false
     
     var body: some View {
         ZStack {
@@ -107,7 +108,7 @@ struct MainScreenView: View {
                     // Кнопка "Найти" (показывается, когда оба поля заполнены)
                     if (fromCity?.isEmpty == false) && (toCity?.isEmpty == false) {
                         SearchPrimaryButton(title: "Найти") {
-                            // Логику поиска добавим позже
+                            showCarriers = true
                         }
                         .transition(.move(edge: .top).combined(with: .opacity))
                         .animation(.easeOut(duration: 0.2), value: fromCity)
@@ -174,6 +175,22 @@ struct MainScreenView: View {
                     showCityPicker = false
                 }
             )
+        }
+        .fullScreenCover(isPresented: $showCarriers) {
+            if let fromCity = fromCity,
+               let fromStation = fromStation,
+               let toCity = toCity,
+               let toStation = toStation {
+                CarriersScreenView(
+                    fromCity: fromCity,
+                    fromStation: fromStation,
+                    toCity: toCity,
+                    toStation: toStation,
+                    onBack: {
+                        showCarriers = false
+                    }
+                )
+            }
         }
     }
 }
