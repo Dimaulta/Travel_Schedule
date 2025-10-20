@@ -149,8 +149,6 @@
 				33D0A00A2E8C00010000000A /* Travel Schedule/Services/ThreadService.swift */,
 				33D0A00B2E8C00010000000B /* Travel Schedule/Generated/Client.swift */,
 				33D0A00C2E8C00010000000C /* Travel Schedule/Generated/Types.swift */,
-				33D0A00D2E8C00010000000D /* Travel Schedule/Views/SplashScreenView.swift */,
-				33D0A00E2E8C00010000000E /* Travel Schedule/ViewModels/SplashScreenViewModel.swift */,
 				33D0A00F2E8C00010000000F /* Travel Schedule/Views/MainScreenView.swift */,
 				33D0A0102E8C000100000010 /* Travel Schedule/Assets.xcassets */,
 				33D0A0112E8C000100000011 /* Travel Schedule/Views/SettingsScreenView.swift */,
