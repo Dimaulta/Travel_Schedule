@@ -11,7 +11,7 @@ import SwiftUI
 struct Travel_ScheduleApp: App {
     var body: some Scene {
         WindowGroup {
-            SplashScreenView()
+            MainScreenView()
         }
     }
 }

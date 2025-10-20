@@ -21,12 +21,11 @@
 		33D0B00A2E8C00010000000A /* Travel Schedule/Services/ThreadService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A00A2E8C00010000000A /* Travel Schedule/Services/ThreadService.swift */; };
 		33D0B00B2E8C00010000000B /* Travel Schedule/Generated/Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A00B2E8C00010000000B /* Travel Schedule/Generated/Client.swift */; };
 		33D0B00C2E8C00010000000C /* Travel Schedule/Generated/Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A00C2E8C00010000000C /* Travel Schedule/Generated/Types.swift */; };
-		33D0B00D2E8C00010000000D /* Travel Schedule/Views/SplashScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A00D2E8C00010000000D /* Travel Schedule/Views/SplashScreenView.swift */; };
-		33D0B00E2E8C00010000000E /* Travel Schedule/ViewModels/SplashScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A00E2E8C00010000000E /* Travel Schedule/ViewModels/SplashScreenViewModel.swift */; };
 		33D0B00F2E8C00010000000F /* Travel Schedule/Views/MainScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A00F2E8C00010000000F /* Travel Schedule/Views/MainScreenView.swift */; };
 		33D0B0102E8C000100000010 /* Travel Schedule/Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 33D0A0102E8C000100000010 /* Travel Schedule/Assets.xcassets */; };
 		33D0B0112E8C000100000011 /* Travel Schedule/Views/SettingsScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0112E8C000100000011 /* Travel Schedule/Views/SettingsScreenView.swift */; };
 		33D0B0122E8C000100000012 /* Travel Schedule/Services/DirectoryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0122E8C000100000012 /* Travel Schedule/Services/DirectoryService.swift */; };
+		33D0B0132E8C000100000013 /* Travel Schedule/LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33D0A0132E8C000100000013 /* Travel Schedule/LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,12 +61,11 @@
 		33D0A00A2E8C00010000000A /* Travel Schedule/Services/ThreadService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Services/ThreadService.swift"; sourceTree = SOURCE_ROOT; };
 		33D0A00B2E8C00010000000B /* Travel Schedule/Generated/Client.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Generated/Client.swift"; sourceTree = SOURCE_ROOT; };
 		33D0A00C2E8C00010000000C /* Travel Schedule/Generated/Types.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Generated/Types.swift"; sourceTree = SOURCE_ROOT; };
-		33D0A00D2E8C00010000000D /* Travel Schedule/Views/SplashScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Views/SplashScreenView.swift"; sourceTree = SOURCE_ROOT; };
-		33D0A00E2E8C00010000000E /* Travel Schedule/ViewModels/SplashScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/ViewModels/SplashScreenViewModel.swift"; sourceTree = SOURCE_ROOT; };
 		33D0A00F2E8C00010000000F /* Travel Schedule/Views/MainScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Views/MainScreenView.swift"; sourceTree = SOURCE_ROOT; };
 		33D0A0102E8C000100000010 /* Travel Schedule/Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Travel Schedule/Assets.xcassets"; sourceTree = SOURCE_ROOT; };
 		33D0A0112E8C000100000011 /* Travel Schedule/Views/SettingsScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Views/SettingsScreenView.swift"; sourceTree = SOURCE_ROOT; };
 		33D0A0122E8C000100000012 /* Travel Schedule/Services/DirectoryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Services/DirectoryService.swift"; sourceTree = SOURCE_ROOT; };
+		33D0A0132E8C000100000013 /* Travel Schedule/LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Travel Schedule/LaunchScreen.storyboard"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -157,6 +155,7 @@
 				33D0A0102E8C000100000010 /* Travel Schedule/Assets.xcassets */,
 				33D0A0112E8C000100000011 /* Travel Schedule/Views/SettingsScreenView.swift */,
 				33D0A0122E8C000100000012 /* Travel Schedule/Services/DirectoryService.swift */,
+				33D0A0132E8C000100000013 /* Travel Schedule/LaunchScreen.storyboard */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -280,6 +279,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				33D0B0102E8C000100000010 /* Travel Schedule/Assets.xcassets in Resources */,
+				33D0B0132E8C000100000013 /* Travel Schedule/LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -316,8 +316,6 @@
 				33D0B00A2E8C00010000000A /* Travel Schedule/Services/ThreadService.swift in Sources */,
 				33D0B00B2E8C00010000000B /* Travel Schedule/Generated/Client.swift in Sources */,
 				33D0B00C2E8C00010000000C /* Travel Schedule/Generated/Types.swift in Sources */,
-				33D0B00D2E8C00010000000D /* Travel Schedule/Views/SplashScreenView.swift in Sources */,
-				33D0B00E2E8C00010000000E /* Travel Schedule/ViewModels/SplashScreenViewModel.swift in Sources */,
 				33D0B00F2E8C00010000000F /* Travel Schedule/Views/MainScreenView.swift in Sources */,
 				33D0B0112E8C000100000011 /* Travel Schedule/Views/SettingsScreenView.swift in Sources */,
 				33D0B0122E8C000100000012 /* Travel Schedule/Services/DirectoryService.swift in Sources */,
@@ -485,7 +483,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -514,7 +512,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
