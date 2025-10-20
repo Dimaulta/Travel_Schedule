@@ -17,6 +17,7 @@ struct MainScreenView: View {
     @State private var toStation: String? = nil
     @State private var pickerTarget: PickerTarget? = nil
     @State private var showCarriers = false
+    @State private var didPrefetchDirectory = false
     
     var body: some View {
         ZStack {
@@ -175,6 +176,13 @@ struct MainScreenView: View {
                     showCityPicker = false
                 }
             )
+        }
+        // Предзагрузка полного справочника станций один раз при первом появлении
+        .task {
+            guard didPrefetchDirectory == false else { return }
+            didPrefetchDirectory = true
+            let directory = DirectoryService(apikey: "50889f83-e54c-4e2e-b9b9-7d5fe468a025")
+            _ = try? await directory.fetchAllCities()
         }
         .fullScreenCover(isPresented: $showCarriers) {
             if let fromCity = fromCity,

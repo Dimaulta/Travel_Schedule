@@ -16,14 +16,24 @@ struct CarrierCardView: View {
                 // Информация о перевозчике
                 VStack(alignment: .leading, spacing: 4) {
                     HStack(spacing: 8) {
-                        // Логотип перевозчика (заглушка)
-                        RoundedRectangle(cornerRadius: 4)
-                            .fill(Color("GrayUniversal"))
-                            .frame(width: 24, height: 24)
+                        // Логотип перевозчика
+                        if let logo = trip.carrier.logo, let url = URL(string: logo) {
+                            AsyncImage(url: url) { image in
+                                image.resizable().scaledToFit()
+                            } placeholder: {
+                                RoundedRectangle(cornerRadius: 4).fill(Color("GrayUniversal"))
+                            }
+                            .frame(width: 38, height: 38)
+                            .clipShape(RoundedRectangle(cornerRadius: 4))
+                        } else {
+                            RoundedRectangle(cornerRadius: 4)
+                                .fill(Color("GrayUniversal"))
+                                .frame(width: 38, height: 38)
+                        }
                         
                         Text(trip.carrier.title)
                             .font(.system(size: 17, weight: .semibold))
-                            .foregroundColor(Color("Black"))
+                            .foregroundColor(Color("BlackUniversal"))
                     }
                     
                     // Дополнительная информация (пересадки)
@@ -39,7 +49,7 @@ struct CarrierCardView: View {
                 // Дата
                 Text(trip.date)
                     .font(.system(size: 17, weight: .medium))
-                    .foregroundColor(Color("Black"))
+                    .foregroundColor(Color("BlackUniversal"))
             }
             .padding(.horizontal, 16)
             .padding(.top, 16)
@@ -49,7 +59,7 @@ struct CarrierCardView: View {
                 // Время отправления
                 Text(trip.departureTime)
                     .font(.system(size: 17, weight: .medium))
-                    .foregroundColor(Color("Black"))
+                    .foregroundColor(Color("BlackUniversal"))
                 
                 // Линия с длительностью
                 HStack {
@@ -70,13 +80,14 @@ struct CarrierCardView: View {
                 // Время прибытия
                 Text(trip.arrivalTime)
                     .font(.system(size: 17, weight: .medium))
-                    .foregroundColor(Color("Black"))
+                    .foregroundColor(Color("BlackUniversal"))
             }
             .padding(.horizontal, 16)
             .padding(.bottom, 16)
         }
-        .background(Color("White"))
-        .cornerRadius(12)
+        .background(Color("LightGray"))
+        .frame(height: 104)
+        .cornerRadius(24)
         .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2)
     }
 }

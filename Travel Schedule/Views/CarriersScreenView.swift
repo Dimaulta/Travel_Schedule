@@ -35,18 +35,16 @@ struct CarriersScreenView: View {
                 .padding(.vertical, 12)
                 .padding(.top, 8)
                 
-                // Заголовок с маршрутом
-                VStack(spacing: 4) {
+                // Заголовок с маршрутом (как в макете)
+                HStack(alignment: .center, spacing: 8) {
                     Text("\(fromCity) (\(fromStation))")
-                        .font(.system(size: 17, weight: .semibold))
+                        .font(.system(size: 24, weight: .bold))
                         .foregroundColor(Color("Black"))
-                    
-                    Image(systemName: "arrow.down")
-                        .font(.system(size: 12, weight: .medium))
+                    Image(systemName: "arrow.right")
+                        .font(.system(size: 14, weight: .semibold))
                         .foregroundColor(Color("GrayUniversal"))
-                    
                     Text("\(toCity) (\(toStation))")
-                        .font(.system(size: 17, weight: .semibold))
+                        .font(.system(size: 24, weight: .bold))
                         .foregroundColor(Color("Black"))
                 }
                 .padding(.bottom, 16)

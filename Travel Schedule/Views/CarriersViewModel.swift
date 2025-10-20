@@ -86,9 +86,10 @@ class CarriersViewModel: ObservableObject {
             let arrivalTime = formatTime(arrival)
             let durationText = formatDuration(duration)
             
-            // Получаем информацию о перевозчике
+            // Получаем информацию о перевозчике (без вторых названий через "/")
+            let carrierTitle = (carrier.title ?? "Неизвестный перевозчик").components(separatedBy: "/").first?.trimmingCharacters(in: .whitespacesAndNewlines) ?? (carrier.title ?? "Неизвестный перевозчик")
             let carrierInfo = CarrierInfo(
-                title: carrier.title ?? "Неизвестный перевозчик",
+                title: carrierTitle,
                 logo: carrier.logo,
                 code: carrier.code
             )
@@ -111,31 +112,39 @@ class CarriersViewModel: ObservableObject {
             )
         }
         
-        // Сортируем по времени отправления
-        trips.sort { $0.departureTime < $1.departureTime }
+        // Сортируем и убираем дубли: по одному предложению на перевозчика
+        var seenCarriers = Set<String>()
+        var unique: [TripInfo] = []
+        for t in trips.sorted(by: { $0.departureTime < $1.departureTime }) {
+            if seenCarriers.insert(t.carrier.title).inserted {
+                unique.append(t)
+            }
+        }
+        trips = unique
     }
     
     private func formatTime(_ timeString: String) -> String {
-        // Парсим время из формата "2024-01-14 22:30:00" в "22:30"
-        let components = timeString.components(separatedBy: " ")
-        if components.count >= 2 {
-            let timeComponent = components[1]
-            let timeParts = timeComponent.components(separatedBy: ":")
-            if timeParts.count >= 2 {
-                return "\(timeParts[0]):\(timeParts[1])"
-            }
-        }
-        return timeString
+        // Поддержка форматов: "YYYY-MM-DD HH:mm:ss" и "HH:mm:ss" → "HH:mm"
+        let parts = timeString.contains(" ") ? timeString.components(separatedBy: " ") : ["", timeString]
+        let timeComponent = parts.last ?? timeString
+        let timeParts = timeComponent.components(separatedBy: ":")
+        guard timeParts.count >= 2 else { return timeComponent }
+        return "\(timeParts[0]):\(timeParts[1])"
     }
     
     private func formatDuration(_ durationSeconds: Int) -> String {
         let hours = durationSeconds / 3600
-        let minutes = (durationSeconds % 3600) / 60
-        
-        if hours > 0 {
-            return "\(hours) ч"
-        } else {
-            return "\(minutes) мин"
+        let word = pluralizeHours(hours)
+        return "\(hours) \(word)"
+    }
+
+    private func pluralizeHours(_ value: Int) -> String {
+        let v = value % 100
+        if v >= 11 && v <= 14 { return "часов" }
+        switch v % 10 {
+        case 1: return "час"
+        case 2,3,4: return "часа"
+        default: return "часов"
         }
     }
     
