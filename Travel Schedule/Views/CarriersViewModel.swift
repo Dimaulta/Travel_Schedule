@@ -88,6 +88,7 @@ class CarriersViewModel: ObservableObject {
             
             // Получаем информацию о перевозчике (без вторых названий через "/")
             let carrierTitle = (carrier.title ?? "Неизвестный перевозчик").components(separatedBy: "/").first?.trimmingCharacters(in: .whitespacesAndNewlines) ?? (carrier.title ?? "Неизвестный перевозчик")
+            
             let carrierInfo = CarrierInfo(
                 title: carrierTitle,
                 logo: carrier.logo,

@@ -45,10 +45,20 @@ final class DirectoryService {
     }
 
     func fetchStations(inCityTitle cityTitle: String) async throws -> [DirectoryStation] {
+        // Защита от пустой строки - иначе загрузятся ВСЕ станции
+        let trimmed = cityTitle.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard trimmed.isEmpty == false else {
+            return []
+        }
+        
         let countries = try await loadCountries()
         var result: [DirectoryStation] = []
-        let target = normalize(cityTitle)
+        let target = normalize(trimmed)
         for country in countries {
+            let countryTitle = (country["title"] as? String) ?? ""
+            // Фильтруем только по России для всех городов
+            guard countryTitle.contains("Россия") || countryTitle.contains("Russia") else { continue }
+            
             let regions = country["regions"] as? [[String: Any]] ?? []
             for region in regions {
                 let settlements = region["settlements"] as? [[String: Any]] ?? []
@@ -58,6 +68,7 @@ final class DirectoryService {
                     let short = (settlement["short_title"] as? String) ?? ""
                     let matches = [title, popular, short].map { normalize($0) }.contains(target)
                     guard matches else { continue }
+                    
                     let stations = settlement["stations"] as? [[String: Any]] ?? []
                     for station in stations {
                         // Берем только ж/д станции с валидным кодом Яндекса
@@ -74,6 +85,13 @@ final class DirectoryService {
                         // просто показываем чистое имя вокзала без города
                         let onlyStationName = extractStationName(fromFullTitle: rawTitle, cityTitle: cityTitle)
                         guard onlyStationName.isEmpty == false else { continue }
+                        
+                        // Для всех городов России показываем только станции с кириллическими названиями
+                        let hasCyrillic = onlyStationName.unicodeScalars.contains { scalar in
+                            (0x0400...0x04FF).contains(scalar.value) // Кириллический диапазон
+                        }
+                        guard hasCyrillic else { continue }
+                        
                         result.append(DirectoryStation(title: onlyStationName, yandexCode: code))
                     }
                 }
@@ -85,14 +103,31 @@ final class DirectoryService {
         for s in result {
             if seen.insert(s.title).inserted { unique.append(s) }
         }
-        return unique.sorted(by: { $0.title < $1.title })
+        
+        // Сортируем: сначала станции, начинающиеся с букв, потом с цифр
+        return unique.sorted { station1, station2 in
+            let title1 = station1.title
+            let title2 = station2.title
+            
+            // Проверяем, начинается ли с буквы или цифры
+            let isLetter1 = title1.first?.isLetter ?? false
+            let isLetter2 = title2.first?.isLetter ?? false
+            
+            if isLetter1 && !isLetter2 {
+                return true  // станция1 (буква) идет перед станцией2 (цифра)
+            } else if !isLetter1 && isLetter2 {
+                return false // станция2 (буква) идет перед станцией1 (цифра)
+            } else {
+                // Обе начинаются с букв или обе с цифр - сортируем по алфавиту
+                return title1 < title2
+            }
+        }
     }
 
     // MARK: - Кеширующий загрузчик
     private func loadCountries() async throws -> [[String: Any]] {
         if let cached = Self.cachedCountries { return cached }
         if let task = Self.loadingTask { return try await task.value }
-
         let task = Task { () throws -> [[String: Any]] in
             let url = try makeURL()
             let (data, _) = try await URLSession.shared.data(from: url)

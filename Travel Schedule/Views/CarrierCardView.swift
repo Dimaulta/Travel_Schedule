@@ -21,12 +21,16 @@ struct CarrierCardView: View {
                             AsyncImage(url: url) { image in
                                 image
                                     .resizable()
-                                    .scaledToFill()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: 38, height: 38)
+                                    .scaleEffect(x: 3.0, y: 1.0, anchor: .leading)
+                                    .clipped()
+                                    .clipShape(RoundedRectangle(cornerRadius: 4))
                             } placeholder: {
-                                RoundedRectangle(cornerRadius: 4).fill(Color("GrayUniversal"))
+                                RoundedRectangle(cornerRadius: 4)
+                                    .fill(Color("GrayUniversal"))
+                                    .frame(width: 38, height: 38)
                             }
-                            .frame(width: 38, height: 38)
-                            .clipShape(RoundedRectangle(cornerRadius: 4))
                         } else {
                             RoundedRectangle(cornerRadius: 4)
                                 .fill(Color("GrayUniversal"))

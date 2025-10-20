@@ -321,8 +321,7 @@ struct CityPickerView: View {
     let onCancel: () -> Void
     @FocusState private var searchFocused: Bool
     @Environment(\.colorScheme) private var colorScheme
-    @State private var showStations = false
-    @State private var selectedCityTitle: String = ""
+    @State private var selectedCity: City? = nil
 
     var body: some View {
         VStack(spacing: 0) {
@@ -389,8 +388,7 @@ struct CityPickerView: View {
                     LazyVStack(spacing: 0) {
                         ForEach(viewModel.filtered) { city in
                             Button(action: {
-                                selectedCityTitle = city.name
-                                showStations = true
+                                selectedCity = city
                             }) {
                                 HStack {
                                     Text(city.name)
@@ -415,14 +413,15 @@ struct CityPickerView: View {
             DispatchQueue.main.async { UIResponder.currentFirstResponderBecomesFirst(text: viewModel) }
             Task { await viewModel.loadCities() }
         }
-        .fullScreenCover(isPresented: $showStations) {
+        .fullScreenCover(item: $selectedCity) { city in
             StationsPickerView(
-                cityTitle: selectedCityTitle,
+                cityTitle: city.name,
                 viewModel: StationsPickerViewModel(),
                 onSelect: { station in
-                    onSelect(CityStationSelection(city: selectedCityTitle, station: station.title))
+                    onSelect(CityStationSelection(city: city.name, station: station.title))
+                    selectedCity = nil
                 },
-                onCancel: { showStations = false }
+                onCancel: { selectedCity = nil }
             )
         }
     }
@@ -468,13 +467,19 @@ final class StationsPickerViewModel: ObservableObject {
     @Published var isLoading: Bool = false
 
     func load(forCityTitle cityTitle: String) async {
-        await MainActor.run { self.isLoading = true }
+        await MainActor.run { 
+            self.isLoading = true
+            self.allStations = [] // Очищаем предыдущие станции перед загрузкой новых
+            self.query = "" // Очищаем поисковый запрос
+        }
         defer { Task { await MainActor.run { self.isLoading = false } } }
         do {
             let directory = DirectoryService(apikey: "50889f83-e54c-4e2e-b9b9-7d5fe468a025")
             let stations = try await directory.fetchStations(inCityTitle: cityTitle)
             let mapped = stations.map { Station(code: $0.yandexCode, title: $0.title) }
-            await MainActor.run { self.allStations = mapped }
+            await MainActor.run { 
+                self.allStations = mapped 
+            }
         } catch {
             await MainActor.run { self.allStations = [] }
         }
