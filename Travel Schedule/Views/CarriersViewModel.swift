@@ -149,17 +149,13 @@ class CarriersViewModel: ObservableObject {
     }
     
     private func formatDate(_ timeString: String) -> String {
-        // Парсим дату из формата "2024-01-14 22:30:00" в "14 января"
-        let components = timeString.components(separatedBy: " ")
-        if let dateComponent = components.first {
-            let dateParts = dateComponent.components(separatedBy: "-")
-            if dateParts.count >= 3 {
-                let day = dateParts[2]
-                let month = getMonthName(Int(dateParts[1]) ?? 1)
-                return "\(day) \(month)"
-            }
-        }
-        return ""
+        // API возвращает только время, используем текущую дату
+        let now = Date()
+        let calendar = Calendar.current
+        let day = calendar.component(.day, from: now)
+        let month = calendar.component(.month, from: now)
+        let monthName = getMonthName(month)
+        return "\(day) \(monthName)"
     }
     
     private func getMonthName(_ month: Int) -> String {

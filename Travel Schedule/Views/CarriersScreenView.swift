@@ -115,7 +115,7 @@ struct CarriersScreenView: View {
             } else {
                 // Список рейсов
                 ScrollView {
-                    LazyVStack(spacing: 12) {
+                    LazyVStack(spacing: 8) {
                         ForEach(viewModel.trips) { trip in
                             CarrierCardView(trip: trip)
                                 .onTapGesture {

@@ -11,15 +11,17 @@ struct CarrierCardView: View {
     let trip: TripInfo
     
     var body: some View {
-        VStack(spacing: 0) {
+        VStack(spacing: 16) {
             HStack(alignment: .top) {
                 // Информация о перевозчике
-                VStack(alignment: .leading, spacing: 4) {
-                    HStack(spacing: 8) {
+                VStack(alignment: .leading, spacing: 8) {
+                    HStack(spacing: 12) {
                         // Логотип перевозчика
                         if let logo = trip.carrier.logo, let url = URL(string: logo) {
                             AsyncImage(url: url) { image in
-                                image.resizable().scaledToFit()
+                                image
+                                    .resizable()
+                                    .scaledToFill()
                             } placeholder: {
                                 RoundedRectangle(cornerRadius: 4).fill(Color("GrayUniversal"))
                             }
@@ -51,8 +53,8 @@ struct CarrierCardView: View {
                     .font(.system(size: 17, weight: .medium))
                     .foregroundColor(Color("BlackUniversal"))
             }
-            .padding(.horizontal, 16)
-            .padding(.top, 16)
+            .padding(.horizontal, 20)
+            .padding(.top, 20)
             
             // Время и длительность
             HStack {
@@ -69,7 +71,7 @@ struct CarrierCardView: View {
                     
                     Text(trip.duration)
                         .font(.system(size: 12))
-                        .foregroundColor(Color("GrayUniversal"))
+                        .foregroundColor(Color("BlackUniversal"))
                         .padding(.horizontal, 8)
                     
                     Rectangle()
@@ -82,11 +84,10 @@ struct CarrierCardView: View {
                     .font(.system(size: 17, weight: .medium))
                     .foregroundColor(Color("BlackUniversal"))
             }
-            .padding(.horizontal, 16)
-            .padding(.bottom, 16)
+            .padding(.horizontal, 20)
+            .padding(.bottom, 20)
         }
         .background(Color("LightGray"))
-        .frame(height: 104)
         .cornerRadius(24)
         .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2)
     }
