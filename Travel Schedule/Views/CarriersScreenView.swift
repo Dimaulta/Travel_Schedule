@@ -113,44 +113,42 @@ struct CarriersScreenView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(Color("White"))
             } else {
-                // Список рейсов
-                ScrollView {
-                    LazyVStack(spacing: 8) {
-                        ForEach(viewModel.trips) { trip in
-                            CarrierCardView(trip: trip)
-                                .onTapGesture {
-                                    // TODO: Переход к детальной информации о рейсе
-                                }
+                // Список рейсов с кнопкой поверх
+                ZStack(alignment: .bottom) {
+                    ScrollView {
+                        LazyVStack(spacing: 8) {
+                            ForEach(viewModel.trips) { trip in
+                                CarrierCardView(trip: trip)
+                                    .onTapGesture {
+                                        // TODO: Переход к детальной информации о рейсе
+                                    }
+                            }
                         }
+                        .padding(.horizontal, 16)
+                        .padding(.top, 16)
+                        .padding(.bottom, 100) // Отступ для кнопки внизу
                     }
-                    .padding(.horizontal, 16)
-                    .padding(.top, 16)
-                    .padding(.bottom, 100) // Отступ для кнопки внизу
+                    
+                    // Кнопка "Уточнить время" поверх скролла
+                    VStack {
+                        Button(action: {
+                            // TODO: Открыть экран уточнения времени
+                        }) {
+                            Text("Уточнить время")
+                                .font(.system(size: 17, weight: .bold))
+                                .foregroundColor(Color("WhiteUniversal"))
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 20)
+                                .background(Color("BlueUniversal"))
+                                .cornerRadius(16)
+                        }
+                        .padding(.horizontal, 16)
+                        .padding(.bottom, 16)
+                    }
                 }
-                .background(Color("White"))
             }
-            
-            Spacer()
-            
-            // Кнопка "Уточнить время" внизу
-            VStack {
-                Button(action: {
-                    // TODO: Открыть экран уточнения времени
-                }) {
-                    Text("Уточнить время")
-                        .font(.system(size: 17, weight: .bold))
-                        .foregroundColor(Color("WhiteUniversal"))
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 20)
-                        .background(Color("BlueUniversal"))
-                        .cornerRadius(16)
-                }
-                .padding(.horizontal, 16)
-                .padding(.bottom, 16)
-            }
-            .background(Color("White"))
         }
-        .background(Color("White"))
+      //  .background(Color("White"))
         .onAppear {
             Task {
                 await loadTrips()
