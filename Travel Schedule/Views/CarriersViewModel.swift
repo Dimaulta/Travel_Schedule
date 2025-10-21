@@ -19,6 +19,7 @@ struct TripInfo: Identifiable {
     let date: String
     let hasTransfers: Bool
     let transferInfo: String?
+    let sortDate: Date // Для правильной сортировки
 }
 
 struct CarrierInfo {
@@ -55,7 +56,8 @@ class CarriersViewModel: ObservableObject {
                 to: to,
                 format: "json",
                 lang: "ru_RU",
-                transport_types: "train" // Только поезда
+                transport_types: "train", // Только поезда
+                limit: 1000 // Запрашиваем максимум результатов
             )
             
             await processSegments(segments)
@@ -99,8 +101,9 @@ class CarriersViewModel: ObservableObject {
             let hasTransfers = false // Поле has_transfers недоступно в текущей схеме
             let transferInfo = hasTransfers ? "С пересадками" : nil
             
-            // Получаем дату (используем дату отправления)
+            // Получаем дату из реальных данных API
             let date = formatDate(departure)
+            let sortDate = parseDate(departure)
             
             return TripInfo(
                 carrier: carrierInfo,
@@ -109,19 +112,15 @@ class CarriersViewModel: ObservableObject {
                 duration: durationText,
                 date: date,
                 hasTransfers: hasTransfers,
-                transferInfo: transferInfo
+                transferInfo: transferInfo,
+                sortDate: sortDate
             )
         }
         
-        // Сортируем и убираем дубли: по одному предложению на перевозчика
-        var seenCarriers = Set<String>()
-        var unique: [TripInfo] = []
-        for t in trips.sorted(by: { $0.departureTime < $1.departureTime }) {
-            if seenCarriers.insert(t.carrier.title).inserted {
-                unique.append(t)
-            }
+        // Сортируем по дате и времени отправления (без удаления дублей)
+        trips = trips.sorted { trip1, trip2 in
+            trip1.sortDate < trip2.sortDate
         }
-        trips = unique
     }
     
     private func formatTime(_ timeString: String) -> String {
@@ -150,11 +149,41 @@ class CarriersViewModel: ObservableObject {
     }
     
     private func formatDate(_ timeString: String) -> String {
-        // API возвращает только время, используем текущую дату
-        let now = Date()
-        let calendar = Calendar.current
-        let day = calendar.component(.day, from: now)
-        let month = calendar.component(.month, from: now)
+        // Извлекаем дату из строки формата "YYYY-MM-DD HH:mm:ss" или "YYYY-MM-DDTHH:mm:ss"
+        let dateComponent: String
+        
+        // Проверяем формат с пробелом
+        if timeString.contains(" ") {
+            dateComponent = timeString.components(separatedBy: " ").first ?? ""
+        } 
+        // Проверяем формат ISO 8601 с T
+        else if timeString.contains("T") {
+            dateComponent = timeString.components(separatedBy: "T").first ?? ""
+        } 
+        else {
+            // Если формат неизвестен, используем текущую дату
+            let now = Date()
+            let calendar = Calendar.current
+            let day = calendar.component(.day, from: now)
+            let month = calendar.component(.month, from: now)
+            let monthName = getMonthName(month)
+            return "\(day) \(monthName)"
+        }
+        
+        // Парсим дату в формате YYYY-MM-DD
+        let dateParts = dateComponent.components(separatedBy: "-")
+        guard dateParts.count == 3,
+              let day = Int(dateParts[2]),
+              let month = Int(dateParts[1]) else {
+            // Если не удалось распарсить, используем текущую дату
+            let now = Date()
+            let calendar = Calendar.current
+            let dayVal = calendar.component(.day, from: now)
+            let monthVal = calendar.component(.month, from: now)
+            let monthName = getMonthName(monthVal)
+            return "\(dayVal) \(monthName)"
+        }
+        
         let monthName = getMonthName(month)
         return "\(day) \(monthName)"
     }
@@ -163,6 +192,31 @@ class CarriersViewModel: ObservableObject {
         let months = ["", "января", "февраля", "марта", "апреля", "мая", "июня",
                      "июля", "августа", "сентября", "октября", "ноября", "декабря"]
         return months[safe: month] ?? ""
+    }
+    
+    private func parseDate(_ timeString: String) -> Date {
+        // Парсим дату из строки формата "YYYY-MM-DD HH:mm:ss" или "YYYY-MM-DDTHH:mm:ss"
+        let formatter = ISO8601DateFormatter()
+        
+        // Пробуем стандартный ISO 8601 формат
+        if let date = formatter.date(from: timeString) {
+            return date
+        }
+        
+        // Пробуем формат с пробелом вместо T
+        let modifiedString = timeString.replacingOccurrences(of: " ", with: "T")
+        if let date = formatter.date(from: modifiedString) {
+            return date
+        }
+        
+        // Пробуем формат без секунд
+        formatter.formatOptions = [.withInternetDateTime, .withDashSeparatorInDate, .withColonSeparatorInTime]
+        if let date = formatter.date(from: timeString) {
+            return date
+        }
+        
+        // Если не удалось распарсить, возвращаем текущую дату
+        return Date()
     }
 }
 

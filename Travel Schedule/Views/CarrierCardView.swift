@@ -117,7 +117,8 @@ struct CarrierCardView: View {
         duration: "20 ч",
         date: "14 января",
         hasTransfers: true,
-        transferInfo: "С пересадкой в Костроме"
+        transferInfo: "С пересадкой в Костроме",
+        sortDate: Date()
     ))
     .padding()
     .background(Color("White"))
