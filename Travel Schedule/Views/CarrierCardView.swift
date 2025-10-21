@@ -19,13 +19,21 @@ struct CarrierCardView: View {
                         // Логотип перевозчика
                         if let logo = trip.carrier.logo, let url = URL(string: logo) {
                             AsyncImage(url: url) { image in
-                                image
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                                    .frame(width: 38, height: 38)
-                                    .scaleEffect(x: 3.0, y: 1.0, anchor: .leading)
-                                    .clipped()
-                                    .clipShape(RoundedRectangle(cornerRadius: 4))
+                                ZStack {
+                                    // Фон
+                                    RoundedRectangle(cornerRadius: 4)
+                                        .fill(Color("GrayUniversal"))
+                                        .frame(width: 38, height: 38)
+                                    
+                                    // Изображение, обрезанное справа
+                                    image
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 38, height: 38) // Уменьшаем логотип
+                                        .offset(x: 100) // Сдвигаем влево на 80px, чтобы показать левую часть
+                                        .clipped()
+                                }
+                                .clipShape(RoundedRectangle(cornerRadius: 4))
                             } placeholder: {
                                 RoundedRectangle(cornerRadius: 4)
                                     .fill(Color("GrayUniversal"))
