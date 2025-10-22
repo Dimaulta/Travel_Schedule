@@ -30,7 +30,42 @@ struct ServerErrorView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color("White"))
+            
+            // Tab Bar
+            VStack(spacing: 0) {
+                Divider()
+                    .background(Color("GrayUniversal"))
+                
+                HStack {
+                    Button(action: {}) {
+                        VStack(spacing: 4) {
+                            Image("Schedule")
+                                .renderingMode(Image.TemplateRenderingMode.template)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 30, height: 30)
+                                .foregroundColor(Color("Black"))
+                        }
+                    }
+                    .frame(maxWidth: .infinity)
+                    
+                    Button(action: {}) {
+                        VStack(spacing: 4) {
+                            Image("Settings")
+                                .renderingMode(Image.TemplateRenderingMode.template)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 30, height: 30)
+                                .foregroundColor(Color("GrayUniversal"))
+                        }
+                    }
+                    .frame(maxWidth: .infinity)
+                }
+                .padding(.vertical, 8)
+                .background(Color("White"))
+            }
         }
+        .background(Color("White"))
     }
 }
 

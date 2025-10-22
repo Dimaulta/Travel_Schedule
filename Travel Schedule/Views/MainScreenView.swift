@@ -144,7 +144,18 @@ struct MainScreenView: View {
             guard didPrefetchDirectory == false else { return }
             didPrefetchDirectory = true
             let directory = DirectoryService(apikey: "50889f83-e54c-4e2e-b9b9-7d5fe468a025")
-            _ = try? await directory.fetchAllCities()
+            do {
+                _ = try await directory.fetchAllCities()
+            } catch {
+                // Определяем тип ошибки и показываем соответствующий экран
+                if error.localizedDescription.contains("network") || 
+                   error.localizedDescription.contains("internet") ||
+                   error.localizedDescription.contains("offline") {
+                    onNoInternet()
+                } else {
+                    onServerError()
+                }
+            }
         }
         .navigationDestination(isPresented: $showCarriers) {
             if let fromCity = fromCity,
@@ -158,9 +169,7 @@ struct MainScreenView: View {
                     toStation: toStation,
                     onBack: {
                         showCarriers = false
-                    },
-                    onServerError: onServerError,
-                    onNoInternet: onNoInternet
+                    }
                 )
             }
         }
@@ -289,6 +298,8 @@ struct CityPickerView: View {
     @FocusState private var searchFocused: Bool
     @Environment(\.colorScheme) private var colorScheme
     @State private var selectedCity: City? = nil
+    @StateObject private var networkMonitor = NetworkMonitor()
+    @State private var showNoInternet = false
 
     var body: some View {
         VStack(spacing: 0) {
@@ -380,6 +391,17 @@ struct CityPickerView: View {
             DispatchQueue.main.async { UIResponder.currentFirstResponderBecomesFirst(text: viewModel) }
             Task { await viewModel.loadCities() }
         }
+        .onChange(of: networkMonitor.isConnected) { isConnected in
+            if !isConnected {
+                showNoInternet = true
+            } else if isConnected && showNoInternet {
+                // Автоматически скрываем экран "Нет интернета" при восстановлении соединения
+                showNoInternet = false
+            }
+        }
+        .fullScreenCover(isPresented: $showNoInternet) {
+            NoInternetView()
+        }
         .fullScreenCover(item: $selectedCity) { city in
             StationsPickerView(
                 cityTitle: city.name,
@@ -466,6 +488,8 @@ struct StationsPickerView: View {
     let onCancel: () -> Void
     @FocusState private var searchFocused: Bool
     @Environment(\.colorScheme) private var colorScheme
+    @StateObject private var networkMonitor = NetworkMonitor()
+    @State private var showNoInternet = false
 
     var body: some View {
         VStack(spacing: 0) {
@@ -545,6 +569,17 @@ struct StationsPickerView: View {
         }
         .background(Color("White"))
         .task { await viewModel.load(forCityTitle: cityTitle) }
+        .onChange(of: networkMonitor.isConnected) { isConnected in
+            if !isConnected {
+                showNoInternet = true
+            } else if isConnected && showNoInternet {
+                // Автоматически скрываем экран "Нет интернета" при восстановлении соединения
+                showNoInternet = false
+            }
+        }
+        .fullScreenCover(isPresented: $showNoInternet) {
+            NoInternetView()
+        }
     }
 }
 

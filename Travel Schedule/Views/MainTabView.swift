@@ -11,6 +11,7 @@ struct MainTabView: View {
     @State private var selectedTab = 0
     @State private var showServerError = false
     @State private var showNoInternet = false
+    @StateObject private var networkMonitor = NetworkMonitor()
     
     var body: some View {
         VStack(spacing: 0) {
@@ -72,6 +73,14 @@ struct MainTabView: View {
         }
         .fullScreenCover(isPresented: $showNoInternet) {
             NoInternetView()
+        }
+        .onChange(of: networkMonitor.isConnected) { isConnected in
+            if !isConnected {
+                showNoInternet = true
+            } else if isConnected && showNoInternet {
+                // Автоматически скрываем экран "Нет интернета" при восстановлении соединения
+                showNoInternet = false
+            }
         }
     }
 }

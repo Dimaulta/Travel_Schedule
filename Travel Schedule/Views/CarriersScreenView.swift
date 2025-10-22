@@ -13,13 +13,13 @@ struct CarriersScreenView: View {
     let toCity: String
     let toStation: String
     let onBack: () -> Void
-    let onServerError: () -> Void
-    let onNoInternet: () -> Void
     
     @StateObject private var viewModel = CarriersViewModel()
     @State private var showFilter = false
     @State private var currentFilters: FilterOptions?
     @State private var showCarrierInfo = false
+    @StateObject private var networkMonitor = NetworkMonitor()
+    @State private var showNoInternet = false
     
     var body: some View {
         VStack(spacing: 0) {
@@ -185,15 +185,39 @@ struct CarriersScreenView: View {
             })
         }
         .onAppear {
-            Task {
-                await loadTrips()
+            // Проверяем статус сети при появлении экрана
+            if !networkMonitor.isConnected {
+                showNoInternet = true
+            } else {
+                Task {
+                    await loadTrips()
+                }
             }
         }
         .navigationBarHidden(true)
         .toolbar(.hidden, for: .tabBar)
+        .onChange(of: networkMonitor.isConnected) { isConnected in
+            if !isConnected {
+                showNoInternet = true
+            } else if isConnected && showNoInternet {
+                // Автоматически скрываем экран "Нет интернета" при восстановлении соединения
+                showNoInternet = false
+            }
+        }
+        .fullScreenCover(isPresented: $showNoInternet) {
+            NoInternetView()
+        }
     }
     
     private func loadTrips() async {
+        // Проверяем статус сети перед загрузкой
+        if !networkMonitor.isConnected {
+            await MainActor.run {
+                showNoInternet = true
+            }
+            return
+        }
+        
         do {
             // Создаем экземпляр DirectoryService
             let directoryService = DirectoryService(apikey: "50889f83-e54c-4e2e-b9b9-7d5fe468a025")
@@ -222,10 +246,13 @@ struct CarriersScreenView: View {
         } catch {
             await MainActor.run {
                 // Определяем тип ошибки и показываем соответствующий экран
-                if error.localizedDescription.contains("network") || error.localizedDescription.contains("internet") {
-                    onNoInternet()
+                if error.localizedDescription.contains("network") || 
+                   error.localizedDescription.contains("internet") ||
+                   error.localizedDescription.contains("offline") {
+                    showNoInternet = true
                 } else {
-                    onServerError()
+                    // Показываем ошибку сервера (можно добавить отдельный экран)
+                    viewModel.errorMessage = "Ошибка сервера"
                 }
             }
         }
@@ -238,8 +265,6 @@ struct CarriersScreenView: View {
         fromStation: "Ярославский вокзал",
         toCity: "Санкт-Петербург",
         toStation: "Балтийский вокзал",
-        onBack: {},
-        onServerError: {},
-        onNoInternet: {}
+        onBack: {}
     )
 }
