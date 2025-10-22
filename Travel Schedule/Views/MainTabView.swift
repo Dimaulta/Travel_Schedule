@@ -14,14 +14,18 @@ struct MainTabView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            // Основной контент
+            // Основной контент с NavigationStack
             if selectedTab == 0 {
-                MainScreenView(
-                    onServerError: { showServerError = true },
-                    onNoInternet: { showNoInternet = true }
-                )
+                NavigationStack {
+                    MainScreenView(
+                        onServerError: { showServerError = true },
+                        onNoInternet: { showNoInternet = true }
+                    )
+                }
             } else {
-                SettingsScreenView()
+                NavigationStack {
+                    SettingsScreenView()
+                }
             }
             
             // Tab Bar с правильным дизайном

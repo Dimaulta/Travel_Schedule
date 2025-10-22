@@ -146,7 +146,7 @@ struct MainScreenView: View {
             let directory = DirectoryService(apikey: "50889f83-e54c-4e2e-b9b9-7d5fe468a025")
             _ = try? await directory.fetchAllCities()
         }
-        .fullScreenCover(isPresented: $showCarriers) {
+        .navigationDestination(isPresented: $showCarriers) {
             if let fromCity = fromCity,
                let fromStation = fromStation,
                let toCity = toCity,

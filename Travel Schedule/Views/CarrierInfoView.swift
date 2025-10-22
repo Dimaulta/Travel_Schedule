@@ -44,6 +44,8 @@ struct CarrierInfoView: View {
             Spacer()
         }
         .background(Color("White"))
+        .navigationBarHidden(true)
+        .toolbar(.hidden, for: .tabBar)
     }
 }
 

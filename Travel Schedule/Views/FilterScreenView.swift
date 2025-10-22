@@ -105,6 +105,8 @@ struct FilterScreenView: View {
             }
         }
         .background(Color("White"))
+        .navigationBarHidden(true)
+        .toolbar(.hidden, for: .tabBar)
     }
 }
 

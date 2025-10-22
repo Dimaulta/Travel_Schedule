@@ -163,7 +163,7 @@ struct CarriersScreenView: View {
                 }
             }
         }
-        .fullScreenCover(isPresented: $showFilter) {
+        .navigationDestination(isPresented: $showFilter) {
             FilterScreenView(
                 onBack: {
                     showFilter = false
@@ -179,7 +179,7 @@ struct CarriersScreenView: View {
                 }
             )
         }
-        .fullScreenCover(isPresented: $showCarrierInfo) {
+        .navigationDestination(isPresented: $showCarrierInfo) {
             CarrierInfoView(onBack: {
                 showCarrierInfo = false
             })
@@ -189,6 +189,8 @@ struct CarriersScreenView: View {
                 await loadTrips()
             }
         }
+        .navigationBarHidden(true)
+        .toolbar(.hidden, for: .tabBar)
     }
     
     private func loadTrips() async {
