@@ -32,6 +32,10 @@
 		33D0B0172E8C000100000017 /* Travel Schedule/Views/FilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0172E8C000100000017 /* Travel Schedule/Views/FilterViewModel.swift */; };
 		33D0B0182E8C000100000018 /* Travel Schedule/Views/FilterScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0182E8C000100000018 /* Travel Schedule/Views/FilterScreenView.swift */; };
 		33D0B0192E8C000100000019 /* Travel Schedule/Views/CarrierInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0192E8C000100000019 /* Travel Schedule/Views/CarrierInfoView.swift */; };
+		33D0B0202E8C000100000020 /* Travel Schedule/Views/ServerErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0202E8C000100000020 /* Travel Schedule/Views/ServerErrorView.swift */; };
+		33D0B0212E8C000100000021 /* Travel Schedule/Views/NoInternetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0212E8C000100000021 /* Travel Schedule/Views/NoInternetView.swift */; };
+		33D0B0222E8C000100000022 /* Travel Schedule/Views/TestErrorScreensView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0222E8C000100000022 /* Travel Schedule/Views/TestErrorScreensView.swift */; };
+		33D0B0232E8C000100000023 /* Travel Schedule/Views/MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0232E8C000100000023 /* Travel Schedule/Views/MainTabView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +82,10 @@
 		33D0A0172E8C000100000017 /* Travel Schedule/Views/FilterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Views/FilterViewModel.swift"; sourceTree = SOURCE_ROOT; };
 		33D0A0182E8C000100000018 /* Travel Schedule/Views/FilterScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Views/FilterScreenView.swift"; sourceTree = SOURCE_ROOT; };
 		33D0A0192E8C000100000019 /* Travel Schedule/Views/CarrierInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Views/CarrierInfoView.swift"; sourceTree = SOURCE_ROOT; };
+		33D0A0202E8C000100000020 /* Travel Schedule/Views/ServerErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Views/ServerErrorView.swift"; sourceTree = SOURCE_ROOT; };
+		33D0A0212E8C000100000021 /* Travel Schedule/Views/NoInternetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Views/NoInternetView.swift"; sourceTree = SOURCE_ROOT; };
+		33D0A0222E8C000100000022 /* Travel Schedule/Views/TestErrorScreensView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Views/TestErrorScreensView.swift"; sourceTree = SOURCE_ROOT; };
+		33D0A0232E8C000100000023 /* Travel Schedule/Views/MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Views/MainTabView.swift"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -172,8 +180,12 @@
 				33D0A0172E8C000100000017 /* Travel Schedule/Views/FilterViewModel.swift */,
 				33D0A0182E8C000100000018 /* Travel Schedule/Views/FilterScreenView.swift */,
 				33D0A0192E8C000100000019 /* Travel Schedule/Views/CarrierInfoView.swift */,
-			);
-			name = "Recovered References";
+				33D0A0202E8C000100000020 /* Travel Schedule/Views/ServerErrorView.swift */,
+				33D0A0212E8C000100000021 /* Travel Schedule/Views/NoInternetView.swift */,
+				33D0A0222E8C000100000022 /* Travel Schedule/Views/TestErrorScreensView.swift */,
+				33D0A0232E8C000100000023 /* Travel Schedule/Views/MainTabView.swift */,
+				);
+				name = "Recovered References";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -341,8 +353,12 @@
 				33D0B0172E8C000100000017 /* Travel Schedule/Views/FilterViewModel.swift in Sources */,
 				33D0B0182E8C000100000018 /* Travel Schedule/Views/FilterScreenView.swift in Sources */,
 				33D0B0192E8C000100000019 /* Travel Schedule/Views/CarrierInfoView.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
+				33D0B0202E8C000100000020 /* Travel Schedule/Views/ServerErrorView.swift in Sources */,
+				33D0B0212E8C000100000021 /* Travel Schedule/Views/NoInternetView.swift in Sources */,
+				33D0B0222E8C000100000022 /* Travel Schedule/Views/TestErrorScreensView.swift in Sources */,
+				33D0B0232E8C000100000023 /* Travel Schedule/Views/MainTabView.swift in Sources */,
+				);
+				runOnlyForDeploymentPostprocessing = 0;
 		};
 		33238C8E2E8A7DC300002BCC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;

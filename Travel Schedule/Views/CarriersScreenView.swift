@@ -13,6 +13,8 @@ struct CarriersScreenView: View {
     let toCity: String
     let toStation: String
     let onBack: () -> Void
+    let onServerError: () -> Void
+    let onNoInternet: () -> Void
     
     @StateObject private var viewModel = CarriersViewModel()
     @State private var showFilter = false
@@ -217,7 +219,12 @@ struct CarriersScreenView: View {
             )
         } catch {
             await MainActor.run {
-                viewModel.errorMessage = "Ошибка загрузки данных: \(error.localizedDescription)"
+                // Определяем тип ошибки и показываем соответствующий экран
+                if error.localizedDescription.contains("network") || error.localizedDescription.contains("internet") {
+                    onNoInternet()
+                } else {
+                    onServerError()
+                }
             }
         }
     }
@@ -229,6 +236,8 @@ struct CarriersScreenView: View {
         fromStation: "Ярославский вокзал",
         toCity: "Санкт-Петербург",
         toStation: "Балтийский вокзал",
-        onBack: {}
+        onBack: {},
+        onServerError: {},
+        onNoInternet: {}
     )
 }

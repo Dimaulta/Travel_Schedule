@@ -9,9 +9,18 @@ import SwiftUI
 
 struct SettingsScreenView: View {
     var body: some View {
-        Text("Настройки")
-            .font(.title)
-            .foregroundColor(Color("Black"))
+        VStack {
+            Spacer()
+            
+            // Заголовок по центру
+            Text("Настройки")
+                .font(.system(size: 24, weight: .bold))
+                .foregroundColor(Color("Black"))
+            
+            Spacer()
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color("White"))
     }
 }
 

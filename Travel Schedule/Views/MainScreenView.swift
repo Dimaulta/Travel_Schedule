@@ -9,7 +9,9 @@ import SwiftUI
 import OpenAPIURLSession
 
 struct MainScreenView: View {
-    @State private var selectedTab = 0
+    let onServerError: () -> Void
+    let onNoInternet: () -> Void
+    
     @State private var showCityPicker = false
     @State private var fromCity: String? = nil
     @State private var fromStation: String? = nil
@@ -26,8 +28,7 @@ struct MainScreenView: View {
                 .ignoresSafeArea()
             
             VStack(spacing: 0) {
-                if selectedTab == 0 {
-                    // Сторис карточки
+                // Сторис карточки
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 12) {
                             ForEach(0..<4) { index in
@@ -118,45 +119,6 @@ struct MainScreenView: View {
                     }
 
                     Spacer()
-                } else {
-                    // Экран настроек — заглушка
-                    SettingsScreenView()
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                }
-
-                // Tab Bar с двумя вкладками
-                VStack(spacing: 0) {
-                    Divider()
-                        .background(Color("GrayUniversal"))
-                    
-                    HStack {
-                        Button(action: {
-                            selectedTab = 0
-                        }) {
-                            Image("Schedule")
-                                .renderingMode(Image.TemplateRenderingMode.template)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 30, height: 30)
-                                .foregroundColor(selectedTab == 0 ? Color("Black") : Color("GrayUniversal"))
-                        }
-                        .frame(maxWidth: .infinity)
-                        
-                        Button(action: {
-                            selectedTab = 1
-                        }) {
-                            Image("Settings")
-                                .renderingMode(Image.TemplateRenderingMode.template)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 30, height: 30)
-                                .foregroundColor(selectedTab == 1 ? Color("Black") : Color("GrayUniversal"))
-                        }
-                        .frame(maxWidth: .infinity)
-                    }
-                    .padding(.vertical, 8)
-                    .background(Color("White"))
-                }
             }
         }
         .fullScreenCover(isPresented: $showCityPicker) {
@@ -196,7 +158,9 @@ struct MainScreenView: View {
                     toStation: toStation,
                     onBack: {
                         showCarriers = false
-                    }
+                    },
+                    onServerError: onServerError,
+                    onNoInternet: onNoInternet
                 )
             }
         }
@@ -262,7 +226,10 @@ private enum PickerTarget { case from, to }
 
 
 #Preview {
-    MainScreenView()
+    MainScreenView(
+        onServerError: {},
+        onNoInternet: {}
+    )
 }
 
 
