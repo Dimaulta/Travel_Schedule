@@ -17,6 +17,7 @@ struct CarriersScreenView: View {
     @StateObject private var viewModel = CarriersViewModel()
     @State private var showFilter = false
     @State private var currentFilters: FilterOptions?
+    @State private var showCarrierInfo = false
     
     var body: some View {
         VStack(spacing: 0) {
@@ -132,7 +133,7 @@ struct CarriersScreenView: View {
                             ForEach(viewModel.trips) { trip in
                                 CarrierCardView(trip: trip)
                                     .onTapGesture {
-                                        // TODO: Переход к детальной информации о рейсе
+                                        showCarrierInfo = true
                                     }
                             }
                         }
@@ -175,6 +176,11 @@ struct CarriersScreenView: View {
                     }
                 }
             )
+        }
+        .fullScreenCover(isPresented: $showCarrierInfo) {
+            CarrierInfoView(onBack: {
+                showCarrierInfo = false
+            })
         }
         .onAppear {
             Task {

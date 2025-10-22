@@ -31,6 +31,7 @@
 		33D0B0162E8C000100000016 /* Travel Schedule/Views/CarriersScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0162E8C000100000016 /* Travel Schedule/Views/CarriersScreenView.swift */; };
 		33D0B0172E8C000100000017 /* Travel Schedule/Views/FilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0172E8C000100000017 /* Travel Schedule/Views/FilterViewModel.swift */; };
 		33D0B0182E8C000100000018 /* Travel Schedule/Views/FilterScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0182E8C000100000018 /* Travel Schedule/Views/FilterScreenView.swift */; };
+		33D0B0192E8C000100000019 /* Travel Schedule/Views/CarrierInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0192E8C000100000019 /* Travel Schedule/Views/CarrierInfoView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +77,7 @@
 		33D0A0162E8C000100000016 /* Travel Schedule/Views/CarriersScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Views/CarriersScreenView.swift"; sourceTree = SOURCE_ROOT; };
 		33D0A0172E8C000100000017 /* Travel Schedule/Views/FilterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Views/FilterViewModel.swift"; sourceTree = SOURCE_ROOT; };
 		33D0A0182E8C000100000018 /* Travel Schedule/Views/FilterScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Views/FilterScreenView.swift"; sourceTree = SOURCE_ROOT; };
+		33D0A0192E8C000100000019 /* Travel Schedule/Views/CarrierInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Views/CarrierInfoView.swift"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -169,6 +171,7 @@
 				33D0A0162E8C000100000016 /* Travel Schedule/Views/CarriersScreenView.swift */,
 				33D0A0172E8C000100000017 /* Travel Schedule/Views/FilterViewModel.swift */,
 				33D0A0182E8C000100000018 /* Travel Schedule/Views/FilterScreenView.swift */,
+				33D0A0192E8C000100000019 /* Travel Schedule/Views/CarrierInfoView.swift */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -337,6 +340,7 @@
 				33D0B0162E8C000100000016 /* Travel Schedule/Views/CarriersScreenView.swift in Sources */,
 				33D0B0172E8C000100000017 /* Travel Schedule/Views/FilterViewModel.swift in Sources */,
 				33D0B0182E8C000100000018 /* Travel Schedule/Views/FilterScreenView.swift in Sources */,
+				33D0B0192E8C000100000019 /* Travel Schedule/Views/CarrierInfoView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
