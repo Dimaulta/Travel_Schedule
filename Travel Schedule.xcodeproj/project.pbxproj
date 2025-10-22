@@ -29,6 +29,8 @@
 		33D0B0142E8C000100000014 /* Travel Schedule/Views/CarriersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0142E8C000100000014 /* Travel Schedule/Views/CarriersViewModel.swift */; };
 		33D0B0152E8C000100000015 /* Travel Schedule/Views/CarrierCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0152E8C000100000015 /* Travel Schedule/Views/CarrierCardView.swift */; };
 		33D0B0162E8C000100000016 /* Travel Schedule/Views/CarriersScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0162E8C000100000016 /* Travel Schedule/Views/CarriersScreenView.swift */; };
+		33D0B0172E8C000100000017 /* Travel Schedule/Views/FilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0172E8C000100000017 /* Travel Schedule/Views/FilterViewModel.swift */; };
+		33D0B0182E8C000100000018 /* Travel Schedule/Views/FilterScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0182E8C000100000018 /* Travel Schedule/Views/FilterScreenView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +74,8 @@
 		33D0A0142E8C000100000014 /* Travel Schedule/Views/CarriersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Views/CarriersViewModel.swift"; sourceTree = SOURCE_ROOT; };
 		33D0A0152E8C000100000015 /* Travel Schedule/Views/CarrierCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Views/CarrierCardView.swift"; sourceTree = SOURCE_ROOT; };
 		33D0A0162E8C000100000016 /* Travel Schedule/Views/CarriersScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Views/CarriersScreenView.swift"; sourceTree = SOURCE_ROOT; };
+		33D0A0172E8C000100000017 /* Travel Schedule/Views/FilterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Views/FilterViewModel.swift"; sourceTree = SOURCE_ROOT; };
+		33D0A0182E8C000100000018 /* Travel Schedule/Views/FilterScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Views/FilterScreenView.swift"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -160,6 +164,11 @@
 				33D0A0112E8C000100000011 /* Travel Schedule/Views/SettingsScreenView.swift */,
 				33D0A0122E8C000100000012 /* Travel Schedule/Services/DirectoryService.swift */,
 				33D0A0132E8C000100000013 /* Travel Schedule/LaunchScreen.storyboard */,
+				33D0A0142E8C000100000014 /* Travel Schedule/Views/CarriersViewModel.swift */,
+				33D0A0152E8C000100000015 /* Travel Schedule/Views/CarrierCardView.swift */,
+				33D0A0162E8C000100000016 /* Travel Schedule/Views/CarriersScreenView.swift */,
+				33D0A0172E8C000100000017 /* Travel Schedule/Views/FilterViewModel.swift */,
+				33D0A0182E8C000100000018 /* Travel Schedule/Views/FilterScreenView.swift */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -326,6 +335,8 @@
 				33D0B0142E8C000100000014 /* Travel Schedule/Views/CarriersViewModel.swift in Sources */,
 				33D0B0152E8C000100000015 /* Travel Schedule/Views/CarrierCardView.swift in Sources */,
 				33D0B0162E8C000100000016 /* Travel Schedule/Views/CarriersScreenView.swift in Sources */,
+				33D0B0172E8C000100000017 /* Travel Schedule/Views/FilterViewModel.swift in Sources */,
+				33D0B0182E8C000100000018 /* Travel Schedule/Views/FilterScreenView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -15,6 +15,8 @@ struct CarriersScreenView: View {
     let onBack: () -> Void
     
     @StateObject private var viewModel = CarriersViewModel()
+    @State private var showFilter = false
+    @State private var currentFilters: FilterOptions?
     
     var body: some View {
         VStack(spacing: 0) {
@@ -94,24 +96,34 @@ struct CarriersScreenView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(Color("White"))
             } else if viewModel.trips.isEmpty {
-                // Пустой список
-                VStack(spacing: 16) {
-                    Image(systemName: "train")
-                        .font(.system(size: 48))
-                        .foregroundColor(Color("GrayUniversal"))
-                    
-                    Text("Рейсы не найдены")
-                        .font(.system(size: 20, weight: .bold))
-                        .foregroundColor(Color("Black"))
-                    
-                    Text("Попробуйте изменить дату или маршрут")
-                        .font(.system(size: 16))
-                        .foregroundColor(Color("GrayUniversal"))
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal, 32)
+                // Экран "Вариантов нет" (без дублирования верхней панели и маршрута)
+                ZStack(alignment: .bottom) {
+                    VStack {
+                        Spacer()
+                        Text("Вариантов нет")
+                            .font(.system(size: 24, weight: .bold))
+                            .foregroundColor(Color("Black"))
+                            .multilineTextAlignment(.center)
+                        Spacer()
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(Color("White"))
+
+                    // Кнопка "Уточнить время" внизу
+                    VStack {
+                        Button(action: { showFilter = true }) {
+                            Text("Уточнить время")
+                                .font(.system(size: 17, weight: .bold))
+                                .foregroundColor(Color("WhiteUniversal"))
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 20)
+                                .background(Color("BlueUniversal"))
+                                .cornerRadius(16)
+                        }
+                        .padding(.horizontal, 16)
+                        .padding(.bottom, 16)
+                    }
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Color("White"))
             } else {
                 // Список рейсов с кнопкой поверх
                 ZStack(alignment: .bottom) {
@@ -132,7 +144,7 @@ struct CarriersScreenView: View {
                     // Кнопка "Уточнить время" поверх скролла
                     VStack {
                         Button(action: {
-                            // TODO: Открыть экран уточнения времени
+                            showFilter = true
                         }) {
                             Text("Уточнить время")
                                 .font(.system(size: 17, weight: .bold))
@@ -148,7 +160,22 @@ struct CarriersScreenView: View {
                 }
             }
         }
-      //  .background(Color("White"))
+        .fullScreenCover(isPresented: $showFilter) {
+            FilterScreenView(
+                onBack: {
+                    showFilter = false
+                },
+                onApply: { filters in
+                    currentFilters = filters
+                    viewModel.setFilters(filters)
+                    showFilter = false
+                    // Перезагружаем результаты с фильтрами
+                    Task {
+                        await loadTrips()
+                    }
+                }
+            )
+        }
         .onAppear {
             Task {
                 await loadTrips()

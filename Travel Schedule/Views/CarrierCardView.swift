@@ -95,6 +95,14 @@ struct CarrierCardView: View {
                 Text(trip.arrivalTime)
                     .font(.system(size: 17, weight: .medium))
                     .foregroundColor(Color("BlackUniversal"))
+                
+                // Информация о пересадках (если есть)
+                if let transferInfo = trip.transferInfo {
+                    Text(transferInfo)
+                        .font(.system(size: 14, weight: .medium))
+                        .foregroundColor(Color("RedUniversal"))
+                        .padding(.top, 4)
+                }
             }
             .padding(.horizontal, 20)
             .padding(.bottom, 20)

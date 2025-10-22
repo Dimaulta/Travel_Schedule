@@ -36,6 +36,7 @@ class CarriersViewModel: ObservableObject {
     
     private let searchService: SearchService
     private let apikey = "50889f83-e54c-4e2e-b9b9-7d5fe468a025"
+    private var currentFilters: FilterOptions?
     
     init() {
         let client = Client(
@@ -50,6 +51,14 @@ class CarriersViewModel: ObservableObject {
         errorMessage = nil
         
         do {
+            // Определяем параметр transfers на основе фильтров
+            let transfers: Bool?
+            if let filters = currentFilters, let showTransfers = filters.showTransfers {
+                transfers = (showTransfers == .yes)
+            } else {
+                transfers = nil
+            }
+            
             let segments = try await searchService.getSegments(
                 apikey: apikey,
                 from: from,
@@ -57,7 +66,8 @@ class CarriersViewModel: ObservableObject {
                 format: "json",
                 lang: "ru_RU",
                 transport_types: "train", // Только поезда
-                limit: 1000 // Запрашиваем максимум результатов
+                limit: 1000, // Запрашиваем максимум результатов
+                transfers: transfers // Передаем параметр пересадок
             )
             
             await processSegments(segments)
@@ -68,53 +78,39 @@ class CarriersViewModel: ObservableObject {
         isLoading = false
     }
     
+    func setFilters(_ filters: FilterOptions?) {
+        currentFilters = filters
+    }
+    
     private func processSegments(_ segments: Segments) async {
         guard let segmentsArray = segments.segments else {
             errorMessage = "Рейсы не найдены"
             return
         }
         
-        trips = segmentsArray.compactMap { segment -> TripInfo? in
-            guard let departure = segment.departure,
-                  let arrival = segment.arrival,
-                  let duration = segment.duration,
-                  let thread = segment.thread,
-                  let carrier = thread.carrier else {
-                return nil
+        // Обрабатываем обычные segments
+        var allTrips: [TripInfo] = []
+        
+        // Обрабатываем обычные segments
+        let regularTrips = segmentsArray.compactMap { segment -> TripInfo? in
+            return createTripInfo(from: segment, hasTransfers: false)
+        }
+        allTrips.append(contentsOf: regularTrips)
+        
+        // Обрабатываем interval_segments если они есть (содержат информацию о пересадках)
+        if let intervalSegments = segments.interval_segments {
+            let intervalTrips = intervalSegments.compactMap { intervalSegment -> TripInfo? in
+                // Создаем TripInfo из interval_segment
+                return createTripInfoFromInterval(intervalSegment)
             }
-            
-            // Форматируем время
-            let departureTime = formatTime(departure)
-            let arrivalTime = formatTime(arrival)
-            let durationText = formatDuration(duration)
-            
-            // Получаем информацию о перевозчике (без вторых названий через "/")
-            let carrierTitle = (carrier.title ?? "Неизвестный перевозчик").components(separatedBy: "/").first?.trimmingCharacters(in: .whitespacesAndNewlines) ?? (carrier.title ?? "Неизвестный перевозчик")
-            
-            let carrierInfo = CarrierInfo(
-                title: carrierTitle,
-                logo: carrier.logo,
-                code: carrier.code
-            )
-            
-            // Проверяем наличие пересадок
-            let hasTransfers = false // Поле has_transfers недоступно в текущей схеме
-            let transferInfo = hasTransfers ? "С пересадками" : nil
-            
-            // Получаем дату из реальных данных API
-            let date = formatDate(departure)
-            let sortDate = parseDate(departure)
-            
-            return TripInfo(
-                carrier: carrierInfo,
-                departureTime: departureTime,
-                arrivalTime: arrivalTime,
-                duration: durationText,
-                date: date,
-                hasTransfers: hasTransfers,
-                transferInfo: transferInfo,
-                sortDate: sortDate
-            )
+            allTrips.append(contentsOf: intervalTrips)
+        }
+        
+        trips = allTrips
+        
+        // Применяем фильтры
+        if let filters = currentFilters {
+            trips = applyFilters(trips, filters: filters)
         }
         
         // Сортируем по дате и времени отправления (без удаления дублей)
@@ -217,6 +213,127 @@ class CarriersViewModel: ObservableObject {
         
         // Если не удалось распарсить, возвращаем текущую дату
         return Date()
+    }
+    
+    private func applyFilters(_ trips: [TripInfo], filters: FilterOptions) -> [TripInfo] {
+        var filteredTrips = trips
+        
+        // Фильтрация по времени отправления
+        if !filters.timeSlots.isEmpty {
+            filteredTrips = filteredTrips.filter { trip in
+                let hour = getHourFromTime(trip.departureTime)
+                return filters.timeSlots.contains { timeSlot in
+                    switch timeSlot {
+                    case .morning: return hour >= 6 && hour < 12
+                    case .day: return hour >= 12 && hour < 18
+                    case .evening: return hour >= 18 && hour < 24
+                    case .night: return hour >= 0 && hour < 6
+                    }
+                }
+            }
+        }
+        
+        // Фильтрация по пересадкам теперь работает через API параметр transfers
+        
+        return filteredTrips
+    }
+    
+    private func getHourFromTime(_ timeString: String) -> Int {
+        let components = timeString.components(separatedBy: ":")
+        guard components.count >= 2,
+              let hour = Int(components[0]) else {
+            return 0
+        }
+        return hour
+    }
+    
+    private func createTripInfo(from segment: Components.Schemas.Segment, hasTransfers: Bool) -> TripInfo? {
+        guard let departure = segment.departure,
+              let arrival = segment.arrival,
+              let duration = segment.duration,
+              let thread = segment.thread,
+              let carrier = thread.carrier else {
+            return nil
+        }
+        
+        // Форматируем время
+        let departureTime = formatTime(departure)
+        let arrivalTime = formatTime(arrival)
+        let durationText = formatDuration(duration)
+        
+        // Получаем информацию о перевозчике (без вторых названий через "/")
+        let carrierTitle = (carrier.title ?? "Неизвестный перевозчик").components(separatedBy: "/").first?.trimmingCharacters(in: .whitespacesAndNewlines) ?? (carrier.title ?? "Неизвестный перевозчик")
+        
+        let carrierInfo = CarrierInfo(
+            title: carrierTitle,
+            logo: carrier.logo,
+            code: carrier.code
+        )
+        
+        // Получаем дату из реальных данных API
+        let date = formatDate(departure)
+        let sortDate = parseDate(departure)
+        
+        // Определяем информацию о пересадках
+        let transferInfo = hasTransfers ? "С пересадками" : nil
+        
+        return TripInfo(
+            carrier: carrierInfo,
+            departureTime: departureTime,
+            arrivalTime: arrivalTime,
+            duration: durationText,
+            date: date,
+            hasTransfers: hasTransfers,
+            transferInfo: transferInfo,
+            sortDate: sortDate
+        )
+    }
+    
+    private func createTripInfoFromInterval(_ intervalSegment: Components.Schemas.Segments.interval_segmentsPayloadPayload) -> TripInfo? {
+        guard let departure = intervalSegment.from?.title, // Используем from как departure
+              let arrival = intervalSegment.to?.title, // Используем to как arrival
+              let duration = intervalSegment.duration,
+              let thread = intervalSegment.thread,
+              let carrier = thread.carrier else {
+            return nil
+        }
+        
+        // Форматируем время (для interval_segments время может быть в другом формате)
+        let departureTime = formatTime(departure)
+        let arrivalTime = formatTime(arrival)
+        let durationText = formatDuration(duration)
+        
+        // Получаем информацию о перевозчике
+        let carrierTitle = (carrier.title ?? "Неизвестный перевозчик").components(separatedBy: "/").first?.trimmingCharacters(in: .whitespacesAndNewlines) ?? (carrier.title ?? "Неизвестный перевозчик")
+        
+        let carrierInfo = CarrierInfo(
+            title: carrierTitle,
+            logo: carrier.logo,
+            code: carrier.code
+        )
+        
+        // Получаем информацию о пересадках из interval_segment
+        let hasTransfers = intervalSegment.has_transfers ?? false
+        let transferInfo = hasTransfers ? "С пересадками" : nil
+        
+        // Для interval_segments используем текущую дату
+        let now = Date()
+        let calendar = Calendar.current
+        let day = calendar.component(.day, from: now)
+        let month = calendar.component(.month, from: now)
+        let monthName = getMonthName(month)
+        let date = "\(day) \(monthName)"
+        
+        return TripInfo(
+            carrier: carrierInfo,
+            departureTime: departureTime,
+            arrivalTime: arrivalTime,
+            duration: durationText,
+            date: date,
+            hasTransfers: hasTransfers,
+            transferInfo: transferInfo,
+            sortDate: now
+        )
     }
 }
 

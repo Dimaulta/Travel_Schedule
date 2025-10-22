@@ -1,0 +1,178 @@
+//
+//  FilterScreenView.swift
+//  Travel Schedule
+//
+//  Created by Ульта on 22.10.2025.
+//
+
+import SwiftUI
+
+struct FilterScreenView: View {
+    @StateObject private var viewModel = FilterViewModel()
+    let onBack: () -> Void
+    let onApply: (FilterOptions) -> Void
+    
+    var body: some View {
+        VStack(spacing: 0) {
+            // Навигационная панель
+            VStack(spacing: 0) {
+                Color("White").frame(height: 12).ignoresSafeArea(edges: .top)
+                
+                HStack {
+                    Button(action: onBack) {
+                        Image(systemName: "chevron.left")
+                            .font(.system(size: 20, weight: .semibold))
+                            .foregroundColor(Color("Black"))
+                    }
+                    .padding(.leading, 16)
+                    
+                    Spacer()
+                }
+                .padding(.vertical, 12)
+                .padding(.top, 8)
+                
+                // Убираем заголовок "Фильтрация"
+            }
+            .background(Color("White"))
+            
+            // Основной контент
+            ScrollView {
+                VStack(spacing: 24) {
+                    // Раздел "Время отправления"
+                    VStack(alignment: .leading, spacing: 16) {
+                               Text("Время отправления")
+                                   .font(.system(size: 24, weight: .bold))
+                                   .foregroundColor(Color("Black"))
+                        
+                        VStack(spacing: 12) {
+                            ForEach(TimeSlot.allCases, id: \.self) { timeSlot in
+                                TimeSlotRow(
+                                    timeSlot: timeSlot,
+                                    isSelected: viewModel.timeSlots.contains(timeSlot)
+                                ) {
+                                    if viewModel.timeSlots.contains(timeSlot) {
+                                        viewModel.timeSlots.remove(timeSlot)
+                                    } else {
+                                        viewModel.timeSlots.insert(timeSlot)
+                                    }
+                                    viewModel.updateSelection()
+                                }
+                            }
+                        }
+                    }
+                    
+                    // Раздел "Показывать варианты с пересадками"
+                    VStack(alignment: .leading, spacing: 16) {
+                               Text("Показывать варианты с пересадками")
+                                   .font(.system(size: 24, weight: .bold))
+                                   .foregroundColor(Color("Black"))
+                        
+                        VStack(spacing: 12) {
+                            ForEach(TransferOption.allCases, id: \.self) { option in
+                                TransferOptionRow(
+                                    option: option,
+                                    isSelected: viewModel.showTransfers == option
+                                ) {
+                                    viewModel.showTransfers = (viewModel.showTransfers == option) ? nil : option
+                                    viewModel.updateSelection()
+                                }
+                            }
+                        }
+                    }
+                }
+                .padding(.horizontal, 16)
+                .padding(.top, 24)
+                .padding(.bottom, 100) // Отступ для кнопки
+            }
+            
+            // Кнопка "Применить" (показывается только при выборе)
+            if viewModel.hasAnySelection {
+                VStack {
+                    Button(action: {
+                        onApply(viewModel.getFilterOptions())
+                    }) {
+                        Text("Применить")
+                            .font(.system(size: 17, weight: .bold))
+                            .foregroundColor(Color("WhiteUniversal"))
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 20)
+                            .background(Color("BlueUniversal"))
+                            .cornerRadius(16)
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.bottom, 16)
+                }
+            }
+        }
+        .background(Color("White"))
+    }
+}
+
+// MARK: - Компонент для выбора времени
+struct TimeSlotRow: View {
+    let timeSlot: TimeSlot
+    let isSelected: Bool
+    let onTap: () -> Void
+    
+    var body: some View {
+        Button(action: onTap) {
+            HStack {
+                Text(timeSlot.rawValue)
+                    .font(.system(size: 17))
+                    .foregroundColor(Color("Black"))
+                
+                Spacer()
+                
+                Image(systemName: isSelected ? "checkmark" : "")
+                    .font(.system(size: 16, weight: .semibold))
+                    .foregroundColor(Color("White"))
+                    .frame(width: 24, height: 24)
+                    .background(isSelected ? Color("Black") : Color.clear)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 4)
+                            .stroke(Color("Black"), lineWidth: 1)
+                    )
+            }
+            .padding(.vertical, 12)
+        }
+    }
+}
+
+// MARK: - Компонент для выбора пересадок
+struct TransferOptionRow: View {
+    let option: TransferOption
+    let isSelected: Bool
+    let onTap: () -> Void
+    
+    var body: some View {
+        Button(action: onTap) {
+            HStack {
+                Text(option.rawValue)
+                    .font(.system(size: 17))
+                    .foregroundColor(Color("Black"))
+                
+                Spacer()
+                
+                       ZStack {
+                           Circle()
+                               .stroke(Color("Black"), lineWidth: 1)
+                               .frame(width: 20, height: 20)
+                           
+                           if isSelected {
+                               Circle()
+                                   .fill(Color("Black"))
+                                   .frame(width: 8, height: 8)
+                           }
+                       }
+            }
+            .padding(.vertical, 12)
+        }
+    }
+}
+
+#Preview {
+    FilterScreenView(
+        onBack: {},
+        onApply: { _ in }
+    )
+}
