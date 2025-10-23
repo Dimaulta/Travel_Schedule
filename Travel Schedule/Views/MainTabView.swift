@@ -12,6 +12,7 @@ struct MainTabView: View {
     @State private var showServerError = false
     @State private var showNoInternet = false
     @StateObject private var networkMonitor = NetworkMonitor()
+    @StateObject private var sessionManager = SessionManager()
     
     var body: some View {
         VStack(spacing: 0) {
@@ -19,6 +20,7 @@ struct MainTabView: View {
             if selectedTab == 0 {
                 NavigationStack {
                     MainScreenView(
+                        sessionManager: sessionManager,
                         onServerError: { showServerError = true },
                         onNoInternet: { showNoInternet = true }
                     )

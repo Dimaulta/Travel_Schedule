@@ -9,14 +9,11 @@ import SwiftUI
 import OpenAPIURLSession
 
 struct MainScreenView: View {
+    @ObservedObject var sessionManager: SessionManager
     let onServerError: () -> Void
     let onNoInternet: () -> Void
     
     @State private var showCityPicker = false
-    @State private var fromCity: String? = nil
-    @State private var fromStation: String? = nil
-    @State private var toCity: String? = nil
-    @State private var toStation: String? = nil
     @State private var pickerTarget: PickerTarget? = nil
     @State private var showCarriers = false
     @State private var didPrefetchDirectory = false
@@ -51,9 +48,9 @@ struct MainScreenView: View {
                             // Белый блок тянется по ширине, оставляя место под кнопку справа
                             VStack(spacing: 32) {
                                 HStack {
-                                    Text(displayText(city: fromCity, station: fromStation, placeholder: "Откуда"))
+                                    Text(displayText(city: sessionManager.fromCity, station: sessionManager.fromStation, placeholder: "Откуда"))
                                         .font(.system(size: 17))
-                                        .foregroundColor(fromCity == nil ? Color("GrayUniversal") : Color("BlackUniversal"))
+                                        .foregroundColor(sessionManager.fromCity == nil ? Color("GrayUniversal") : Color("BlackUniversal"))
                                     Spacer()
                                 }
                                 .contentShape(Rectangle())
@@ -62,9 +59,9 @@ struct MainScreenView: View {
                                     showCityPicker = true
                                 }
                                 HStack {
-                                    Text(displayText(city: toCity, station: toStation, placeholder: "Куда"))
+                                    Text(displayText(city: sessionManager.toCity, station: sessionManager.toStation, placeholder: "Куда"))
                                         .font(.system(size: 17))
-                                        .foregroundColor(toCity == nil ? Color("GrayUniversal") : Color("BlackUniversal"))
+                                        .foregroundColor(sessionManager.toCity == nil ? Color("GrayUniversal") : Color("BlackUniversal"))
                                     Spacer()
                                 }
                                 .contentShape(Rectangle())
@@ -88,8 +85,8 @@ struct MainScreenView: View {
 
                         // Кнопка переключения (картинка из ассетов)
                         Button(action: {
-                            swap(&fromCity, &toCity)
-                            swap(&fromStation, &toStation)
+                            swap(&sessionManager.fromCity, &sessionManager.toCity)
+                            swap(&sessionManager.fromStation, &sessionManager.toStation)
                         }) {
                             ZStack {
                                 Circle()
@@ -108,13 +105,13 @@ struct MainScreenView: View {
                     .padding(.top, 48)
 
                     // Кнопка "Найти" (показывается, когда оба поля заполнены)
-                    if (fromCity?.isEmpty == false) && (toCity?.isEmpty == false) {
+                    if (sessionManager.fromCity?.isEmpty == false) && (sessionManager.toCity?.isEmpty == false) {
                         SearchPrimaryButton(title: "Найти") {
                             showCarriers = true
                         }
                         .transition(.move(edge: .top).combined(with: .opacity))
-                        .animation(.easeOut(duration: 0.2), value: fromCity)
-                        .animation(.easeOut(duration: 0.2), value: toCity)
+                        .animation(.easeOut(duration: 0.2), value: sessionManager.fromCity)
+                        .animation(.easeOut(duration: 0.2), value: sessionManager.toCity)
                         .padding(.top, 12)
                     }
 
@@ -126,11 +123,11 @@ struct MainScreenView: View {
                 viewModel: CityPickerViewModel(),
                 onSelect: { selection in
                     if pickerTarget == .from {
-                        fromCity = selection.city
-                        fromStation = selection.station
+                        sessionManager.fromCity = selection.city
+                        sessionManager.fromStation = selection.station
                     } else {
-                        toCity = selection.city
-                        toStation = selection.station
+                        sessionManager.toCity = selection.city
+                        sessionManager.toStation = selection.station
                     }
                     showCityPicker = false
                 },
@@ -158,10 +155,10 @@ struct MainScreenView: View {
             }
         }
         .navigationDestination(isPresented: $showCarriers) {
-            if let fromCity = fromCity,
-               let fromStation = fromStation,
-               let toCity = toCity,
-               let toStation = toStation {
+            if let fromCity = sessionManager.fromCity,
+               let fromStation = sessionManager.fromStation,
+               let toCity = sessionManager.toCity,
+               let toStation = sessionManager.toStation {
                 CarriersScreenView(
                     fromCity: fromCity,
                     fromStation: fromStation,
@@ -236,6 +233,7 @@ private enum PickerTarget { case from, to }
 
 #Preview {
     MainScreenView(
+        sessionManager: SessionManager(),
         onServerError: {},
         onNoInternet: {}
     )

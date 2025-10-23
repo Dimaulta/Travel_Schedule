@@ -37,6 +37,7 @@
 		33D0B0222E8C000100000022 /* Travel Schedule/Views/TestErrorScreensView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0222E8C000100000022 /* Travel Schedule/Views/TestErrorScreensView.swift */; };
 		33D0B0232E8C000100000023 /* Travel Schedule/Views/MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0232E8C000100000023 /* Travel Schedule/Views/MainTabView.swift */; };
 		33D0B0242E8C000100000024 /* Travel Schedule/Utils/NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0242E8C000100000024 /* Travel Schedule/Utils/NetworkMonitor.swift */; };
+		33D0B0252E8C000100000025 /* Travel Schedule/Utils/SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0252E8C000100000025 /* Travel Schedule/Utils/SessionManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,6 +89,7 @@
 		33D0A0222E8C000100000022 /* Travel Schedule/Views/TestErrorScreensView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Views/TestErrorScreensView.swift"; sourceTree = SOURCE_ROOT; };
 		33D0A0232E8C000100000023 /* Travel Schedule/Views/MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Views/MainTabView.swift"; sourceTree = SOURCE_ROOT; };
 		33D0A0242E8C000100000024 /* Travel Schedule/Utils/NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Utils/NetworkMonitor.swift"; sourceTree = SOURCE_ROOT; };
+		33D0A0252E8C000100000025 /* Travel Schedule/Utils/SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Utils/SessionManager.swift"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -186,6 +188,8 @@
 				33D0A0212E8C000100000021 /* Travel Schedule/Views/NoInternetView.swift */,
 				33D0A0222E8C000100000022 /* Travel Schedule/Views/TestErrorScreensView.swift */,
 				33D0A0232E8C000100000023 /* Travel Schedule/Views/MainTabView.swift */,
+				33D0A0242E8C000100000024 /* Travel Schedule/Utils/NetworkMonitor.swift */,
+				33D0A0252E8C000100000025 /* Travel Schedule/Utils/SessionManager.swift */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -360,6 +364,7 @@
 				33D0B0222E8C000100000022 /* Travel Schedule/Views/TestErrorScreensView.swift in Sources */,
 				33D0B0232E8C000100000023 /* Travel Schedule/Views/MainTabView.swift in Sources */,
 				33D0B0242E8C000100000024 /* Travel Schedule/Utils/NetworkMonitor.swift in Sources */,
+				33D0B0252E8C000100000025 /* Travel Schedule/Utils/SessionManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
