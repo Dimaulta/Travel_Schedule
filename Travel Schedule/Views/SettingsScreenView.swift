@@ -33,7 +33,7 @@ struct SettingsScreenView: View {
             }
         }
         .fullScreenCover(isPresented: $showNoInternet) {
-            NoInternetView()
+            NoInternetView(onTabSelected: { _ in })
         }
     }
 }

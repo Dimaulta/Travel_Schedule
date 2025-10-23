@@ -28,10 +28,10 @@ struct TestErrorScreensView: View {
             .buttonStyle(.borderedProminent)
         }
         .fullScreenCover(isPresented: $showServerError) {
-            ServerErrorView()
+            ServerErrorView(onTabSelected: { _ in })
         }
         .fullScreenCover(isPresented: $showNoInternet) {
-            NoInternetView()
+            NoInternetView(onTabSelected: { _ in })
         }
     }
 }

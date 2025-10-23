@@ -13,6 +13,8 @@ struct CarriersScreenView: View {
     let toCity: String
     let toStation: String
     let onBack: () -> Void
+    let onServerError: (() -> Void)?
+    let onNoInternet: (() -> Void)?
     
     @StateObject private var viewModel = CarriersViewModel()
     @State private var showFilter = false
@@ -20,6 +22,7 @@ struct CarriersScreenView: View {
     @State private var showCarrierInfo = false
     @StateObject private var networkMonitor = NetworkMonitor()
     @State private var showNoInternet = false
+    @State private var showServerError = false
     
     var body: some View {
         VStack(spacing: 0) {
@@ -185,6 +188,16 @@ struct CarriersScreenView: View {
             })
         }
         .onAppear {
+            // Настраиваем callbacks для viewModel
+            viewModel.setErrorCallbacks(
+                onServerError: {
+                    showServerError = true
+                },
+                onNoInternet: {
+                    showNoInternet = true
+                }
+            )
+            
             // Проверяем статус сети при появлении экрана
             if !networkMonitor.isConnected {
                 showNoInternet = true
@@ -205,7 +218,10 @@ struct CarriersScreenView: View {
             }
         }
         .fullScreenCover(isPresented: $showNoInternet) {
-            NoInternetView()
+            NoInternetView(onTabSelected: { _ in })
+        }
+        .fullScreenCover(isPresented: $showServerError) {
+            ServerErrorView(onTabSelected: { _ in })
         }
     }
     
@@ -265,6 +281,8 @@ struct CarriersScreenView: View {
         fromStation: "Ярославский вокзал",
         toCity: "Санкт-Петербург",
         toStation: "Балтийский вокзал",
-        onBack: {}
+        onBack: {},
+        onServerError: nil,
+        onNoInternet: nil
     )
 }

@@ -22,7 +22,10 @@ struct MainTabView: View {
                     MainScreenView(
                         sessionManager: sessionManager,
                         onServerError: { showServerError = true },
-                        onNoInternet: { showNoInternet = true }
+                        onNoInternet: { showNoInternet = true },
+                        onTabSelected: { tabIndex in
+                            selectedTab = tabIndex
+                        }
                     )
                 }
             } else {
@@ -71,10 +74,16 @@ struct MainTabView: View {
         }
         .background(Color("White"))
         .fullScreenCover(isPresented: $showServerError) {
-            ServerErrorView()
+            ServerErrorView(onTabSelected: { tabIndex in
+                selectedTab = tabIndex
+                showServerError = false
+            })
         }
         .fullScreenCover(isPresented: $showNoInternet) {
-            NoInternetView()
+            NoInternetView(onTabSelected: { tabIndex in
+                selectedTab = tabIndex
+                showNoInternet = false
+            })
         }
         .onChange(of: networkMonitor.isConnected) { isConnected in
             if !isConnected {

@@ -12,6 +12,7 @@ struct MainScreenView: View {
     @ObservedObject var sessionManager: SessionManager
     let onServerError: () -> Void
     let onNoInternet: () -> Void
+    let onTabSelected: ((Int) -> Void)?
     
     @State private var showCityPicker = false
     @State private var pickerTarget: PickerTarget? = nil
@@ -133,7 +134,8 @@ struct MainScreenView: View {
                 },
                 onCancel: {
                     showCityPicker = false
-                }
+                },
+                onTabSelected: onTabSelected
             )
         }
         // Предзагрузка полного справочника станций один раз при первом появлении
@@ -166,7 +168,9 @@ struct MainScreenView: View {
                     toStation: toStation,
                     onBack: {
                         showCarriers = false
-                    }
+                    },
+                    onServerError: onServerError,
+                    onNoInternet: onNoInternet
                 )
             }
         }
@@ -235,7 +239,8 @@ private enum PickerTarget { case from, to }
     MainScreenView(
         sessionManager: SessionManager(),
         onServerError: {},
-        onNoInternet: {}
+        onNoInternet: {},
+        onTabSelected: nil
     )
 }
 
@@ -259,6 +264,11 @@ final class CityPickerViewModel: ObservableObject {
         City(name: "Казань"),
         City(name: "Омск")
     ]
+    private var onServerError: (() -> Void)?
+
+    func setErrorCallback(onServerError: @escaping () -> Void) {
+        self.onServerError = onServerError
+    }
 
     func loadCities() async {
         do {
@@ -267,8 +277,22 @@ final class CityPickerViewModel: ObservableObject {
             let mapped = cities.map { City(name: $0.title) }
             await MainActor.run { self.allCities = mapped.isEmpty ? self.defaultCities : mapped }
         } catch {
-            await MainActor.run { self.allCities = self.defaultCities }
+            // Определяем тип ошибки и вызываем соответствующий callback
+            if error.localizedDescription.contains("network") || 
+               error.localizedDescription.contains("internet") ||
+               error.localizedDescription.contains("offline") {
+                // Ошибка сети - показываем fallback данные
+                await MainActor.run { self.allCities = self.defaultCities }
+            } else {
+                // Ошибка сервера - вызываем callback
+                onServerError?()
+            }
         }
+    }
+    
+    // Временный метод для тестирования ошибки сервера
+    func simulateServerError() {
+        onServerError?()
     }
 
     var filtered: [City] {
@@ -293,11 +317,13 @@ struct CityPickerView: View {
     @ObservedObject var viewModel: CityPickerViewModel
     let onSelect: (CityStationSelection) -> Void
     let onCancel: () -> Void
+    let onTabSelected: ((Int) -> Void)?
     @FocusState private var searchFocused: Bool
     @Environment(\.colorScheme) private var colorScheme
     @State private var selectedCity: City? = nil
     @StateObject private var networkMonitor = NetworkMonitor()
     @State private var showNoInternet = false
+    @State private var showServerError = false
 
     var body: some View {
         VStack(spacing: 0) {
@@ -356,6 +382,16 @@ struct CityPickerView: View {
                         .foregroundColor(Color("Black"))
                         .multilineTextAlignment(.center)
                         .padding(.top, 180)
+                    
+                    // TODO: Убрать кнопку тестирования после завершения разработки
+                    // Временная кнопка для тестирования ошибки сервера
+                    Button("Тест: Ошибка сервера") {
+                        viewModel.simulateServerError()
+                    }
+                    .font(.system(size: 16, weight: .medium))
+                    .foregroundColor(Color("BlueUniversal"))
+                    .padding(.top, 20)
+                    
                     Spacer()
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
@@ -386,6 +422,11 @@ struct CityPickerView: View {
         }
         .background(Color("White"))
         .onAppear {
+            // Настраиваем callback для ошибки сервера
+            viewModel.setErrorCallback {
+                showServerError = true
+            }
+            
             DispatchQueue.main.async { UIResponder.currentFirstResponderBecomesFirst(text: viewModel) }
             Task { await viewModel.loadCities() }
         }
@@ -398,7 +439,10 @@ struct CityPickerView: View {
             }
         }
         .fullScreenCover(isPresented: $showNoInternet) {
-            NoInternetView()
+            NoInternetView(onTabSelected: onTabSelected ?? { _ in })
+        }
+        .fullScreenCover(isPresented: $showServerError) {
+            ServerErrorView(onTabSelected: onTabSelected ?? { _ in })
         }
         .fullScreenCover(item: $selectedCity) { city in
             StationsPickerView(
@@ -408,7 +452,8 @@ struct CityPickerView: View {
                     onSelect(CityStationSelection(city: city.name, station: station.title))
                     selectedCity = nil
                 },
-                onCancel: { selectedCity = nil }
+                onCancel: { selectedCity = nil },
+                onTabSelected: onTabSelected
             )
         }
     }
@@ -452,6 +497,11 @@ final class StationsPickerViewModel: ObservableObject {
     @Published var query: String = ""
     @Published private(set) var allStations: [Station] = []
     @Published var isLoading: Bool = false
+    private var onServerError: (() -> Void)?
+
+    func setErrorCallback(onServerError: @escaping () -> Void) {
+        self.onServerError = onServerError
+    }
 
     func load(forCityTitle cityTitle: String) async {
         await MainActor.run { 
@@ -468,7 +518,16 @@ final class StationsPickerViewModel: ObservableObject {
                 self.allStations = mapped 
             }
         } catch {
-            await MainActor.run { self.allStations = [] }
+            // Определяем тип ошибки и вызываем соответствующий callback
+            if error.localizedDescription.contains("network") || 
+               error.localizedDescription.contains("internet") ||
+               error.localizedDescription.contains("offline") {
+                // Ошибка сети - показываем пустой список
+                await MainActor.run { self.allStations = [] }
+            } else {
+                // Ошибка сервера - вызываем callback
+                onServerError?()
+            }
         }
     }
 
@@ -484,10 +543,12 @@ struct StationsPickerView: View {
     @ObservedObject var viewModel: StationsPickerViewModel
     let onSelect: (Station) -> Void
     let onCancel: () -> Void
+    let onTabSelected: ((Int) -> Void)?
     @FocusState private var searchFocused: Bool
     @Environment(\.colorScheme) private var colorScheme
     @StateObject private var networkMonitor = NetworkMonitor()
     @State private var showNoInternet = false
+    @State private var showServerError = false
 
     var body: some View {
         VStack(spacing: 0) {
@@ -566,7 +627,14 @@ struct StationsPickerView: View {
             }
         }
         .background(Color("White"))
-        .task { await viewModel.load(forCityTitle: cityTitle) }
+        .task { 
+            // Настраиваем callback для ошибки сервера
+            viewModel.setErrorCallback {
+                showServerError = true
+            }
+            
+            await viewModel.load(forCityTitle: cityTitle) 
+        }
         .onChange(of: networkMonitor.isConnected) { isConnected in
             if !isConnected {
                 showNoInternet = true
@@ -576,7 +644,10 @@ struct StationsPickerView: View {
             }
         }
         .fullScreenCover(isPresented: $showNoInternet) {
-            NoInternetView()
+            NoInternetView(onTabSelected: onTabSelected ?? { _ in })
+        }
+        .fullScreenCover(isPresented: $showServerError) {
+            ServerErrorView(onTabSelected: onTabSelected ?? { _ in })
         }
     }
 }

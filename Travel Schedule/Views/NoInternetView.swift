@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct NoInternetView: View {
+    let onTabSelected: (Int) -> Void
+    
     var body: some View {
         VStack(spacing: 0) {
             // Основной контент
@@ -37,7 +39,9 @@ struct NoInternetView: View {
                     .background(Color("GrayUniversal"))
                 
                 HStack {
-                    Button(action: {}) {
+                    Button(action: {
+                        onTabSelected(0)
+                    }) {
                         VStack(spacing: 4) {
                             Image("Schedule")
                                 .renderingMode(Image.TemplateRenderingMode.template)
@@ -49,7 +53,9 @@ struct NoInternetView: View {
                     }
                     .frame(maxWidth: .infinity)
                     
-                    Button(action: {}) {
+                    Button(action: {
+                        onTabSelected(1)
+                    }) {
                         VStack(spacing: 4) {
                             Image("Settings")
                                 .renderingMode(Image.TemplateRenderingMode.template)
@@ -70,5 +76,5 @@ struct NoInternetView: View {
 }
 
 #Preview {
-    NoInternetView()
+    NoInternetView(onTabSelected: { _ in })
 }

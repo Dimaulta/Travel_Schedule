@@ -37,6 +37,8 @@ class CarriersViewModel: ObservableObject {
     private let searchService: SearchService
     private let apikey = "50889f83-e54c-4e2e-b9b9-7d5fe468a025"
     private var currentFilters: FilterOptions?
+    private var onServerError: (() -> Void)?
+    private var onNoInternet: (() -> Void)?
     
     init() {
         let client = Client(
@@ -44,6 +46,11 @@ class CarriersViewModel: ObservableObject {
             transport: URLSessionTransport()
         )
         self.searchService = SearchService(client: client)
+    }
+    
+    func setErrorCallbacks(onServerError: @escaping () -> Void, onNoInternet: @escaping () -> Void) {
+        self.onServerError = onServerError
+        self.onNoInternet = onNoInternet
     }
     
     func loadTrips(from: String, to: String, fromStation: String, toStation: String) async {
@@ -72,7 +79,14 @@ class CarriersViewModel: ObservableObject {
             
             await processSegments(segments)
         } catch {
-            errorMessage = "Ошибка загрузки рейсов: \(error.localizedDescription)"
+            // Определяем тип ошибки и вызываем соответствующий callback
+            if error.localizedDescription.contains("network") || 
+               error.localizedDescription.contains("internet") ||
+               error.localizedDescription.contains("offline") {
+                onNoInternet?()
+            } else {
+                onServerError?()
+            }
         }
         
         isLoading = false
