@@ -12,17 +12,14 @@ struct NoInternetView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            // Основной контент
             VStack(spacing: 20) {
                 Spacer()
                 
-                // Иконка отсутствия интернета
                 Image("NoInternet")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 223, height: 223)
                 
-                // Текст отсутствия интернета
                 Text("Нет интернета")
                     .font(.system(size: 24, weight: .bold))
                     .foregroundColor(Color("Black"))
@@ -33,7 +30,6 @@ struct NoInternetView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color("White"))
             
-            // Tab Bar
             VStack(spacing: 0) {
                 Divider()
                     .background(Color("GrayUniversal"))

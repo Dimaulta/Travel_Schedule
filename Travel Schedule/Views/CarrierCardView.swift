@@ -13,24 +13,20 @@ struct CarrierCardView: View {
     var body: some View {
         VStack(spacing: 16) {
             HStack(alignment: .top) {
-                // Информация о перевозчике
                 VStack(alignment: .leading, spacing: 8) {
                     HStack(spacing: 12) {
-                        // Логотип перевозчика
                         if let logo = trip.carrier.logo, let url = URL(string: logo) {
                             AsyncImage(url: url) { image in
                                 ZStack {
-                                    // Фон
                                     RoundedRectangle(cornerRadius: 4)
                                         .fill(Color("GrayUniversal"))
                                         .frame(width: 38, height: 38)
                                     
-                                    // Изображение, обрезанное справа
                                     image
                                         .resizable()
                                         .aspectRatio(contentMode: .fill)
-                                        .frame(width: 38, height: 38) // Уменьшаем логотип
-                                        .offset(x: 100) // Сдвигаем влево на 80px, чтобы показать левую часть
+                                        .frame(width: 38, height: 38)
+                                        .offset(x: 100)
                                         .clipped()
                                 }
                                 .clipShape(RoundedRectangle(cornerRadius: 4))
@@ -50,7 +46,6 @@ struct CarrierCardView: View {
                             .foregroundColor(Color("BlackUniversal"))
                     }
                     
-                    // Дополнительная информация (пересадки)
                     if let transferInfo = trip.transferInfo {
                         Text(transferInfo)
                             .font(.system(size: 12))
@@ -60,7 +55,6 @@ struct CarrierCardView: View {
                 
                 Spacer()
                 
-                // Дата
                 Text(trip.date)
                     .font(.system(size: 17, weight: .medium))
                     .foregroundColor(Color("BlackUniversal"))
@@ -68,14 +62,11 @@ struct CarrierCardView: View {
             .padding(.horizontal, 20)
             .padding(.top, 20)
             
-            // Время и длительность
             HStack {
-                // Время отправления
                 Text(trip.departureTime)
                     .font(.system(size: 17, weight: .medium))
                     .foregroundColor(Color("BlackUniversal"))
                 
-                // Линия с длительностью
                 HStack {
                     Rectangle()
                         .fill(Color("GrayUniversal"))
@@ -91,12 +82,10 @@ struct CarrierCardView: View {
                         .frame(height: 1)
                 }
                 
-                // Время прибытия
                 Text(trip.arrivalTime)
                     .font(.system(size: 17, weight: .medium))
                     .foregroundColor(Color("BlackUniversal"))
                 
-                // Информация о пересадках (если есть)
                 if let transferInfo = trip.transferInfo {
                     Text(transferInfo)
                         .font(.system(size: 14, weight: .medium))

@@ -13,10 +13,11 @@ struct MainTabView: View {
     @State private var showNoInternet = false
     @StateObject private var networkMonitor = NetworkMonitor()
     @StateObject private var sessionManager = SessionManager()
+    @State private var showNoInternetDebounce: DispatchWorkItem?
+    @State private var hideNoInternetDebounce: DispatchWorkItem?
     
     var body: some View {
         VStack(spacing: 0) {
-            // Основной контент с NavigationStack
             if selectedTab == 0 {
                 NavigationStack {
                     MainScreenView(
@@ -34,7 +35,6 @@ struct MainTabView: View {
                 }
             }
             
-            // Tab Bar с правильным дизайном
             VStack(spacing: 0) {
                 Divider()
                     .background(Color("GrayUniversal"))
@@ -84,30 +84,27 @@ struct MainTabView: View {
                 selectedTab = tabIndex
                 showNoInternet = false
             })
-            .onAppear {
-                print("🔍 MainTabView: NoInternetView появился")
-            }
-            .onDisappear {
-                print("🔍 MainTabView: NoInternetView исчез")
-            }
-        }
-        .onChange(of: showNoInternet) { newValue in
-            print("🔍 MainTabView: showNoInternet изменился на: \(newValue)")
         }
         .onChange(of: networkMonitor.isConnected) { isConnected in
-            print("🔍 MainTabView: onChange сработал, isConnected = \(isConnected)")
-            print("🔍 MainTabView: showNoInternet = \(showNoInternet)")
             if !isConnected {
-                print("🔍 MainTabView: Показываем экран 'Нет интернета'")
-                showNoInternet = true
-            } else if isConnected && showNoInternet {
-                print("🔍 MainTabView: Скрываем экран 'Нет интернета'")
-                // Автоматически скрываем экран "Нет интернета" при восстановлении соединения
-                showNoInternet = false
+                // Schedule show after short dwell to avoid flicker on transient drops
+                hideNoInternetDebounce?.cancel()
+                showNoInternetDebounce?.cancel()
+                let work = DispatchWorkItem {
+                    if networkMonitor.isConnected == false { showNoInternet = true }
+                }
+                showNoInternetDebounce = work
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4, execute: work)
+            } else {
+                // Schedule hide after short dwell to avoid brief reappearance
+                showNoInternetDebounce?.cancel()
+                hideNoInternetDebounce?.cancel()
+                let work = DispatchWorkItem {
+                    if networkMonitor.isConnected == true { showNoInternet = false }
+                }
+                hideNoInternetDebounce = work
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: work)
             }
-        }
-        .onAppear {
-            print("🔍 MainTabView: onAppear вызван")
         }
     }
 }

@@ -14,7 +14,6 @@ struct FilterScreenView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            // Навигационная панель
             VStack(spacing: 0) {
                 Color("White").frame(height: 12).ignoresSafeArea(edges: .top)
                 
@@ -31,14 +30,11 @@ struct FilterScreenView: View {
                 .padding(.vertical, 12)
                 .padding(.top, 8)
                 
-                // Убираем заголовок "Фильтрация"
             }
             .background(Color("White"))
             
-            // Основной контент
             ScrollView {
                 VStack(spacing: 24) {
-                    // Раздел "Время отправления"
                     VStack(alignment: .leading, spacing: 16) {
                                Text("Время отправления")
                                    .font(.system(size: 24, weight: .bold))
@@ -61,7 +57,6 @@ struct FilterScreenView: View {
                         }
                     }
                     
-                    // Раздел "Показывать варианты с пересадками"
                     VStack(alignment: .leading, spacing: 16) {
                                Text("Показывать варианты с пересадками")
                                    .font(.system(size: 24, weight: .bold))
@@ -85,7 +80,6 @@ struct FilterScreenView: View {
                 .padding(.bottom, 100) // Отступ для кнопки
             }
             
-            // Кнопка "Применить" (показывается только при выборе)
             if viewModel.hasAnySelection {
                 VStack {
                     Button(action: {
@@ -125,15 +119,19 @@ struct TimeSlotRow: View {
                 
                 Spacer()
                 
-                Image(systemName: isSelected ? "checkmark" : "")
-                    .font(.system(size: 16, weight: .semibold))
-                    .foregroundColor(Color("White"))
-                    .frame(width: 24, height: 24)
-                    .background(isSelected ? Color("Black") : Color.clear)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 4)
-                            .stroke(Color("Black"), lineWidth: 1)
-                    )
+                ZStack {
+                    if isSelected {
+                        Image(systemName: "checkmark")
+                            .font(.system(size: 16, weight: .semibold))
+                            .foregroundColor(Color("White"))
+                    }
+                }
+                .frame(width: 24, height: 24)
+                .background(isSelected ? Color("Black") : Color.clear)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 4)
+                        .stroke(Color("Black"), lineWidth: 1)
+                )
             }
             .padding(.vertical, 12)
         }

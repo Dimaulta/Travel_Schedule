@@ -12,11 +12,9 @@ struct CarrierInfoView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            // Навигационная панель
             VStack(spacing: 0) {
                 Color("White").frame(height: 12).ignoresSafeArea(edges: .top)
                 
-                // Навбар с заголовком по центру и кнопкой назад слева
                 ZStack {
                     Text("Информация о перевозчике")
                         .font(.system(size: 17, weight: .bold))
@@ -40,7 +38,6 @@ struct CarrierInfoView: View {
             }
             .background(Color("White"))
             
-            // Основной контент (пока пустой)
             Spacer()
         }
         .background(Color("White"))

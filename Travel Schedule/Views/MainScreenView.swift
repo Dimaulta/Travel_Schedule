@@ -143,17 +143,13 @@ struct MainScreenView: View {
             guard didPrefetchDirectory == false else { return }
             didPrefetchDirectory = true
             let directory = DirectoryService(apikey: "50889f83-e54c-4e2e-b9b9-7d5fe468a025")
-            do {
-                _ = try await directory.fetchAllCities()
-            } catch {
-                // Определяем тип ошибки и показываем соответствующий экран
-                if error.localizedDescription.contains("network") || 
+            do { _ = try await directory.fetchAllCities() }
+            catch {
+                if error.localizedDescription.contains("network") ||
                    error.localizedDescription.contains("internet") ||
                    error.localizedDescription.contains("offline") {
                     onNoInternet()
-                } else {
-                    onServerError()
-                }
+                } else { onServerError() }
             }
         }
         .navigationDestination(isPresented: $showCarriers) {
@@ -494,49 +490,48 @@ final class StationsPickerViewModel: ObservableObject {
     }
 
     func load(forCityTitle cityTitle: String) async {
-        print("🚀 StationsPickerViewModel: Начинаем загрузку для города: \(cityTitle)")
+        
         
         // Проверяем, не загружаем ли мы уже этот город
         if currentCityTitle == cityTitle && !allStations.isEmpty {
-            print("✅ StationsPickerViewModel: Данные уже загружены для \(cityTitle)")
+            
             return
         }
         
         // Защита от повторной загрузки
         if isLoading {
-            print("⚠️ StationsPickerViewModel: Загрузка уже идет, пропускаем")
+            
             return
         }
         
         // Защита от повторной загрузки того же города
         if currentCityTitle == cityTitle {
-            print("⚠️ StationsPickerViewModel: Уже загружаем этот город, пропускаем")
+            
             return
         }
         
         await MainActor.run { 
-            print("📱 StationsPickerViewModel: Устанавливаем isLoading = true")
+            
             self.isLoading = true
             self.currentCityTitle = cityTitle
             // Не очищаем allStations сразу, чтобы избежать мерцания
             self.query = "" // Очищаем поисковый запрос
         }
         defer { 
-            print("🏁 StationsPickerViewModel: Завершаем загрузку, isLoading = false")
+            
             Task { @MainActor in
                 self.isLoading = false 
             }
         }
         do {
-            print("🌐 StationsPickerViewModel: Делаем API запрос для \(cityTitle)")
+            
             let directory = DirectoryService(apikey: "50889f83-e54c-4e2e-b9b9-7d5fe468a025")
             let stations = try await directory.fetchStations(inCityTitle: cityTitle)
             let mapped = stations.map { Station(code: $0.yandexCode, title: $0.title) }
-            print("📊 StationsPickerViewModel: Получили \(mapped.count) станций")
+            
         await MainActor.run { 
             self.allStations = mapped 
-            print("💾 StationsPickerViewModel: Сохранили \(mapped.count) станций в allStations")
-            print("🔍 StationsPickerViewModel: allStations после сохранения: \(self.allStations.count)")
+            
         }
         } catch {
             // Определяем тип ошибки и вызываем соответствующий callback
@@ -554,13 +549,13 @@ final class StationsPickerViewModel: ObservableObject {
 
     var filtered: [Station] {
         let trimmed = query.trimmingCharacters(in: .whitespacesAndNewlines)
-        print("🔍 StationsPickerViewModel: filtered вызван, allStations.count = \(allStations.count), query = '\(query)'")
+        
         guard trimmed.isEmpty == false else { 
-            print("🔍 StationsPickerViewModel: возвращаем allStations (\(allStations.count) элементов)")
+            
             return allStations 
         }
         let result = allStations.filter { $0.title.lowercased().contains(trimmed.lowercased()) }
-        print("🔍 StationsPickerViewModel: возвращаем отфильтрованный результат (\(result.count) элементов)")
+        
         return result
     }
 }
@@ -573,8 +568,7 @@ struct StationsPickerView: View {
     let onTabSelected: ((Int) -> Void)?
     @FocusState private var searchFocused: Bool
     @Environment(\.colorScheme) private var colorScheme
-    @StateObject private var networkMonitor = NetworkMonitor()
-    @State private var showNoInternet = false
+    // Локальный показ "Нет интернета" централизован через MainTabView
     @State private var showServerError = false
     
     init(cityTitle: String, viewModel: StationsPickerViewModel, onSelect: @escaping (Station) -> Void, onCancel: @escaping () -> Void, onTabSelected: ((Int) -> Void)?) {
@@ -583,7 +577,7 @@ struct StationsPickerView: View {
         self.onSelect = onSelect
         self.onCancel = onCancel
         self.onTabSelected = onTabSelected
-        print("🔍 StationsPickerView: Инициализация для города: \(cityTitle)")
+        
     }
 
     var body: some View {
@@ -642,10 +636,7 @@ struct StationsPickerView: View {
             } else {
                 ScrollView {
                     LazyVStack(spacing: 0) {
-                        // Добавляем логирование для отладки
-                        let _ = print("🔍 UI: allStations.count = \(viewModel.allStations.count)")
-                        let _ = print("🔍 UI: filtered.count = \(viewModel.filtered.count)")
-                        let _ = print("🔍 UI: isLoading = \(viewModel.isLoading)")
+                        
                         
                         ForEach(viewModel.filtered) { station in
                             Button(action: { onSelect(station) }) {
@@ -674,33 +665,7 @@ struct StationsPickerView: View {
                 showServerError = true
             }
         }
-        .task {
-            print("🔍 StationsPickerView: Начинаем загрузку данных")
-            print("🔍 StationsPickerView: networkMonitor.isConnected = \(networkMonitor.isConnected)")
-            
-            // Проверяем подключение к интернету
-            if !networkMonitor.isConnected {
-                print("🔍 StationsPickerView: Нет интернета, показываем ошибку")
-                showNoInternet = true
-                return
-            }
-            
-            await viewModel.load(forCityTitle: cityTitle)
-        }
-        .onChange(of: networkMonitor.isConnected) { isConnected in
-            print("🔍 StationsPickerView: onChange сработал, isConnected = \(isConnected)")
-            print("🔍 StationsPickerView: allStations.count до onChange = \(viewModel.allStations.count)")
-            if !isConnected {
-                showNoInternet = true
-            } else if isConnected && showNoInternet {
-                // Автоматически скрываем экран "Нет интернета" при восстановлении соединения
-                showNoInternet = false
-            }
-            print("🔍 StationsPickerView: allStations.count после onChange = \(viewModel.allStations.count)")
-        }
-        .fullScreenCover(isPresented: $showNoInternet) {
-            NoInternetView(onTabSelected: onTabSelected ?? { _ in })
-        }
+        .task { await viewModel.load(forCityTitle: cityTitle) }
         .fullScreenCover(isPresented: $showServerError) {
             ServerErrorView(onTabSelected: onTabSelected ?? { _ in })
         }

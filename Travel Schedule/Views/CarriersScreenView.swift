@@ -145,6 +145,7 @@ struct CarriersScreenView: View {
                         .padding(.top, 16)
                         .padding(.bottom, 100) // Отступ для кнопки внизу
                     }
+                    .background(Color("White"))
                     
                     // Кнопка "Уточнить время" поверх скролла
                     VStack {
@@ -163,28 +164,23 @@ struct CarriersScreenView: View {
                         .padding(.bottom, 16)
                     }
                 }
+                .background(Color("White"))
             }
         }
+        // Навигация через NavigationStack (как было), чтобы стек и стрелка назад работали корректно
         .navigationDestination(isPresented: $showFilter) {
             FilterScreenView(
-                onBack: {
-                    showFilter = false
-                },
+                onBack: { showFilter = false },
                 onApply: { filters in
                     currentFilters = filters
                     viewModel.setFilters(filters)
                     showFilter = false
-                    // Перезагружаем результаты с фильтрами
-                    Task {
-                        await loadTrips()
-                    }
+                    Task { await loadTrips() }
                 }
             )
         }
         .navigationDestination(isPresented: $showCarrierInfo) {
-            CarrierInfoView(onBack: {
-                showCarrierInfo = false
-            })
+            CarrierInfoView(onBack: { showCarrierInfo = false })
         }
         .onAppear {
             // Настраиваем callbacks для viewModel
@@ -197,15 +193,14 @@ struct CarriersScreenView: View {
                 }
             )
             
-            Task {
-                await loadTrips()
-            }
+            Task { await loadTrips() }
         }
         .navigationBarHidden(true)
         .toolbar(.hidden, for: .tabBar)
         .fullScreenCover(isPresented: $showServerError) {
             ServerErrorView(onTabSelected: { _ in })
         }
+        .background(Color("White"))
     }
     
     private func loadTrips() async {
