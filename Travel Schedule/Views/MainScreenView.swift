@@ -119,7 +119,7 @@ struct MainScreenView: View {
                     Spacer()
             }
         }
-        .fullScreenCover(isPresented: $showCityPicker) {
+        .navigationDestination(isPresented: $showCityPicker) {
             CityPickerView(
                 viewModel: CityPickerViewModel(),
                 onSelect: { selection in
@@ -137,6 +137,8 @@ struct MainScreenView: View {
                 },
                 onTabSelected: onTabSelected
             )
+            .toolbar(.hidden, for: .tabBar)
+            .navigationBarHidden(true)
         }
         // Предзагрузка полного справочника станций один раз при первом появлении
         .task {
@@ -243,7 +245,7 @@ private enum PickerTarget { case from, to }
 
 // MARK: - City Picker (MVVM, lightweight, no project file edits)
 
-struct City: Identifiable, Equatable {
+struct City: Identifiable, Equatable, Hashable {
     let id = UUID()
     let name: String
 }
@@ -429,10 +431,10 @@ struct CityPickerView: View {
         .fullScreenCover(isPresented: $showServerError) {
             ServerErrorView(onTabSelected: onTabSelected ?? { _ in })
         }
-        .fullScreenCover(item: $selectedCity) { city in
+        .navigationDestination(item: $selectedCity) { city in
             StationsPickerView(
                 cityTitle: city.name,
-                viewModel: stationsViewModel, // Переиспользуемый viewModel
+                viewModel: stationsViewModel,
                 onSelect: { station in
                     onSelect(CityStationSelection(city: city.name, station: station.title))
                     selectedCity = nil
@@ -440,6 +442,8 @@ struct CityPickerView: View {
                 onCancel: { selectedCity = nil },
                 onTabSelected: onTabSelected
             )
+            .toolbar(.hidden, for: .tabBar)
+            .navigationBarHidden(true)
         }
     }
 }

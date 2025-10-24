@@ -73,34 +73,47 @@ struct MainTabView: View {
             }
         }
         .background(Color("White"))
-        .fullScreenCover(isPresented: $showServerError) {
-            ServerErrorView(onTabSelected: { tabIndex in
-                selectedTab = tabIndex
-                showServerError = false
-            })
+        .overlay(alignment: .center) {
+            if showServerError {
+                ServerErrorView(onTabSelected: { tabIndex in
+                    selectedTab = tabIndex
+                    withAnimation(.easeInOut(duration: 0.25)) { showServerError = false }
+                })
+                .ignoresSafeArea(edges: .top)
+                .transition(.move(edge: .bottom).combined(with: .opacity))
+                .zIndex(1000)
+            }
         }
-        .fullScreenCover(isPresented: $showNoInternet) {
-            NoInternetView(onTabSelected: { tabIndex in
-                selectedTab = tabIndex
-                showNoInternet = false
-            })
+        .overlay(alignment: .center) {
+            if showNoInternet {
+                NoInternetView(onTabSelected: { tabIndex in
+                    selectedTab = tabIndex
+                    withAnimation(.easeInOut(duration: 0.25)) { showNoInternet = false }
+                })
+                .ignoresSafeArea(edges: .top)
+                .transition(.move(edge: .bottom).combined(with: .opacity))
+                .zIndex(1000)
+            }
         }
         .onChange(of: networkMonitor.isConnected) { isConnected in
             if !isConnected {
-                // Schedule show after short dwell to avoid flicker on transient drops
+                
                 hideNoInternetDebounce?.cancel()
                 showNoInternetDebounce?.cancel()
                 let work = DispatchWorkItem {
-                    if networkMonitor.isConnected == false { showNoInternet = true }
+                    if networkMonitor.isConnected == false {
+                        withAnimation(.easeInOut(duration: 0.25)) { showNoInternet = true }
+                    }
                 }
                 showNoInternetDebounce = work
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.4, execute: work)
             } else {
-                // Schedule hide after short dwell to avoid brief reappearance
                 showNoInternetDebounce?.cancel()
                 hideNoInternetDebounce?.cancel()
                 let work = DispatchWorkItem {
-                    if networkMonitor.isConnected == true { showNoInternet = false }
+                    if networkMonitor.isConnected == true {
+                        withAnimation(.easeInOut(duration: 0.25)) { showNoInternet = false }
+                    }
                 }
                 hideNoInternetDebounce = work
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: work)
