@@ -20,8 +20,7 @@ struct CarriersScreenView: View {
     @State private var showFilter = false
     @State private var currentFilters: FilterOptions?
     @State private var showCarrierInfo = false
-    @StateObject private var networkMonitor = NetworkMonitor()
-    @State private var showNoInternet = false
+    // Локальный показ "Нет интернета" убираем, централизуем через MainTabView
     @State private var showServerError = false
     
     var body: some View {
@@ -194,46 +193,22 @@ struct CarriersScreenView: View {
                     showServerError = true
                 },
                 onNoInternet: {
-                    showNoInternet = true
+                    onNoInternet?()
                 }
             )
             
-            // Проверяем статус сети при появлении экрана
-            if !networkMonitor.isConnected {
-                showNoInternet = true
-            } else {
-                Task {
-                    await loadTrips()
-                }
+            Task {
+                await loadTrips()
             }
         }
         .navigationBarHidden(true)
         .toolbar(.hidden, for: .tabBar)
-        .onChange(of: networkMonitor.isConnected) { isConnected in
-            if !isConnected {
-                showNoInternet = true
-            } else if isConnected && showNoInternet {
-                // Автоматически скрываем экран "Нет интернета" при восстановлении соединения
-                showNoInternet = false
-            }
-        }
-        .fullScreenCover(isPresented: $showNoInternet) {
-            NoInternetView(onTabSelected: { _ in })
-        }
         .fullScreenCover(isPresented: $showServerError) {
             ServerErrorView(onTabSelected: { _ in })
         }
     }
     
     private func loadTrips() async {
-        // Проверяем статус сети перед загрузкой
-        if !networkMonitor.isConnected {
-            await MainActor.run {
-                showNoInternet = true
-            }
-            return
-        }
-        
         do {
             // Создаем экземпляр DirectoryService
             let directoryService = DirectoryService(apikey: "50889f83-e54c-4e2e-b9b9-7d5fe468a025")
@@ -261,13 +236,13 @@ struct CarriersScreenView: View {
             )
         } catch {
             await MainActor.run {
-                // Определяем тип ошибки и показываем соответствующий экран
+                // Определяем тип ошибки и триггерим централизованный экран в MainTabView
                 if error.localizedDescription.contains("network") || 
                    error.localizedDescription.contains("internet") ||
                    error.localizedDescription.contains("offline") {
-                    showNoInternet = true
+                    onNoInternet?()
                 } else {
-                    // Показываем ошибку сервера (можно добавить отдельный экран)
+                    // Показываем ошибку сервера локально
                     viewModel.errorMessage = "Ошибка сервера"
                 }
             }

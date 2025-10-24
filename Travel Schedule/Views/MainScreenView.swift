@@ -321,8 +321,7 @@ struct CityPickerView: View {
     @FocusState private var searchFocused: Bool
     @Environment(\.colorScheme) private var colorScheme
     @State private var selectedCity: City? = nil
-    @StateObject private var networkMonitor = NetworkMonitor()
-    @State private var showNoInternet = false
+    // Убираем локальный показ "Нет интернета" — централизованно управляет MainTabView
     @State private var showServerError = false
     @StateObject private var stationsViewModel = StationsPickerViewModel() // Создаем один раз
 
@@ -430,17 +429,6 @@ struct CityPickerView: View {
             
             DispatchQueue.main.async { UIResponder.currentFirstResponderBecomesFirst(text: viewModel) }
             Task { await viewModel.loadCities() }
-        }
-        .onChange(of: networkMonitor.isConnected) { isConnected in
-            if !isConnected {
-                showNoInternet = true
-            } else if isConnected && showNoInternet {
-                // Автоматически скрываем экран "Нет интернета" при восстановлении соединения
-                showNoInternet = false
-            }
-        }
-        .fullScreenCover(isPresented: $showNoInternet) {
-            NoInternetView(onTabSelected: onTabSelected ?? { _ in })
         }
         .fullScreenCover(isPresented: $showServerError) {
             ServerErrorView(onTabSelected: onTabSelected ?? { _ in })

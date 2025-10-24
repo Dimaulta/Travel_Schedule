@@ -84,14 +84,30 @@ struct MainTabView: View {
                 selectedTab = tabIndex
                 showNoInternet = false
             })
+            .onAppear {
+                print("🔍 MainTabView: NoInternetView появился")
+            }
+            .onDisappear {
+                print("🔍 MainTabView: NoInternetView исчез")
+            }
+        }
+        .onChange(of: showNoInternet) { newValue in
+            print("🔍 MainTabView: showNoInternet изменился на: \(newValue)")
         }
         .onChange(of: networkMonitor.isConnected) { isConnected in
+            print("🔍 MainTabView: onChange сработал, isConnected = \(isConnected)")
+            print("🔍 MainTabView: showNoInternet = \(showNoInternet)")
             if !isConnected {
+                print("🔍 MainTabView: Показываем экран 'Нет интернета'")
                 showNoInternet = true
             } else if isConnected && showNoInternet {
+                print("🔍 MainTabView: Скрываем экран 'Нет интернета'")
                 // Автоматически скрываем экран "Нет интернета" при восстановлении соединения
                 showNoInternet = false
             }
+        }
+        .onAppear {
+            print("🔍 MainTabView: onAppear вызван")
         }
     }
 }
