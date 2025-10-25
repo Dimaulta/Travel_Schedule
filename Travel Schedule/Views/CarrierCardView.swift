@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import WebKit
 
 struct CarrierCardView: View {
     let trip: TripInfo
