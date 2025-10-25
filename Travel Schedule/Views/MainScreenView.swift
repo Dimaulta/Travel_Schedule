@@ -21,12 +21,10 @@ struct MainScreenView: View {
     
     var body: some View {
         ZStack {
-            // Основной фон
             Color("White")
                 .ignoresSafeArea()
             
             VStack(spacing: 0) {
-                // Сторис карточки
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 12) {
                             ForEach(0..<4) { index in
@@ -37,16 +35,12 @@ struct MainScreenView: View {
                     }
                     .padding(.top, 12)
 
-                    // Поисковая панель (слитная, выше)
                     ZStack(alignment: .trailing) {
-                        // Синий фон поисковой панели с отступами 16 слева/справа
                         RoundedRectangle(cornerRadius: 20)
                             .fill(Color("BlueUniversal"))
                             .frame(height: 135)
 
-                        // Белый блок не на всю ширину (справа зазор под кнопку)
                         HStack(spacing: 0) {
-                            // Белый блок тянется по ширине, оставляя место под кнопку справа
                             VStack(spacing: 32) {
                                 HStack {
                                     Text(displayText(city: sessionManager.fromCity, station: sessionManager.fromStation, placeholder: "Откуда"))
@@ -72,19 +66,17 @@ struct MainScreenView: View {
                                 }
                             }
                             .padding(.leading, 16)
-                            .padding(.vertical, 16) // внутренние отступы сверху/снизу по 16
+                            .padding(.vertical, 16) 
                             .frame(height: 103)
                             .background(Color("WhiteUniversal"))
                             .cornerRadius(20)
                           
-                            // Зазор до правого края: 16 (между полем и кнопкой) + 44 (кнопка) + 16 (правый край) = 76
                             Spacer()
                                 .frame(width: 60)
                         }
                         .padding(.horizontal, 16)
                         .padding(.vertical, 16)
 
-                        // Кнопка переключения (картинка из ассетов)
                         Button(action: {
                             swap(&sessionManager.fromCity, &sessionManager.toCity)
                             swap(&sessionManager.fromStation, &sessionManager.toStation)
@@ -105,7 +97,6 @@ struct MainScreenView: View {
                     .padding(.horizontal, 16)
                     .padding(.top, 48)
 
-                    // Кнопка "Найти" (показывается, когда оба поля заполнены)
                     if (sessionManager.fromCity?.isEmpty == false) && (sessionManager.toCity?.isEmpty == false) {
                         SearchPrimaryButton(title: "Найти") {
                             showCarriers = true
@@ -140,7 +131,6 @@ struct MainScreenView: View {
             .toolbar(.hidden, for: .tabBar)
             .navigationBarHidden(true)
         }
-        // Предзагрузка полного справочника станций один раз при первом появлении
         .task {
             guard didPrefetchDirectory == false else { return }
             didPrefetchDirectory = true
@@ -180,7 +170,6 @@ struct StoryCardView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            // Заглушка для изображения
             Rectangle()
                 .fill(Color("GrayUniversal").opacity(0.3))
                 .frame(width: 92, height: 105)
@@ -209,7 +198,6 @@ struct StoryCardView: View {
 }
 
 
-// Расширение для скругления отдельных углов
 extension View {
     func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
         clipShape(RoundedCorner(radius: radius, corners: corners))
@@ -229,7 +217,6 @@ struct RoundedCorner: Shape {
         return Path(path.cgPath)
     }
 }
-// Цель выбора города
 private enum PickerTarget { case from, to }
 
 
@@ -243,7 +230,7 @@ private enum PickerTarget { case from, to }
 }
 
 
-// MARK: - City Picker (MVVM, lightweight, no project file edits)
+// MARK: - Сити пикер 
 
 struct City: Identifiable, Equatable, Hashable {
     let id = UUID()
@@ -275,29 +262,23 @@ final class CityPickerViewModel: ObservableObject {
             let mapped = cities.map { City(name: $0.title) }
             await MainActor.run { self.allCities = mapped.isEmpty ? self.defaultCities : mapped }
         } catch {
-            // Определяем тип ошибки и вызываем соответствующий callback
             if error.localizedDescription.contains("network") || 
                error.localizedDescription.contains("internet") ||
                error.localizedDescription.contains("offline") {
-                // Ошибка сети - показываем fallback данные
                 await MainActor.run { self.allCities = self.defaultCities }
             } else {
-                // Ошибка сервера - вызываем callback
                 onServerError?()
             }
         }
     }
     
-    // Временный метод для тестирования ошибки сервера
     func simulateServerError() {
         onServerError?()
     }
 
     var filtered: [City] {
         let trimmed = query.trimmingCharacters(in: .whitespacesAndNewlines)
-        // Пустой поиск: показываем только дефолтные города
         guard trimmed.isEmpty == false else { return defaultCities }
-        // Поиск: по всем городам (реальные + дефолтные)
         let allNames = (allCities + defaultCities).map { $0.name }
         let uniqueSorted = Array(Set(allNames)).sorted()
         return uniqueSorted
@@ -319,18 +300,15 @@ struct CityPickerView: View {
     @FocusState private var searchFocused: Bool
     @Environment(\.colorScheme) private var colorScheme
     @State private var selectedCity: City? = nil
-    // Убираем локальный показ "Нет интернета" — централизованно управляет MainTabView
     @State private var showServerError = false
-    @StateObject private var stationsViewModel = StationsPickerViewModel() // Создаем один раз
+    @StateObject private var stationsViewModel = StationsPickerViewModel() 
 
     var body: some View {
         VStack(spacing: 0) {
-            // Фон под вырез/статусбар
             Color("White")
                 .frame(height: 12)
                 .ignoresSafeArea(edges: .top)
 
-            // Навбар
             ZStack {
                 Text("Выбор города")
                     .font(.system(size: 17, weight: .bold))
@@ -349,7 +327,6 @@ struct CityPickerView: View {
             .padding(.vertical, 12)
             .padding(.top, 8)
 
-            // Поисковая строка
             HStack(spacing: 8) {
                 Image(systemName: "magnifyingglass")
                     .foregroundColor(Color("GrayUniversal"))
@@ -372,25 +349,22 @@ struct CityPickerView: View {
             .padding(.horizontal, 16)
             .padding(.bottom, 8)
 
-            // Список / заглушка
             if viewModel.filtered.isEmpty && viewModel.query.isEmpty == false {
-                VStack { // центрируем фразу и отступаем от серчбара
+                VStack { 
                     Text("Город не найден")
                         .font(.system(size: 24, weight: .bold))
                         .foregroundColor(Color("Black"))
                         .multilineTextAlignment(.center)
                         .padding(.top, 180)
                     
-                    // TODO: Убрать кнопку тестирования после завершения разработки
-                    // Временная кнопка для тестирования ошибки сервера
-                    Button("Тест: Ошибка сервера") {
+                    /* Button("Тест: Ошибка сервера") {
                         viewModel.simulateServerError()
                     }
                     .font(.system(size: 16, weight: .medium))
                     .foregroundColor(Color("BlueUniversal"))
                     .padding(.top, 20)
                     
-                    Spacer()
+                    Spacer() */
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             } else {
@@ -420,7 +394,6 @@ struct CityPickerView: View {
         }
         .background(Color("White"))
         .onAppear {
-            // Настраиваем callback для ошибки сервера
             viewModel.setErrorCallback {
                 showServerError = true
             }
@@ -448,12 +421,11 @@ struct CityPickerView: View {
     }
 }
 
-// Helper to focus first responder on appear (lightweight placeholder)
 private extension UIResponder {
     static func currentFirstResponderBecomesFirst(text: CityPickerViewModel) { /* no-op; native focus оставим пользователю */ }
 }
 
-// MARK: - Primary Button used under the blue container
+// MARK: - Основная кнопка под синим блоком
 struct SearchPrimaryButton: View {
     let title: String
     let action: () -> Void
@@ -474,7 +446,7 @@ struct SearchPrimaryButton: View {
     }
 }
 
-// MARK: - Stations Picker
+// MARK: - Выбор станции
 
 struct Station: Identifiable, Equatable {
     let id = UUID()
@@ -496,19 +468,16 @@ final class StationsPickerViewModel: ObservableObject {
     func load(forCityTitle cityTitle: String) async {
         
         
-        // Проверяем, не загружаем ли мы уже этот город
         if currentCityTitle == cityTitle && !allStations.isEmpty {
             
             return
         }
         
-        // Защита от повторной загрузки
         if isLoading {
             
             return
         }
         
-        // Защита от повторной загрузки того же города
         if currentCityTitle == cityTitle {
             
             return
@@ -518,8 +487,7 @@ final class StationsPickerViewModel: ObservableObject {
             
             self.isLoading = true
             self.currentCityTitle = cityTitle
-            // Не очищаем allStations сразу, чтобы избежать мерцания
-            self.query = "" // Очищаем поисковый запрос
+            self.query = "" 
         }
         defer { 
             
@@ -538,14 +506,11 @@ final class StationsPickerViewModel: ObservableObject {
             
         }
         } catch {
-            // Определяем тип ошибки и вызываем соответствующий callback
             if error.localizedDescription.contains("network") || 
                error.localizedDescription.contains("internet") ||
                error.localizedDescription.contains("offline") {
-                // Ошибка сети - показываем пустой список
                 await MainActor.run { self.allStations = [] }
             } else {
-                // Ошибка сервера - вызываем callback
                 onServerError?()
             }
         }
@@ -572,7 +537,6 @@ struct StationsPickerView: View {
     let onTabSelected: ((Int) -> Void)?
     @FocusState private var searchFocused: Bool
     @Environment(\.colorScheme) private var colorScheme
-    // Локальный показ "Нет интернета" централизован через MainTabView
     @State private var showServerError = false
     
     init(cityTitle: String, viewModel: StationsPickerViewModel, onSelect: @escaping (Station) -> Void, onCancel: @escaping () -> Void, onTabSelected: ((Int) -> Void)?) {
@@ -664,7 +628,6 @@ struct StationsPickerView: View {
         }
         .background(Color("White"))
         .onAppear {
-            // Настраиваем callback для ошибки сервера
             viewModel.setErrorCallback {
                 showServerError = true
             }
@@ -676,7 +639,7 @@ struct StationsPickerView: View {
     }
 }
 
-// MARK: - Helpers
+// MARK: - хелперы
 private func displayText(city: String?, station: String?, placeholder: String) -> String {
     guard let city, !city.isEmpty else { return placeholder }
     if let station, !station.isEmpty { return "\(city) (\(station))" }
