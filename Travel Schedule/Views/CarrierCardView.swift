@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import WebKit
 
 struct CarrierCardView: View {
     let trip: TripInfo
@@ -15,31 +16,13 @@ struct CarrierCardView: View {
             HStack(alignment: .top) {
                 VStack(alignment: .leading, spacing: 8) {
                     HStack(spacing: 12) {
-                        if let logo = trip.carrier.logo, let url = URL(string: logo) {
-                            AsyncImage(url: url) { image in
-                                ZStack {
-                                    RoundedRectangle(cornerRadius: 4)
-                                        .fill(Color("GrayUniversal"))
-                                        .frame(width: 38, height: 38)
-                                    
-                                    image
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fill)
-                                        .frame(width: 38, height: 38)
-                                        .offset(x: 100)
-                                        .clipped()
-                                }
-                                .clipShape(RoundedRectangle(cornerRadius: 4))
-                            } placeholder: {
+                        CarrierLogoView(logoURLString: trip.carrier.logo, title: trip.carrier.title)
+                            .frame(width: 38, height: 38)
+                            .clipShape(RoundedRectangle(cornerRadius: 4))
+                            .background(
                                 RoundedRectangle(cornerRadius: 4)
                                     .fill(Color("GrayUniversal"))
-                                    .frame(width: 38, height: 38)
-                            }
-                        } else {
-                            RoundedRectangle(cornerRadius: 4)
-                                .fill(Color("GrayUniversal"))
-                                .frame(width: 38, height: 38)
-                        }
+                            )
                         
                         Text(trip.carrier.title)
                             .font(.system(size: 17, weight: .semibold))
@@ -101,6 +84,60 @@ struct CarrierCardView: View {
         .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2)
     }
 }
+
+#if canImport(SwiftUI)
+struct CarrierLogoView: View {
+    let logoURLString: String?
+    let title: String
+
+    var body: some View {
+        Group {
+            if let urlString = logoURLString?.replacingOccurrences(of: "http://", with: "https://"),
+               let url = URL(string: urlString) {
+                AsyncImage(url: url) { phase in
+                    switch phase {
+                    case .empty:
+                        placeholder
+                    case .success(let image):
+                        image
+                            .resizable()
+                            .scaledToFit()
+                            .padding(4)
+                    case .failure:
+                        monogram
+                    @unknown default:
+                        placeholder
+                    }
+                }
+            } else {
+                monogram
+            }
+        }
+    }
+
+    private var placeholder: some View {
+        RoundedRectangle(cornerRadius: 4)
+            .fill(Color("GrayUniversal"))
+    }
+
+    private var monogram: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 4)
+                .fill(Color("GrayUniversal"))
+            Text(initials(from: title))
+                .font(.system(size: 14, weight: .semibold))
+                .foregroundColor(Color("BlackUniversal"))
+        }
+    }
+
+    private func initials(from title: String) -> String {
+        let parts = title.split(separator: " ")
+        let first = parts.first?.first.map { String($0) } ?? ""
+        let second = parts.dropFirst().first?.first.map { String($0) } ?? ""
+        return (first + second).uppercased()
+    }
+}
+#endif
 
 #Preview {
     CarrierCardView(trip: TripInfo(
