@@ -49,7 +49,7 @@ struct MainTabView: View {
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 30, height: 30)
-                                .foregroundColor(selectedTab == 0 ? Color("Black") : Color("GrayUniversal"))
+                                .foregroundColor(selectedTab == 0 ? Color("AppBlack") : Color("GrayUniversal"))
                         }
                     }
                     .frame(maxWidth: .infinity)
@@ -63,16 +63,16 @@ struct MainTabView: View {
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 30, height: 30)
-                                .foregroundColor(selectedTab == 1 ? Color("Black") : Color("GrayUniversal"))
+                                .foregroundColor(selectedTab == 1 ? Color("AppBlack") : Color("GrayUniversal"))
                         }
                     }
                     .frame(maxWidth: .infinity)
                 }
                 .padding(.vertical, 8)
-                .background(Color("White"))
+                .background(Color("AppWhite"))
             }
         }
-        .background(Color("White"))
+        .background(Color("AppWhite"))
         .overlay(alignment: .center) {
             if showServerError {
                 ServerErrorView(onTabSelected: { tabIndex in

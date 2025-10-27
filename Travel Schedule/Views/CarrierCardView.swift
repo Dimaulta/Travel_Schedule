@@ -20,7 +20,7 @@ struct CarrierCardView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 4))
                             .background(
                                 RoundedRectangle(cornerRadius: 4)
-                                    .fill(Color("LightGray"))
+                                    .fill(Color("AppLightGray"))
                             )
                         
                         Text(trip.carrier.title)
@@ -78,7 +78,7 @@ struct CarrierCardView: View {
             .padding(.horizontal, 20)
             .padding(.bottom, 20)
         }
-        .background(Color("LightGray"))
+        .background(Color("AppLightGray"))
         .cornerRadius(24)
         .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2)
     }
@@ -116,13 +116,13 @@ struct CarrierLogoView: View {
 
     private var placeholder: some View {
         RoundedRectangle(cornerRadius: 4)
-            .fill(Color("LightGray"))
+            .fill(Color("AppLightGray"))
     }
 
     private var monogram: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 4)
-                .fill(Color("LightGray"))
+                .fill(Color("AppLightGray"))
             Text(initials(from: title))
                 .font(.system(size: 14, weight: .semibold))
                 .foregroundColor(Color("BlackUniversal"))
@@ -154,5 +154,5 @@ struct CarrierLogoView: View {
         sortDate: Date()
     ))
     .padding()
-    .background(Color("White"))
+    .background(Color("AppWhite"))
 }

@@ -13,19 +13,19 @@ struct CarrierInfoView: View {
     var body: some View {
         VStack(spacing: 0) {
             VStack(spacing: 0) {
-                Color("White").frame(height: 12).ignoresSafeArea(edges: .top)
+                Color("AppWhite").frame(height: 12).ignoresSafeArea(edges: .top)
                 
                 ZStack {
                     Text("Информация о перевозчике")
                         .font(.system(size: 17, weight: .bold))
-                        .foregroundColor(Color("Black"))
+                        .foregroundColor(Color("AppBlack"))
                         .multilineTextAlignment(.center)
                     
                     HStack {
                         Button(action: onBack) {
                             Image(systemName: "chevron.left")
                                 .font(.system(size: 20, weight: .semibold))
-                                .foregroundColor(Color("Black"))
+                            .foregroundColor(Color("AppBlack"))
                         }
                         .padding(.leading, 16)
                         
@@ -36,11 +36,11 @@ struct CarrierInfoView: View {
                 .padding(.top, 8)
                 .padding(.bottom, 16)
             }
-            .background(Color("White"))
+            .background(Color("AppWhite"))
             
             Spacer()
         }
-        .background(Color("White"))
+        .background(Color("AppWhite"))
         .navigationBarHidden(true)
         .toolbar(.hidden, for: .tabBar)
     }

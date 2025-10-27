@@ -15,13 +15,13 @@ struct FilterScreenView: View {
     var body: some View {
         VStack(spacing: 0) {
             VStack(spacing: 0) {
-                Color("White").frame(height: 12).ignoresSafeArea(edges: .top)
+                Color("AppWhite").frame(height: 12).ignoresSafeArea(edges: .top)
                 
                 HStack {
                     Button(action: onBack) {
                         Image(systemName: "chevron.left")
                             .font(.system(size: 20, weight: .semibold))
-                            .foregroundColor(Color("Black"))
+                            .foregroundColor(Color("AppBlack"))
                     }
                     .padding(.leading, 16)
                     
@@ -31,14 +31,14 @@ struct FilterScreenView: View {
                 .padding(.top, 8)
                 
             }
-            .background(Color("White"))
+            .background(Color("AppWhite"))
             
             ScrollView {
                 VStack(spacing: 24) {
                     VStack(alignment: .leading, spacing: 16) {
                                Text("Время отправления")
                                    .font(.system(size: 24, weight: .bold))
-                                   .foregroundColor(Color("Black"))
+                                   .foregroundColor(Color("AppBlack"))
                         
                         VStack(spacing: 12) {
                             ForEach(TimeSlot.allCases, id: \.self) { timeSlot in
@@ -60,7 +60,7 @@ struct FilterScreenView: View {
                     VStack(alignment: .leading, spacing: 16) {
                                Text("Показывать варианты с пересадками")
                                    .font(.system(size: 24, weight: .bold))
-                                   .foregroundColor(Color("Black"))
+                                   .foregroundColor(Color("AppBlack"))
                         
                         VStack(spacing: 12) {
                             ForEach(TransferOption.allCases, id: \.self) { option in
@@ -98,7 +98,7 @@ struct FilterScreenView: View {
                 }
             }
         }
-        .background(Color("White"))
+        .background(Color("AppWhite"))
         .navigationBarHidden(true)
         .toolbar(.hidden, for: .tabBar)
     }
@@ -115,7 +115,7 @@ struct TimeSlotRow: View {
             HStack {
                 Text(timeSlot.rawValue)
                     .font(.system(size: 17))
-                    .foregroundColor(Color("Black"))
+                    .foregroundColor(Color("AppBlack"))
                 
                 Spacer()
                 
@@ -123,14 +123,14 @@ struct TimeSlotRow: View {
                     if isSelected {
                         Image(systemName: "checkmark")
                             .font(.system(size: 16, weight: .semibold))
-                            .foregroundColor(Color("White"))
+                            .foregroundColor(Color("AppWhite"))
                     }
                 }
                 .frame(width: 24, height: 24)
-                .background(isSelected ? Color("Black") : Color.clear)
+                .background(isSelected ? Color("AppBlack") : Color.clear)
                 .overlay(
                     RoundedRectangle(cornerRadius: 4)
-                        .stroke(Color("Black"), lineWidth: 1)
+                        .stroke(Color("AppBlack"), lineWidth: 1)
                 )
             }
             .padding(.vertical, 12)
@@ -149,18 +149,18 @@ struct TransferOptionRow: View {
             HStack {
                 Text(option.rawValue)
                     .font(.system(size: 17))
-                    .foregroundColor(Color("Black"))
+                    .foregroundColor(Color("AppBlack"))
                 
                 Spacer()
                 
                        ZStack {
                            Circle()
-                               .stroke(Color("Black"), lineWidth: 1)
+                           .stroke(Color("AppBlack"), lineWidth: 1)
                                .frame(width: 20, height: 20)
                            
                            if isSelected {
                                Circle()
-                                   .fill(Color("Black"))
+                                   .fill(Color("AppBlack"))
                                    .frame(width: 8, height: 8)
                            }
                        }

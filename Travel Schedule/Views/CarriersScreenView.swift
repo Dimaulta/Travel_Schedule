@@ -27,13 +27,13 @@ struct CarriersScreenView: View {
         VStack(spacing: 0) {
             // Навигационная панель
             VStack(spacing: 0) {
-                Color("White").frame(height: 12).ignoresSafeArea(edges: .top)
+                Color("AppWhite").frame(height: 12).ignoresSafeArea(edges: .top)
                 
                 HStack {
                     Button(action: onBack) {
                         Image(systemName: "chevron.left")
                             .font(.system(size: 20, weight: .semibold))
-                            .foregroundColor(Color("Black"))
+                            .foregroundColor(Color("AppBlack"))
                     }
                     .padding(.leading, 16)
                     
@@ -46,17 +46,17 @@ struct CarriersScreenView: View {
                 HStack(alignment: .center, spacing: 8) {
                     Text("\(fromCity) (\(fromStation))")
                         .font(.system(size: 24, weight: .bold))
-                        .foregroundColor(Color("Black"))
+                        .foregroundColor(Color("AppBlack"))
                     Image(systemName: "arrow.right")
                         .font(.system(size: 14, weight: .semibold))
                         .foregroundColor(Color("GrayUniversal"))
                     Text("\(toCity) (\(toStation))")
                         .font(.system(size: 24, weight: .bold))
-                        .foregroundColor(Color("Black"))
+                        .foregroundColor(Color("AppBlack"))
                 }
                 .padding(.bottom, 16)
             }
-            .background(Color("White"))
+            .background(Color("AppWhite"))
             
             // Основной контент
             if viewModel.isLoading {
@@ -71,7 +71,7 @@ struct CarriersScreenView: View {
                         .foregroundColor(Color("GrayUniversal"))
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Color("White"))
+                .background(Color("AppWhite"))
             } else if let errorMessage = viewModel.errorMessage {
                 // Сообщение об ошибке
                 VStack(spacing: 16) {
@@ -81,7 +81,7 @@ struct CarriersScreenView: View {
                     
                     Text("Ошибка")
                         .font(.system(size: 20, weight: .bold))
-                        .foregroundColor(Color("Black"))
+                        .foregroundColor(Color("AppBlack"))
                     
                     Text(errorMessage)
                         .font(.system(size: 16))
@@ -99,7 +99,7 @@ struct CarriersScreenView: View {
                     .padding(.top, 8)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Color("White"))
+                .background(Color("AppWhite"))
             } else if viewModel.trips.isEmpty {
                 // Экран "Вариантов нет" (без дублирования верхней панели и маршрута)
                 ZStack(alignment: .bottom) {
@@ -107,12 +107,12 @@ struct CarriersScreenView: View {
                         Spacer()
                         Text("Вариантов нет")
                             .font(.system(size: 24, weight: .bold))
-                            .foregroundColor(Color("Black"))
+                            .foregroundColor(Color("AppBlack"))
                             .multilineTextAlignment(.center)
                         Spacer()
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .background(Color("White"))
+                    .background(Color("AppWhite"))
 
                     // Кнопка "Уточнить время" внизу
                     VStack {
@@ -145,7 +145,7 @@ struct CarriersScreenView: View {
                         .padding(.top, 16)
                         .padding(.bottom, 100) // Отступ для кнопки внизу
                     }
-                    .background(Color("White"))
+                    .background(Color("AppWhite"))
                     
                     // Кнопка "Уточнить время" поверх скролла
                     VStack {
@@ -164,7 +164,7 @@ struct CarriersScreenView: View {
                         .padding(.bottom, 16)
                     }
                 }
-                .background(Color("White"))
+                .background(Color("AppWhite"))
             }
         }
         // Навигация через NavigationStack (как было), чтобы стек и стрелка назад работали корректно
@@ -200,7 +200,7 @@ struct CarriersScreenView: View {
         .fullScreenCover(isPresented: $showServerError) {
             ServerErrorView(onTabSelected: { _ in })
         }
-        .background(Color("White"))
+        .background(Color("AppWhite"))
     }
     
     private func loadTrips() async {

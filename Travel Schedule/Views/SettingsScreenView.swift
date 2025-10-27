@@ -15,12 +15,12 @@ struct SettingsScreenView: View {
             // Заголовок по центру
             Text("Настройки")
                 .font(.system(size: 24, weight: .bold))
-                .foregroundColor(Color("Black"))
+                .foregroundColor(Color("AppBlack"))
             
             Spacer()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color("White"))
+        .background(Color("AppWhite"))
     }
 }
 

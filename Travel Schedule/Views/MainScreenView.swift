@@ -21,7 +21,7 @@ struct MainScreenView: View {
     
     var body: some View {
         ZStack {
-            Color("White")
+            Color("AppWhite")
                 .ignoresSafeArea()
             
             VStack(spacing: 0) {
@@ -45,7 +45,7 @@ struct MainScreenView: View {
                                 HStack {
                                     Text(displayText(city: sessionManager.fromCity, station: sessionManager.fromStation, placeholder: "Откуда"))
                                         .font(.system(size: 17))
-                                        .foregroundColor(sessionManager.fromCity == nil ? Color("GrayUniversal") : Color("BlackUniversal"))
+                    .foregroundColor(sessionManager.fromCity == nil ? Color("GrayUniversal") : Color("BlackUniversal"))
                                     Spacer()
                                 }
                                 .contentShape(Rectangle())
@@ -56,7 +56,7 @@ struct MainScreenView: View {
                                 HStack {
                                     Text(displayText(city: sessionManager.toCity, station: sessionManager.toStation, placeholder: "Куда"))
                                         .font(.system(size: 17))
-                                        .foregroundColor(sessionManager.toCity == nil ? Color("GrayUniversal") : Color("BlackUniversal"))
+                    .foregroundColor(sessionManager.toCity == nil ? Color("GrayUniversal") : Color("BlackUniversal"))
                                     Spacer()
                                 }
                                 .contentShape(Rectangle())
@@ -305,20 +305,20 @@ struct CityPickerView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            Color("White")
+            Color("AppWhite")
                 .frame(height: 12)
                 .ignoresSafeArea(edges: .top)
 
             ZStack {
                 Text("Выбор города")
                     .font(.system(size: 17, weight: .bold))
-                    .foregroundColor(Color("Black"))
+                    .foregroundColor(Color("AppBlack"))
                     .multilineTextAlignment(.center)
                 HStack {
                     Button(action: { onCancel() }) {
                         Image(systemName: "chevron.left")
                             .font(.system(size: 20, weight: .semibold))
-                            .foregroundColor(Color("Black"))
+                            .foregroundColor(Color("AppBlack"))
                     }
                     .padding(.leading, 16)
                     Spacer()
@@ -333,7 +333,7 @@ struct CityPickerView: View {
                 TextField("Введите запрос", text: $viewModel.query)
                     .textInputAutocapitalization(.words)
                     .disableAutocorrection(true)
-                    .foregroundColor(Color("Black"))
+                    .foregroundColor(Color("AppBlack"))
                     .focused($searchFocused)
                 if searchFocused {
                     Button(action: { viewModel.query = "" }) {
@@ -353,7 +353,7 @@ struct CityPickerView: View {
                 VStack { 
                     Text("Город не найден")
                         .font(.system(size: 24, weight: .bold))
-                        .foregroundColor(Color("Black"))
+                        .foregroundColor(Color("AppBlack"))
                         .multilineTextAlignment(.center)
                         .padding(.top, 180)
                     
@@ -376,23 +376,23 @@ struct CityPickerView: View {
                             }) {
                                 HStack {
                                     Text(city.name)
-                                        .foregroundColor(Color("Black"))
+                                        .foregroundColor(Color("AppBlack"))
                                     Spacer()
                                     Image(systemName: "chevron.right")
                                         .font(.system(size: 20, weight: .semibold))
-                                        .foregroundColor(Color("Black"))
+                                        .foregroundColor(Color("AppBlack"))
                                 }
                                 .padding(.horizontal, 16)
                                 .padding(.vertical, 16)
                             }
-                            .background(Color("White"))
+            .background(Color("AppWhite"))
                         }
                     }
                 }
-                .background(Color("White"))
+                .background(Color("AppWhite"))
             }
         }
-        .background(Color("White"))
+        .background(Color("AppWhite"))
         .onAppear {
             viewModel.setErrorCallback {
                 showServerError = true
@@ -550,16 +550,16 @@ struct StationsPickerView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            Color("White").frame(height: 12).ignoresSafeArea(edges: .top)
+            Color("AppWhite").frame(height: 12).ignoresSafeArea(edges: .top)
             ZStack {
                 Text("Выбор станции")
                     .font(.system(size: 17, weight: .bold))
-                    .foregroundColor(Color("Black"))
+                    .foregroundColor(Color("AppBlack"))
                 HStack {
                     Button(action: { onCancel() }) {
                         Image(systemName: "chevron.left")
                             .font(.system(size: 20, weight: .semibold))
-                            .foregroundColor(Color("Black"))
+                            .foregroundColor(Color("AppBlack"))
                     }
                     .padding(.leading, 16)
                     Spacer()
@@ -574,7 +574,7 @@ struct StationsPickerView: View {
                 TextField("Введите запрос", text: $viewModel.query)
                     .textInputAutocapitalization(.words)
                     .disableAutocorrection(true)
-                    .foregroundColor(Color("Black"))
+                    .foregroundColor(Color("AppBlack"))
                     .focused($searchFocused)
                 if searchFocused {
                     Button(action: { viewModel.query = "" }) {
@@ -610,23 +610,23 @@ struct StationsPickerView: View {
                             Button(action: { onSelect(station) }) {
                                 HStack {
                                     Text(station.title)
-                                        .foregroundColor(Color("Black"))
+                                        .foregroundColor(Color("AppBlack"))
                                     Spacer()
                                     Image(systemName: "chevron.right")
                                         .font(.system(size: 20, weight: .semibold))
-                                        .foregroundColor(Color("Black"))
+                                        .foregroundColor(Color("AppBlack"))
                                 }
                                 .padding(.horizontal, 16)
                                 .padding(.vertical, 16)
                             }
-                            .background(Color("White"))
+                            .background(Color("AppWhite"))
                         }
                     }
                 }
-                .background(Color("White"))
+                .background(Color("AppWhite"))
             }
         }
-        .background(Color("White"))
+        .background(Color("AppWhite"))
         .onAppear {
             viewModel.setErrorCallback {
                 showServerError = true

@@ -22,13 +22,13 @@ struct NoInternetView: View {
                 
                 Text("Нет интернета")
                     .font(.system(size: 24, weight: .bold))
-                    .foregroundColor(Color("Black"))
+                    .foregroundColor(Color("AppBlack"))
                     .multilineTextAlignment(.center)
                 
                 Spacer()
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color("White"))
+            .background(Color("AppWhite"))
             
             VStack(spacing: 0) {
                 Divider()
@@ -44,7 +44,7 @@ struct NoInternetView: View {
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 30, height: 30)
-                                .foregroundColor(Color("Black"))
+                                .foregroundColor(Color("AppBlack"))
                         }
                     }
                     .frame(maxWidth: .infinity)
@@ -64,10 +64,10 @@ struct NoInternetView: View {
                     .frame(maxWidth: .infinity)
                 }
                 .padding(.vertical, 8)
-                .background(Color("White"))
+                .background(Color("AppWhite"))
             }
         }
-        .background(Color("White"))
+        .background(Color("AppWhite"))
     }
 }
 
