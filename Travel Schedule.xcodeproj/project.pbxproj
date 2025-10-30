@@ -21,6 +21,23 @@
 		33D0B00A2E8C00010000000A /* Travel Schedule/Services/ThreadService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A00A2E8C00010000000A /* Travel Schedule/Services/ThreadService.swift */; };
 		33D0B00B2E8C00010000000B /* Travel Schedule/Generated/Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A00B2E8C00010000000B /* Travel Schedule/Generated/Client.swift */; };
 		33D0B00C2E8C00010000000C /* Travel Schedule/Generated/Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A00C2E8C00010000000C /* Travel Schedule/Generated/Types.swift */; };
+		33D0B00F2E8C00010000000F /* Travel Schedule/Views/MainScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A00F2E8C00010000000F /* Travel Schedule/Views/MainScreenView.swift */; };
+		33D0B0102E8C000100000010 /* Travel Schedule/Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 33D0A0102E8C000100000010 /* Travel Schedule/Assets.xcassets */; };
+		33D0B0112E8C000100000011 /* Travel Schedule/Views/SettingsScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0112E8C000100000011 /* Travel Schedule/Views/SettingsScreenView.swift */; };
+		33D0B0122E8C000100000012 /* Travel Schedule/Services/DirectoryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0122E8C000100000012 /* Travel Schedule/Services/DirectoryService.swift */; };
+		33D0B0132E8C000100000013 /* Travel Schedule/LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33D0A0132E8C000100000013 /* Travel Schedule/LaunchScreen.storyboard */; };
+		33D0B0142E8C000100000014 /* Travel Schedule/Views/CarriersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0142E8C000100000014 /* Travel Schedule/Views/CarriersViewModel.swift */; };
+		33D0B0152E8C000100000015 /* Travel Schedule/Views/CarrierCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0152E8C000100000015 /* Travel Schedule/Views/CarrierCardView.swift */; };
+		33D0B0162E8C000100000016 /* Travel Schedule/Views/CarriersScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0162E8C000100000016 /* Travel Schedule/Views/CarriersScreenView.swift */; };
+		33D0B0172E8C000100000017 /* Travel Schedule/Views/FilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0172E8C000100000017 /* Travel Schedule/Views/FilterViewModel.swift */; };
+		33D0B0182E8C000100000018 /* Travel Schedule/Views/FilterScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0182E8C000100000018 /* Travel Schedule/Views/FilterScreenView.swift */; };
+		33D0B0192E8C000100000019 /* Travel Schedule/Views/CarrierInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0192E8C000100000019 /* Travel Schedule/Views/CarrierInfoView.swift */; };
+		33D0B0202E8C000100000020 /* Travel Schedule/Views/ServerErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0202E8C000100000020 /* Travel Schedule/Views/ServerErrorView.swift */; };
+		33D0B0212E8C000100000021 /* Travel Schedule/Views/NoInternetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0212E8C000100000021 /* Travel Schedule/Views/NoInternetView.swift */; };
+		33D0B0222E8C000100000022 /* Travel Schedule/Views/TestErrorScreensView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0222E8C000100000022 /* Travel Schedule/Views/TestErrorScreensView.swift */; };
+		33D0B0232E8C000100000023 /* Travel Schedule/Views/MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0232E8C000100000023 /* Travel Schedule/Views/MainTabView.swift */; };
+		33D0B0242E8C000100000024 /* Travel Schedule/Utils/NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0242E8C000100000024 /* Travel Schedule/Utils/NetworkMonitor.swift */; };
+		33D0B0252E8C000100000025 /* Travel Schedule/Utils/SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0252E8C000100000025 /* Travel Schedule/Utils/SessionManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +73,23 @@
 		33D0A00A2E8C00010000000A /* Travel Schedule/Services/ThreadService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Services/ThreadService.swift"; sourceTree = SOURCE_ROOT; };
 		33D0A00B2E8C00010000000B /* Travel Schedule/Generated/Client.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Generated/Client.swift"; sourceTree = SOURCE_ROOT; };
 		33D0A00C2E8C00010000000C /* Travel Schedule/Generated/Types.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Generated/Types.swift"; sourceTree = SOURCE_ROOT; };
+		33D0A00F2E8C00010000000F /* Travel Schedule/Views/MainScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Views/MainScreenView.swift"; sourceTree = SOURCE_ROOT; };
+		33D0A0102E8C000100000010 /* Travel Schedule/Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Travel Schedule/Assets.xcassets"; sourceTree = SOURCE_ROOT; };
+		33D0A0112E8C000100000011 /* Travel Schedule/Views/SettingsScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Views/SettingsScreenView.swift"; sourceTree = SOURCE_ROOT; };
+		33D0A0122E8C000100000012 /* Travel Schedule/Services/DirectoryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Services/DirectoryService.swift"; sourceTree = SOURCE_ROOT; };
+		33D0A0132E8C000100000013 /* Travel Schedule/LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Travel Schedule/LaunchScreen.storyboard"; sourceTree = SOURCE_ROOT; };
+		33D0A0142E8C000100000014 /* Travel Schedule/Views/CarriersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Views/CarriersViewModel.swift"; sourceTree = SOURCE_ROOT; };
+		33D0A0152E8C000100000015 /* Travel Schedule/Views/CarrierCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Views/CarrierCardView.swift"; sourceTree = SOURCE_ROOT; };
+		33D0A0162E8C000100000016 /* Travel Schedule/Views/CarriersScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Views/CarriersScreenView.swift"; sourceTree = SOURCE_ROOT; };
+		33D0A0172E8C000100000017 /* Travel Schedule/Views/FilterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Views/FilterViewModel.swift"; sourceTree = SOURCE_ROOT; };
+		33D0A0182E8C000100000018 /* Travel Schedule/Views/FilterScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Views/FilterScreenView.swift"; sourceTree = SOURCE_ROOT; };
+		33D0A0192E8C000100000019 /* Travel Schedule/Views/CarrierInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Views/CarrierInfoView.swift"; sourceTree = SOURCE_ROOT; };
+		33D0A0202E8C000100000020 /* Travel Schedule/Views/ServerErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Views/ServerErrorView.swift"; sourceTree = SOURCE_ROOT; };
+		33D0A0212E8C000100000021 /* Travel Schedule/Views/NoInternetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Views/NoInternetView.swift"; sourceTree = SOURCE_ROOT; };
+		33D0A0222E8C000100000022 /* Travel Schedule/Views/TestErrorScreensView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Views/TestErrorScreensView.swift"; sourceTree = SOURCE_ROOT; };
+		33D0A0232E8C000100000023 /* Travel Schedule/Views/MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Views/MainTabView.swift"; sourceTree = SOURCE_ROOT; };
+		33D0A0242E8C000100000024 /* Travel Schedule/Utils/NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Utils/NetworkMonitor.swift"; sourceTree = SOURCE_ROOT; };
+		33D0A0252E8C000100000025 /* Travel Schedule/Utils/SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Utils/SessionManager.swift"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -139,6 +173,23 @@
 				33D0A00A2E8C00010000000A /* Travel Schedule/Services/ThreadService.swift */,
 				33D0A00B2E8C00010000000B /* Travel Schedule/Generated/Client.swift */,
 				33D0A00C2E8C00010000000C /* Travel Schedule/Generated/Types.swift */,
+				33D0A00F2E8C00010000000F /* Travel Schedule/Views/MainScreenView.swift */,
+				33D0A0102E8C000100000010 /* Travel Schedule/Assets.xcassets */,
+				33D0A0112E8C000100000011 /* Travel Schedule/Views/SettingsScreenView.swift */,
+				33D0A0122E8C000100000012 /* Travel Schedule/Services/DirectoryService.swift */,
+				33D0A0132E8C000100000013 /* Travel Schedule/LaunchScreen.storyboard */,
+				33D0A0142E8C000100000014 /* Travel Schedule/Views/CarriersViewModel.swift */,
+				33D0A0152E8C000100000015 /* Travel Schedule/Views/CarrierCardView.swift */,
+				33D0A0162E8C000100000016 /* Travel Schedule/Views/CarriersScreenView.swift */,
+				33D0A0172E8C000100000017 /* Travel Schedule/Views/FilterViewModel.swift */,
+				33D0A0182E8C000100000018 /* Travel Schedule/Views/FilterScreenView.swift */,
+				33D0A0192E8C000100000019 /* Travel Schedule/Views/CarrierInfoView.swift */,
+				33D0A0202E8C000100000020 /* Travel Schedule/Views/ServerErrorView.swift */,
+				33D0A0212E8C000100000021 /* Travel Schedule/Views/NoInternetView.swift */,
+				33D0A0222E8C000100000022 /* Travel Schedule/Views/TestErrorScreensView.swift */,
+				33D0A0232E8C000100000023 /* Travel Schedule/Views/MainTabView.swift */,
+				33D0A0242E8C000100000024 /* Travel Schedule/Utils/NetworkMonitor.swift */,
+				33D0A0252E8C000100000025 /* Travel Schedule/Utils/SessionManager.swift */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -261,6 +312,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				33D0B0102E8C000100000010 /* Travel Schedule/Assets.xcassets in Resources */,
+				33D0B0132E8C000100000013 /* Travel Schedule/LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -297,6 +350,21 @@
 				33D0B00A2E8C00010000000A /* Travel Schedule/Services/ThreadService.swift in Sources */,
 				33D0B00B2E8C00010000000B /* Travel Schedule/Generated/Client.swift in Sources */,
 				33D0B00C2E8C00010000000C /* Travel Schedule/Generated/Types.swift in Sources */,
+				33D0B00F2E8C00010000000F /* Travel Schedule/Views/MainScreenView.swift in Sources */,
+				33D0B0112E8C000100000011 /* Travel Schedule/Views/SettingsScreenView.swift in Sources */,
+				33D0B0122E8C000100000012 /* Travel Schedule/Services/DirectoryService.swift in Sources */,
+				33D0B0142E8C000100000014 /* Travel Schedule/Views/CarriersViewModel.swift in Sources */,
+				33D0B0152E8C000100000015 /* Travel Schedule/Views/CarrierCardView.swift in Sources */,
+				33D0B0162E8C000100000016 /* Travel Schedule/Views/CarriersScreenView.swift in Sources */,
+				33D0B0172E8C000100000017 /* Travel Schedule/Views/FilterViewModel.swift in Sources */,
+				33D0B0182E8C000100000018 /* Travel Schedule/Views/FilterScreenView.swift in Sources */,
+				33D0B0192E8C000100000019 /* Travel Schedule/Views/CarrierInfoView.swift in Sources */,
+				33D0B0202E8C000100000020 /* Travel Schedule/Views/ServerErrorView.swift in Sources */,
+				33D0B0212E8C000100000021 /* Travel Schedule/Views/NoInternetView.swift in Sources */,
+				33D0B0222E8C000100000022 /* Travel Schedule/Views/TestErrorScreensView.swift in Sources */,
+				33D0B0232E8C000100000023 /* Travel Schedule/Views/MainTabView.swift in Sources */,
+				33D0B0242E8C000100000024 /* Travel Schedule/Utils/NetworkMonitor.swift in Sources */,
+				33D0B0252E8C000100000025 /* Travel Schedule/Utils/SessionManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -452,16 +520,17 @@
 		33238CA72E8A7DC300002BCC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+                ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = TDZSZ2LF4X;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+                ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = NO;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -481,16 +550,17 @@
 		33238CA82E8A7DC300002BCC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+                ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = TDZSZ2LF4X;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+                ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = NO;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
