@@ -2,7 +2,7 @@
 //  SettingsScreenView.swift
 //  Travel Schedule
 //
-//  Created by Ульта on 18.10.2025.
+//  Created by Ульта on 18.10.2025. 
 //
 
 import SwiftUI
