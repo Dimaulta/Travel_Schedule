@@ -38,6 +38,8 @@
 		33D0B0232E8C000100000023 /* Travel Schedule/Views/MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0232E8C000100000023 /* Travel Schedule/Views/MainTabView.swift */; };
 		33D0B0242E8C000100000024 /* Travel Schedule/Utils/NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0242E8C000100000024 /* Travel Schedule/Utils/NetworkMonitor.swift */; };
 		33D0B0252E8C000100000025 /* Travel Schedule/Utils/SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0252E8C000100000025 /* Travel Schedule/Utils/SessionManager.swift */; };
+		33D0B0262E8C000100000026 /* Travel Schedule/Views/UserAgreementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0262E8C000100000026 /* Travel Schedule/Views/UserAgreementView.swift */; };
+		33D0B0272E8C000100000027 /* Travel Schedule/Views/WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0272E8C000100000027 /* Travel Schedule/Views/WebView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,6 +92,8 @@
 		33D0A0232E8C000100000023 /* Travel Schedule/Views/MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Views/MainTabView.swift"; sourceTree = SOURCE_ROOT; };
 		33D0A0242E8C000100000024 /* Travel Schedule/Utils/NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Utils/NetworkMonitor.swift"; sourceTree = SOURCE_ROOT; };
 		33D0A0252E8C000100000025 /* Travel Schedule/Utils/SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Utils/SessionManager.swift"; sourceTree = SOURCE_ROOT; };
+		33D0A0262E8C000100000026 /* Travel Schedule/Views/UserAgreementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Views/UserAgreementView.swift"; sourceTree = SOURCE_ROOT; };
+		33D0A0272E8C000100000027 /* Travel Schedule/Views/WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Views/WebView.swift"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -190,6 +194,8 @@
 				33D0A0232E8C000100000023 /* Travel Schedule/Views/MainTabView.swift */,
 				33D0A0242E8C000100000024 /* Travel Schedule/Utils/NetworkMonitor.swift */,
 				33D0A0252E8C000100000025 /* Travel Schedule/Utils/SessionManager.swift */,
+				33D0A0262E8C000100000026 /* Travel Schedule/Views/UserAgreementView.swift */,
+				33D0A0272E8C000100000027 /* Travel Schedule/Views/WebView.swift */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -365,6 +371,8 @@
 				33D0B0232E8C000100000023 /* Travel Schedule/Views/MainTabView.swift in Sources */,
 				33D0B0242E8C000100000024 /* Travel Schedule/Utils/NetworkMonitor.swift in Sources */,
 				33D0B0252E8C000100000025 /* Travel Schedule/Utils/SessionManager.swift in Sources */,
+				33D0B0262E8C000100000026 /* Travel Schedule/Views/UserAgreementView.swift in Sources */,
+				33D0B0272E8C000100000027 /* Travel Schedule/Views/WebView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
