@@ -10,6 +10,7 @@ import SwiftUI
 struct SettingsScreenView: View {
     @AppStorage("isDarkModeEnabled") private var isDarkModeEnabled = false
     @State private var showUserAgreement = false
+    @AppStorage("storiesViewedIndices") private var storiesViewedIndices = ""
     
     var body: some View {
         VStack(spacing: 0) {
@@ -49,6 +50,15 @@ struct SettingsScreenView: View {
             Spacer()
             
             VStack(spacing: 6) {
+                 /* Button(action: {
+                     storiesViewedIndices = ""
+                     NotificationCenter.default.post(name: Notification.Name("storiesViewedReset"), object: nil)
+                 }) {
+                     Text("Сбросить сторис")
+                         .font(.system(size: 13, weight: .semibold))
+                         .foregroundColor(Color("BlueUniversal"))
+                 }
+                 .padding(.bottom, 8) */
                 Text("Приложение использует API «Яндекс.Расписания»")
                     .font(.system(size: 12))
                     .foregroundColor(Color("GrayUniversal"))
@@ -60,7 +70,7 @@ struct SettingsScreenView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color("AppWhite"))
-        .navigationDestination(isPresented: $showUserAgreement) {
+        .fullScreenCover(isPresented: $showUserAgreement) {
             UserAgreementView(onBack: { showUserAgreement = false })
         }
     }

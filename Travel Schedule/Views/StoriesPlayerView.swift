@@ -49,18 +49,15 @@ struct StoriesPlayerView: View {
         .onDisappear { cancellable?.cancel() }
         .onReceive(timer) { _ in if viewModel.tick() { onClose(); viewModel.stop() } }
         .overlay(
-            VStack(spacing: 0) {
-                Spacer().frame(height: 104) // зона под прогрессом и кнопкой, клики не перехватываем
-                HStack(spacing: 0) {
-                    Color.clear
-                        .contentShape(Rectangle())
-                        .onTapGesture { viewModel.advanceToPrevStory() }
-                    Color.clear
-                        .contentShape(Rectangle())
-                        .onTapGesture { viewModel.advanceToNextStory() }
-                }
-                Spacer(minLength: 0)
+            HStack(spacing: 0) {
+                Color.clear
+                    .contentShape(Rectangle())
+                    .onTapGesture { viewModel.advanceToPrevStory() }
+                Color.clear
+                    .contentShape(Rectangle())
+                    .onTapGesture { viewModel.advanceToNextStory() }
             }
+            .padding(.top, 140) 
             .ignoresSafeArea()
         )
     }

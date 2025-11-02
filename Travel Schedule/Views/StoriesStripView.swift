@@ -23,6 +23,7 @@ struct StoriesStripView: View {
                                 Image(item.imageName)
                                     .resizable()
                                     .scaledToFill()
+                                    .opacity(viewModel.isViewed(index) ? 0.5 : 1.0)
                             }
                             LinearGradient(
                                 gradient: Gradient(colors: [Color.black.opacity(0.0), Color.black.opacity(0.45)]),
@@ -42,6 +43,10 @@ struct StoriesStripView: View {
                         .frame(width: 92, height: 140)
                         .clipped()
                         .cornerRadius(16)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 16)
+                                .stroke(viewModel.isViewed(index) ? Color.clear : Color("BlueUniversal"), lineWidth: viewModel.isViewed(index) ? 0 : 4)
+                        )
                     }
                 }
             }

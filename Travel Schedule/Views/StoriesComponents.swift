@@ -23,6 +23,9 @@ struct StoriesCloseButton: View {
             }
             .shadow(radius: 3)
         }
+        .padding(.horizontal, 10)
+        .padding(.vertical, 10)
+        .contentShape(Rectangle())
         .buttonStyle(.plain)
     }
 }
