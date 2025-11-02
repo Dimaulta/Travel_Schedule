@@ -18,6 +18,9 @@ struct MainScreenView: View {
     @State private var pickerTarget: PickerTarget? = nil
     @State private var showCarriers = false
     @State private var didPrefetchDirectory = false
+    @StateObject private var storiesViewModel = StoriesViewModel()
+    @State private var showStoriesPlayer = false
+    @State private var openedStoryIndex = 0
     
     var body: some View {
         ZStack {
@@ -25,15 +28,10 @@ struct MainScreenView: View {
                 .ignoresSafeArea()
             
             VStack(spacing: 0) {
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 12) {
-                            ForEach(0..<4) { index in
-                                StoryCardView(isActive: index < 2)
-                            }
-                        }
-                        .padding(.horizontal, 16)
+                    StoriesStripView(viewModel: storiesViewModel) { index in
+                        openedStoryIndex = index
+                        showStoriesPlayer = true
                     }
-                    .padding(.top, 12)
 
                     ZStack(alignment: .trailing) {
                         RoundedRectangle(cornerRadius: 20)
@@ -130,6 +128,11 @@ struct MainScreenView: View {
             )
             .toolbar(.hidden, for: .tabBar)
             .navigationBarHidden(true)
+        }
+        .fullScreenCover(isPresented: $showStoriesPlayer) {
+            StoriesPlayerView(viewModel: storiesViewModel, startIndex: openedStoryIndex) {
+                showStoriesPlayer = false
+            }
         }
         .task {
             guard didPrefetchDirectory == false else { return }
