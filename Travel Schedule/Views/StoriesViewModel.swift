@@ -85,7 +85,7 @@ final class StoriesViewModel: ObservableObject {
         let perTick = 1.0 / CGFloat(items.count) / CGFloat(secondsPerStory / tickInterval)
         let idxBefore = currentIndex
 
-        // учёт 1 секунды просмотра для текущей истории
+        // учёт 0.5 секунды просмотра для текущей истории
         if currentIndex == lastIndex {
             elapsedInCurrentStory += tickInterval
         } else {
