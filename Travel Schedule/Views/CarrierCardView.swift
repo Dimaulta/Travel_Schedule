@@ -143,7 +143,11 @@ struct CarrierLogoView: View {
         carrier: CarrierInfo(
             title: "РЖД",
             logo: nil,
-            code: 1
+            code: 1,
+            email: nil,
+            phone: nil,
+            url: nil,
+            contacts: nil
         ),
         departureTime: "22:30",
         arrivalTime: "08:15",

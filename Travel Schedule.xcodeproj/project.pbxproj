@@ -38,6 +38,8 @@
 		33D0B0232E8C000100000023 /* Travel Schedule/Views/MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0232E8C000100000023 /* Travel Schedule/Views/MainTabView.swift */; };
 		33D0B0242E8C000100000024 /* Travel Schedule/Utils/NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0242E8C000100000024 /* Travel Schedule/Utils/NetworkMonitor.swift */; };
 		33D0B0252E8C000100000025 /* Travel Schedule/Utils/SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0252E8C000100000025 /* Travel Schedule/Utils/SessionManager.swift */; };
+		33D0B0262E8C000100000026 /* Travel Schedule/Views/UserAgreementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0262E8C000100000026 /* Travel Schedule/Views/UserAgreementView.swift */; };
+		33D0B0272E8C000100000027 /* Travel Schedule/Views/WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0272E8C000100000027 /* Travel Schedule/Views/WebView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,11 +92,29 @@
 		33D0A0232E8C000100000023 /* Travel Schedule/Views/MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Views/MainTabView.swift"; sourceTree = SOURCE_ROOT; };
 		33D0A0242E8C000100000024 /* Travel Schedule/Utils/NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Utils/NetworkMonitor.swift"; sourceTree = SOURCE_ROOT; };
 		33D0A0252E8C000100000025 /* Travel Schedule/Utils/SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Utils/SessionManager.swift"; sourceTree = SOURCE_ROOT; };
+		33D0A0262E8C000100000026 /* Travel Schedule/Views/UserAgreementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Views/UserAgreementView.swift"; sourceTree = SOURCE_ROOT; };
+		33D0A0272E8C000100000027 /* Travel Schedule/Views/WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Views/WebView.swift"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		331CFBDA2EB7B6A4008241EA /* Exceptions for "Travel Schedule" folder in "Travel Schedule" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Views/StoriesComponents.swift,
+				Views/StoriesPlayerView.swift,
+				Views/StoriesStripView.swift,
+				Views/StoriesViewModel.swift,
+			);
+			target = 33238C812E8A7DC100002BCC /* Travel Schedule */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		33238C842E8A7DC100002BCC /* Travel Schedule */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				331CFBDA2EB7B6A4008241EA /* Exceptions for "Travel Schedule" folder in "Travel Schedule" target */,
+			);
 			path = "Travel Schedule";
 			sourceTree = "<group>";
 		};
@@ -190,6 +210,8 @@
 				33D0A0232E8C000100000023 /* Travel Schedule/Views/MainTabView.swift */,
 				33D0A0242E8C000100000024 /* Travel Schedule/Utils/NetworkMonitor.swift */,
 				33D0A0252E8C000100000025 /* Travel Schedule/Utils/SessionManager.swift */,
+				33D0A0262E8C000100000026 /* Travel Schedule/Views/UserAgreementView.swift */,
+				33D0A0272E8C000100000027 /* Travel Schedule/Views/WebView.swift */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -365,6 +387,8 @@
 				33D0B0232E8C000100000023 /* Travel Schedule/Views/MainTabView.swift in Sources */,
 				33D0B0242E8C000100000024 /* Travel Schedule/Utils/NetworkMonitor.swift in Sources */,
 				33D0B0252E8C000100000025 /* Travel Schedule/Utils/SessionManager.swift in Sources */,
+				33D0B0262E8C000100000026 /* Travel Schedule/Views/UserAgreementView.swift in Sources */,
+				33D0B0272E8C000100000027 /* Travel Schedule/Views/WebView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -520,14 +544,14 @@
 		33238CA72E8A7DC300002BCC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-                ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = NO;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = TDZSZ2LF4X;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-                ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = NO;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -550,14 +574,14 @@
 		33238CA82E8A7DC300002BCC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-                ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = NO;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = TDZSZ2LF4X;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-                ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = NO;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
