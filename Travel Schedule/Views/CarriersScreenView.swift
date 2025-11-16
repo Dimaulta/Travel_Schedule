@@ -204,9 +204,8 @@ struct CarriersScreenView: View {
                     onNoInternet?()
                 }
             )
-            
-            Task { await loadTrips() }
         }
+        .task { await loadTrips() }
         .navigationBarHidden(true)
         .toolbar(.hidden, for: .tabBar)
         .fullScreenCover(isPresented: $showServerError) {
@@ -217,12 +216,11 @@ struct CarriersScreenView: View {
     
     private func loadTrips() async {
         do {
-            // Создаем экземпляр DirectoryService
-            let directoryService = DirectoryService(apikey: "50889f83-e54c-4e2e-b9b9-7d5fe468a025")
-            
-            // Получаем станции для городов
-            let fromStations = try await directoryService.fetchStations(inCityTitle: fromCity)
-            let toStations = try await directoryService.fetchStations(inCityTitle: toCity)
+            let apikey = "50889f83-e54c-4e2e-b9b9-7d5fe468a025"
+            // Загружаем списки станций параллельно
+            async let fromStationsAsync = ApiClient.shared.fetchStations(inCityTitle: fromCity, apikey: apikey)
+            async let toStationsAsync = ApiClient.shared.fetchStations(inCityTitle: toCity, apikey: apikey)
+            let (fromStations, toStations) = try await (fromStationsAsync, toStationsAsync)
             
             // Находим коды станций по названиям
             let fromCode = fromStations.first { $0.title == fromStation }?.yandexCode

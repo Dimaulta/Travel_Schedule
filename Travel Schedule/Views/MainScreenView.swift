@@ -17,7 +17,7 @@ struct MainScreenView: View {
     @State private var showCityPicker = false
     @State private var pickerTarget: PickerTarget? = nil
     @State private var showCarriers = false
-    @State private var didPrefetchDirectory = false
+    @StateObject private var mainViewModel = MainViewModel()
     @StateObject private var storiesViewModel = StoriesViewModel()
     @State private var showStoriesPlayer = false
     @State private var openedStoryIndex = 0
@@ -134,19 +134,7 @@ struct MainScreenView: View {
                 showStoriesPlayer = false
             }
         }
-        .task {
-            guard didPrefetchDirectory == false else { return }
-            didPrefetchDirectory = true
-            let directory = DirectoryService(apikey: "50889f83-e54c-4e2e-b9b9-7d5fe468a025")
-            do { _ = try await directory.fetchAllCities() }
-            catch {
-                if error.localizedDescription.contains("network") ||
-                   error.localizedDescription.contains("internet") ||
-                   error.localizedDescription.contains("offline") {
-                    onNoInternet()
-                } else { onServerError() }
-            }
-        }
+        .task { await mainViewModel.prefetchDirectory(apikey: "50889f83-e54c-4e2e-b9b9-7d5fe468a025", onServerError: onServerError, onNoInternet: onNoInternet) }
         .navigationDestination(isPresented: $showCarriers) {
             if let fromCity = sessionManager.fromCity,
                let fromStation = sessionManager.fromStation,
@@ -235,11 +223,12 @@ private enum PickerTarget { case from, to }
 
 // MARK: - Сити пикер 
 
-struct City: Identifiable, Equatable, Hashable {
+struct City: Identifiable, Equatable, Hashable, Sendable {
     let id = UUID()
     let name: String
 }
 
+@MainActor
 final class CityPickerViewModel: ObservableObject {
     @Published var query: String = ""
     @Published private(set) var allCities: [City] = []
@@ -260,15 +249,14 @@ final class CityPickerViewModel: ObservableObject {
 
     func loadCities() async {
         do {
-            let directory = DirectoryService(apikey: "50889f83-e54c-4e2e-b9b9-7d5fe468a025")
-            let cities = try await directory.fetchAllCities()
+            let cities = try await ApiClient.shared.fetchAllCities(apikey: "50889f83-e54c-4e2e-b9b9-7d5fe468a025")
             let mapped = cities.map { City(name: $0.title) }
-            await MainActor.run { self.allCities = mapped.isEmpty ? self.defaultCities : mapped }
+            self.allCities = mapped.isEmpty ? self.defaultCities : mapped
         } catch {
             if error.localizedDescription.contains("network") || 
                error.localizedDescription.contains("internet") ||
                error.localizedDescription.contains("offline") {
-                await MainActor.run { self.allCities = self.defaultCities }
+                self.allCities = self.defaultCities
             } else {
                 onServerError?()
             }
@@ -402,8 +390,8 @@ struct CityPickerView: View {
             }
             
             DispatchQueue.main.async { UIResponder.currentFirstResponderBecomesFirst(text: viewModel) }
-            Task { await viewModel.loadCities() }
         }
+        .task { await viewModel.loadCities() }
         .fullScreenCover(isPresented: $showServerError) {
             ServerErrorView(onTabSelected: onTabSelected ?? { _ in })
         }
@@ -451,12 +439,13 @@ struct SearchPrimaryButton: View {
 
 // MARK: - Выбор станции
 
-struct Station: Identifiable, Equatable {
+struct Station: Identifiable, Equatable, Sendable {
     let id = UUID()
     let code: String?
     let title: String
 }
 
+@MainActor
 final class StationsPickerViewModel: ObservableObject {
     @Published var query: String = ""
     @Published private(set) var allStations: [Station] = []
@@ -500,19 +489,17 @@ final class StationsPickerViewModel: ObservableObject {
         }
         do {
             
-            let directory = DirectoryService(apikey: "50889f83-e54c-4e2e-b9b9-7d5fe468a025")
-            let stations = try await directory.fetchStations(inCityTitle: cityTitle)
+            let stationsResponse = try await ApiClient.shared.fetchStations(inCityTitle: cityTitle, apikey: "50889f83-e54c-4e2e-b9b9-7d5fe468a025")
+            let stations = stationsResponse
             let mapped = stations.map { Station(code: $0.yandexCode, title: $0.title) }
             
-        await MainActor.run { 
-            self.allStations = mapped 
+        self.allStations = mapped 
             
-        }
         } catch {
             if error.localizedDescription.contains("network") || 
                error.localizedDescription.contains("internet") ||
                error.localizedDescription.contains("offline") {
-                await MainActor.run { self.allStations = [] }
+                self.allStations = []
             } else {
                 onServerError?()
             }

@@ -40,6 +40,9 @@
 		33D0B0252E8C000100000025 /* Travel Schedule/Utils/SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0252E8C000100000025 /* Travel Schedule/Utils/SessionManager.swift */; };
 		33D0B0262E8C000100000026 /* Travel Schedule/Views/UserAgreementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0262E8C000100000026 /* Travel Schedule/Views/UserAgreementView.swift */; };
 		33D0B0272E8C000100000027 /* Travel Schedule/Views/WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0272E8C000100000027 /* Travel Schedule/Views/WebView.swift */; };
+		33D0B0282E8C000100000028 /* Travel Schedule/Services/ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0282E8C000100000028 /* Travel Schedule/Services/ApiClient.swift */; };
+		33D0B0292E8C000100000029 /* Travel Schedule/Views/MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A0292E8C000100000029 /* Travel Schedule/Views/MainViewModel.swift */; };
+		33D0B02A2E8C00010000002A /* Travel Schedule/Views/SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D0A02A2E8C00010000002A /* Travel Schedule/Views/SettingsViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -94,6 +97,9 @@
 		33D0A0252E8C000100000025 /* Travel Schedule/Utils/SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Utils/SessionManager.swift"; sourceTree = SOURCE_ROOT; };
 		33D0A0262E8C000100000026 /* Travel Schedule/Views/UserAgreementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Views/UserAgreementView.swift"; sourceTree = SOURCE_ROOT; };
 		33D0A0272E8C000100000027 /* Travel Schedule/Views/WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Views/WebView.swift"; sourceTree = SOURCE_ROOT; };
+		33D0A0282E8C000100000028 /* Travel Schedule/Services/ApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Services/ApiClient.swift"; sourceTree = SOURCE_ROOT; };
+		33D0A0292E8C000100000029 /* Travel Schedule/Views/MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Views/MainViewModel.swift"; sourceTree = SOURCE_ROOT; };
+		33D0A02A2E8C00010000002A /* Travel Schedule/Views/SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Travel Schedule/Views/SettingsViewModel.swift"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -212,6 +218,9 @@
 				33D0A0252E8C000100000025 /* Travel Schedule/Utils/SessionManager.swift */,
 				33D0A0262E8C000100000026 /* Travel Schedule/Views/UserAgreementView.swift */,
 				33D0A0272E8C000100000027 /* Travel Schedule/Views/WebView.swift */,
+				33D0A0282E8C000100000028 /* Travel Schedule/Services/ApiClient.swift */,
+				33D0A0292E8C000100000029 /* Travel Schedule/Views/MainViewModel.swift */,
+				33D0A02A2E8C00010000002A /* Travel Schedule/Views/SettingsViewModel.swift */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -389,6 +398,9 @@
 				33D0B0252E8C000100000025 /* Travel Schedule/Utils/SessionManager.swift in Sources */,
 				33D0B0262E8C000100000026 /* Travel Schedule/Views/UserAgreementView.swift in Sources */,
 				33D0B0272E8C000100000027 /* Travel Schedule/Views/WebView.swift in Sources */,
+				33D0B0282E8C000100000028 /* Travel Schedule/Services/ApiClient.swift in Sources */,
+				33D0B0292E8C000100000029 /* Travel Schedule/Views/MainViewModel.swift in Sources */,
+				33D0B02A2E8C00010000002A /* Travel Schedule/Views/SettingsViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -566,6 +578,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "ru.yandex.practicum.Travel-Schedule";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -596,6 +609,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "ru.yandex.practicum.Travel-Schedule";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
