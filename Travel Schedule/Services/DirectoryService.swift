@@ -7,11 +7,11 @@
 
 import Foundation
 
-struct DirectoryCity: Hashable {
+struct DirectoryCity: Hashable, Sendable {
     let title: String
 }
 
-struct DirectoryStation: Hashable {
+struct DirectoryStation: Hashable, Sendable {
     let title: String
     let yandexCode: String?
 }

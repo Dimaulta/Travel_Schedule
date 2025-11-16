@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Combine
+@preconcurrency import Foundation
 
 struct StoryItem: Identifiable, Equatable {
     let id = UUID()
@@ -28,7 +29,7 @@ final class StoriesViewModel: ObservableObject {
     private let tickInterval: TimeInterval = 0.05
     private var lastIndex: Int = 0
     private var elapsedInCurrentStory: TimeInterval = 0
-    private var resetObserver: NSObjectProtocol?
+    private var resetCancellable: AnyCancellable?
     
     private let secondsPerStory: TimeInterval = 5
     
@@ -44,15 +45,15 @@ final class StoriesViewModel: ObservableObject {
         lastIndex = 0
         elapsedInCurrentStory = 0
 
-        resetObserver = NotificationCenter.default.addObserver(
-            forName: Notification.Name("storiesViewedReset"),
-            object: nil,
-            queue: .main
-        ) { [weak self] _ in
-            guard let self else { return }
-            self.viewedIndices.removeAll()
-            self.saveViewedToStorage()
-        }
+        resetCancellable = NotificationCenter.default
+            .publisher(for: Notification.Name("storiesViewedReset"))
+            .sink { [weak self] _ in
+                Task { @MainActor in
+                    guard let self else { return }
+                    self.viewedIndices.removeAll()
+                    self.saveViewedToStorage()
+                }
+            }
     }
     
     func start(from index: Int) {
@@ -85,7 +86,7 @@ final class StoriesViewModel: ObservableObject {
         let perTick = 1.0 / CGFloat(items.count) / CGFloat(secondsPerStory / tickInterval)
         let idxBefore = currentIndex
 
-        // учёт 1 секунды просмотра для текущей истории
+        // учёт 0.5 секунды просмотра для текущей истории
         if currentIndex == lastIndex {
             elapsedInCurrentStory += tickInterval
         } else {
@@ -154,9 +155,7 @@ final class StoriesViewModel: ObservableObject {
         return min(max(0, idx), max(0, items.count - 1))
     }
 
-    deinit {
-        if let resetObserver { NotificationCenter.default.removeObserver(resetObserver) }
-    }
+    // деинициализация без явного removeObserver — Combine сам отписывается
 }
 
 

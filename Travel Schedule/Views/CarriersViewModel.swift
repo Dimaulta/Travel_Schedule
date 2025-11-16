@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import OpenAPIURLSession
 
-struct TripInfo: Identifiable {
+struct TripInfo: Identifiable, Sendable {
     let id = UUID()
     let carrier: CarrierInfo
     let departureTime: String
@@ -21,7 +21,7 @@ struct TripInfo: Identifiable {
     let sortDate: Date
 }
 
-struct CarrierInfo {
+struct CarrierInfo: Sendable {
     let title: String
     let logo: String?
     let code: Int?
@@ -37,19 +37,13 @@ class CarriersViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var errorMessage: String?
     
-    private let searchService: SearchService
+    private let api = ApiClient.shared
     private let apikey = "50889f83-e54c-4e2e-b9b9-7d5fe468a025"
     private var currentFilters: FilterOptions?
     private var onServerError: (() -> Void)?
     private var onNoInternet: (() -> Void)?
     
-    init() {
-        let client = Client(
-            serverURL: URL(string: "https://api.rasp.yandex.net")!,
-            transport: URLSessionTransport()
-        )
-        self.searchService = SearchService(client: client)
-    }
+    init() {}
     
     func setErrorCallbacks(onServerError: @escaping () -> Void, onNoInternet: @escaping () -> Void) {
         self.onServerError = onServerError
@@ -68,7 +62,7 @@ class CarriersViewModel: ObservableObject {
                 transfers = nil
             }
             
-            let segments = try await searchService.getSegments(
+            let segments = try await api.getSegments(
                 apikey: apikey,
                 from: from,
                 to: to,
